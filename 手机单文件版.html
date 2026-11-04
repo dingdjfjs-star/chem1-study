@@ -1,0 +1,1999 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f5efe2">
+<title>福鼎少年学化学 · 必修一（单文件版）</title>
+<style>
+/* 福鼎少年学地理 · 纸墨手账风 · 移动优先 */
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html { -webkit-text-size-adjust:100%; }
+:root {
+  --paper:#f5efe2; --paper2:#efe6d2; --card:#fffdf6; --ink:#322c26; --ink2:#6b6154;
+  --line:#d8ccb4; --red:#b5432f; --gold:#a8842c;
+  --ch1:#b5544a; --ch2:#41679c; --ch3:#2f7f8f; --ch4:#a8793a; --ch5:#6d9a3f; --ch6:#8a5aa5;
+  --radius:14px;
+}
+body {
+  background:var(--paper);
+  color:var(--ink);
+  font:16px/1.75 "PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+  background-image:radial-gradient(#00000008 1px, transparent 1px);
+  background-size:22px 22px;
+  padding-bottom:72px; /* tabbar */
+}
+.kai { font-family:"KaiTi","STKaiti","楷体","FZKai-Z03S",serif; }
+
+/* ===== 顶栏 ===== */
+.topbar { position:sticky; top:0; z-index:30; background:linear-gradient(var(--paper) 82%, transparent);
+  padding:14px 16px 10px; display:flex; align-items:center; gap:10px; }
+.topbar .seal { width:38px; height:38px; border-radius:9px; background:var(--red); color:#fff;
+  display:flex; align-items:center; justify-content:center; font-size:19px; flex:none;
+  box-shadow:1px 2px 0 #00000022; font-family:"KaiTi","楷体",serif; }
+.topbar h1 { font-family:"KaiTi","楷体",serif; font-size:20px; letter-spacing:1px; flex:1; min-width:0; }
+.topbar h1 small { display:block; font-family:inherit; font-size:11px; color:var(--ink2); letter-spacing:2px; }
+.topbar .back { font-size:22px; line-height:1; color:var(--ink); text-decoration:none; padding:4px 8px 4px 0; }
+
+#app { max-width:760px; margin:0 auto; padding:0 14px; }
+.boot-note { text-align:center; padding:80px 0; color:var(--ink2); }
+
+/* ===== 首页 ===== */
+.hero { background:var(--card); border:1.5px solid var(--ink); border-radius:var(--radius);
+  padding:18px 16px 14px; margin:6px 0 14px; box-shadow:3px 3px 0 #00000018; position:relative; overflow:hidden; }
+.hero::after { content:"福鼎限定"; position:absolute; top:12px; right:-30px; transform:rotate(35deg);
+  background:var(--red); color:#fff; font-size:11px; padding:3px 34px; letter-spacing:2px; }
+.hero .h-row { display:flex; gap:14px; align-items:stretch; }
+.hero .ring { flex:none; }
+.hero h2 { font-family:"KaiTi","楷体",serif; font-size:22px; letter-spacing:1px; }
+.hero p.sub { font-size:13px; color:var(--ink2); margin-top:2px; }
+.hero .stats { display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; }
+.hero .st { background:var(--paper2); border-radius:9px; padding:4px 10px; font-size:12px; color:var(--ink); border:1px solid var(--line); }
+.hero .st b { font-size:14px; color:var(--red); }
+.hero .tip { margin-top:10px; font-size:13px; color:var(--ink2); }
+
+.sec-title { font-family:"KaiTi","楷体",serif; font-size:18px; margin:20px 2px 10px; letter-spacing:1px;
+  display:flex; align-items:baseline; gap:8px; }
+.sec-title::after { content:""; flex:1; border-top:1px dashed var(--line); transform:translateY(-4px); }
+.sec-title small { color:var(--ink2); font-size:12px; font-family:sans-serif; }
+
+.ch-grid { display:grid; grid-template-columns:1fr; gap:12px; }
+@media (min-width:640px){ .ch-grid { grid-template-columns:1fr 1fr; } .home-side{display:grid;} }
+.chcard { display:flex; gap:12px; align-items:center; text-decoration:none; color:var(--ink);
+  background:var(--card); border:1.5px solid var(--ink); border-radius:var(--radius); padding:14px;
+  box-shadow:3px 3px 0 #00000015; position:relative; transition:transform .08s; }
+.chcard:active { transform:translate(1px,1px); }
+.chcard .no { flex:none; width:52px; height:52px; border-radius:50%; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; color:#fff; font-family:"KaiTi","楷体",serif; line-height:1.1; }
+.chcard .no b { font-size:17px; } .chcard .no span { font-size:10px; opacity:.85; }
+.chcard .info { flex:1; min-width:0; }
+.chcard .info h3 { font-family:"KaiTi","楷体",serif; font-size:17px; letter-spacing:.5px; }
+.chcard .info p { font-size:12px; color:var(--ink2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.chcard .bar { height:6px; background:var(--paper2); border-radius:4px; margin-top:7px; overflow:hidden; border:1px solid var(--line); }
+.chcard .bar i { display:block; height:100%; border-radius:4px; }
+.chcard .pct { font-size:11px; color:var(--ink2); margin-top:3px; }
+
+.quick { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:12px; }
+@media (min-width:640px){ .quick{ grid-template-columns:repeat(4,180px); } }
+.quick a { background:var(--card); border:1.5px solid var(--ink); border-radius:11px; text-align:center;
+  padding:10px 4px 8px; text-decoration:none; color:var(--ink); font-size:12px; box-shadow:2px 2px 0 #00000012; }
+.quick a i { display:block; font-style:normal; font-size:19px; font-family:"KaiTi","楷体",serif; color:var(--red); }
+.quick a b { display:block; font-weight:600; margin-top:2px; }
+
+/* ===== 章/节列表 ===== */
+.sec-item { display:flex; gap:12px; align-items:flex-start; background:var(--card);
+  border:1.5px solid var(--ink); border-radius:var(--radius); padding:13px 14px; margin-bottom:10px;
+  box-shadow:2px 2px 0 #00000012; }
+.sec-item .idx { flex:none; width:34px; height:34px; border-radius:9px; color:#fff; display:flex;
+  align-items:center; justify-content:center; font-family:"KaiTi","楷体",serif; font-size:15px; margin-top:2px; }
+.sec-item .bd { flex:1; min-width:0; }
+.sec-item h3 { font-family:"KaiTi","楷体",serif; font-size:16.5px; }
+.sec-item .lead { font-size:12.5px; color:var(--ink2); margin-top:2px; }
+.sec-item .meta { font-size:11.5px; color:var(--ink2); margin-top:5px; display:flex; gap:10px; flex-wrap:wrap; }
+.sec-item .meta b.ok { color:#3a7d44; }
+.ch-head { margin:4px 0 14px; }
+.ch-head .tag { display:inline-block; background:var(--ink); color:var(--paper); font-size:11px;
+  padding:2px 10px; border-radius:99px; letter-spacing:2px; }
+.ch-head h2 { font-family:"KaiTi","楷体",serif; font-size:24px; margin-top:6px; letter-spacing:1px; }
+.ch-head p { color:var(--ink2); font-size:13.5px; margin-top:4px; }
+
+/* ===== 知识点卡 ===== */
+.pcard { background:var(--card); border:1.5px solid var(--ink); border-radius:var(--radius);
+  padding:15px 15px 13px; margin-bottom:14px; box-shadow:3px 3px 0 #00000015; position:relative; }
+.pcard .key-star { position:absolute; top:-9px; right:10px; background:var(--gold); color:#fff;
+  font-size:11px; padding:1px 10px; border-radius:99px; letter-spacing:1px; box-shadow:1px 1px 0 #00000030; }
+.pcard h3 { font-family:"KaiTi","楷体",serif; font-size:18px; letter-spacing:.5px; margin-bottom:8px; }
+.pcard h3::before { content:""; display:inline-block; width:8px; height:8px; background:currentColor; border-radius:2px; transform:rotate(45deg); margin-right:9px; opacity:.55; }
+.pcard p { margin:7px 0; font-size:15.5px; }
+.pcard p b { color:var(--red); }
+.pcard ul { margin:6px 0 6px 4px; list-style:none; }
+.pcard ul li { padding-left:20px; position:relative; margin:5px 0; font-size:15px; }
+.pcard ul li::before { content:"·"; position:absolute; left:6px; color:var(--red); font-weight:900; }
+.pcard ul li b { color:var(--red); }
+table.kv { width:100%; border-collapse:collapse; margin:9px 0; font-size:13.8px; border:1.5px solid var(--ink); border-radius:8px; overflow:hidden; }
+table.kv th { background:var(--paper2); font-weight:600; font-size:12.8px; }
+table.kv th, table.kv td { border:1px solid var(--line); padding:6px 9px; text-align:left; vertical-align:top; line-height:1.6; }
+.box { border-radius:10px; padding:10px 12px; margin:10px 0 4px; font-size:14px; position:relative; }
+.box .bt { font-family:"KaiTi","楷体",serif; font-weight:700; font-size:13px; letter-spacing:1px; display:block; margin-bottom:3px; }
+.box.tip { background:#fbeee9; border:1px dashed #c9836f; color:#6d3a2c; }
+.box.tip .bt { color:#b5432f; }
+.box.memo { background:#eef3e4; border:1px dashed #8aa86a; color:#44562f; }
+.box.memo .bt { color:#5c7a34; }
+.box.fuding { background:#fdf6e8; border:1.5px solid var(--gold); color:#5c4a1e; }
+.box.fuding .bt { color:var(--gold); }
+.box.fuding::before { content:"印"; position:absolute; top:-9px; right:12px; width:22px; height:22px;
+  background:var(--red); color:#fff; border-radius:5px; font-size:12px; display:flex; align-items:center; justify-content:center;
+  font-family:"KaiTi","楷体",serif; transform:rotate(8deg); box-shadow:1px 1px 0 #00000030; }
+.box.ext { background:#e8f0f4; border:1px dashed #6a93ad; color:#33505f; }
+.box.ext .bt { color:#41679c; }
+
+/* 图解 */
+.dgm { border:1.5px solid var(--ink); border-radius:12px; margin:10px 0 4px; background:#fbf8ef; overflow:hidden; }
+.dgm .cap { font-size:12.5px; color:var(--ink2); text-align:center; padding:6px 10px; border-top:1px dashed var(--line); }
+.dgm svg { display:block; width:100%; height:auto; }
+.dgm .dgm-btns { display:flex; gap:8px; justify-content:center; padding:0 10px 9px; flex-wrap:wrap; }
+.dgm .dgm-btns button { font:13px/1.4 inherit; background:var(--card); border:1.5px solid var(--ink); border-radius:99px; padding:4px 14px; cursor:pointer; color:var(--ink); }
+.dgm .dgm-btns button.on { background:var(--ink); color:var(--paper); }
+svg .lg { font-family:"KaiTi","楷体",serif; }
+svg .tap { cursor:pointer; }
+
+/* ===== 答题 ===== */
+.btn { display:inline-block; background:var(--ink); color:var(--paper); border:none; border-radius:11px;
+  padding:11px 26px; font-size:15.5px; font-family:"KaiTi","楷体",serif; letter-spacing:2px; cursor:pointer;
+  box-shadow:2px 2px 0 #00000025; text-decoration:none; text-align:center; }
+.btn.red { background:var(--red); }
+.btn.ghost { background:var(--card); color:var(--ink); border:1.5px solid var(--ink); box-shadow:none; }
+.btn.block { display:block; width:100%; }
+.btn:disabled { opacity:.45; }
+.center { text-align:center; }
+
+.quizcard { background:var(--card); border:1.5px solid var(--ink); border-radius:var(--radius); padding:16px; box-shadow:3px 3px 0 #00000015; }
+.qno { font-size:12px; color:var(--ink2); letter-spacing:1px; }
+.qno b { color:var(--red); font-size:15px; }
+.qstem { font-size:16px; margin:8px 0 12px; line-height:1.8; white-space:pre-wrap; }
+.qnote { font-size:13px; color:var(--ink2); background:var(--paper2); border-radius:9px; padding:8px 11px; margin:8px 0; line-height:1.7; }
+.opt { display:flex; gap:10px; align-items:flex-start; border:1.5px solid var(--line); border-radius:11px;
+  padding:11px 12px; margin:9px 0; cursor:pointer; font-size:15px; line-height:1.65; background:var(--card); }
+.opt .abc { flex:none; width:26px; height:26px; border-radius:50%; border:1.5px solid var(--ink);
+  display:flex; align-items:center; justify-content:center; font-family:"KaiTi","楷体",serif; font-size:14px; margin-top:1px; }
+.opt.sel { border-color:var(--ink); background:var(--paper2); }
+.opt.right { border-color:#3a7d44; background:#edf4e8; }
+.opt.right .abc { background:#3a7d44; border-color:#3a7d44; color:#fff; }
+.opt.wrong { border-color:var(--red); background:#fbe9e4; }
+.opt.wrong .abc { background:var(--red); border-color:var(--red); color:#fff; }
+.opt.dim { opacity:.55; }
+.exp { border-left:4px solid var(--gold); background:#fdf6e8; padding:10px 12px; border-radius:0 10px 10px 0;
+  font-size:14px; margin:12px 0; color:#4c3d17; line-height:1.8; }
+.exp b { color:var(--red); }
+.qnav { display:flex; gap:10px; margin-top:14px; }
+.qnav .btn { flex:1; }
+
+/* 试卷页 */
+.examcard { background:var(--card); border:1.5px solid var(--ink); border-radius:var(--radius); padding:14px; margin-bottom:12px; box-shadow:2px 2px 0 #00000012; position:relative; }
+.examcard .kind { position:absolute; top:-10px; left:12px; font-size:11px; color:#fff; padding:2px 12px; border-radius:99px; letter-spacing:2px; }
+.examcard h3 { font-family:"KaiTi","楷体",serif; font-size:16.5px; margin:4px 0 3px; }
+.examcard .meta { font-size:12px; color:var(--ink2); }
+.examcard .best { font-size:12.5px; color:#3a7d44; margin-top:6px; }
+.examcard .btn { margin-top:10px; }
+.note-tag { display:inline-block; background:var(--paper2); border:1px solid var(--line); font-size:11px; color:var(--ink2); border-radius:99px; padding:0 8px; margin-left:6px; }
+
+/* 综合题 */
+.essay { border:1.5px dashed var(--ink); border-radius:12px; padding:13px; margin:12px 0; background:#fbf8ef; }
+.essay .en { font-family:"KaiTi","楷体",serif; font-weight:700; }
+.essay .estem { font-size:14.5px; margin:6px 0; line-height:1.8; white-space:pre-wrap; }
+.essay .eqs { font-size:14.5px; margin:6px 0; padding-left:2px; line-height:1.8; white-space:pre-wrap; }
+.essay .ans { display:none; background:#eef3e4; border-radius:9px; padding:10px 12px; margin-top:9px; font-size:13.8px; line-height:1.9; color:#37451f; }
+.essay .ans li { margin:3px 0 3px 18px; }
+.essay .selfmark { display:flex; gap:10px; margin-top:10px; }
+.essay .selfmark .btn { flex:1; padding:8px 0; font-size:14px; }
+.essay.marked .selfmark .btn { opacity:.5; }
+
+/* 错题/成就 */
+.empty { text-align:center; color:var(--ink2); padding:46px 20px; }
+.empty i { display:block; font-style:normal; font-size:38px; font-family:"KaiTi","楷体",serif; color:var(--line); }
+.badge-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+@media (min-width:640px){ .badge-grid{grid-template-columns:repeat(3,1fr);} }
+.badge { background:var(--card); border:1.5px solid var(--ink); border-radius:13px; padding:13px 10px; text-align:center; box-shadow:2px 2px 0 #00000012; }
+.badge .ic { width:52px; height:52px; margin:0 auto 7px; border-radius:50%; display:flex; align-items:center;
+  justify-content:center; font-family:"KaiTi","楷体",serif; font-size:23px; background:var(--paper2); color:var(--ink2); }
+.badge.got .ic { background:var(--red); color:#fff; box-shadow:inset 0 0 0 3px #ffffff55; }
+.badge h4 { font-family:"KaiTi","楷体",serif; font-size:15px; }
+.badge p { font-size:11.5px; color:var(--ink2); line-height:1.5; }
+.badge.got h4 { color:var(--red); }
+.badge:not(.got) { opacity:.62; }
+
+/* ===== 底部 tabbar ===== */
+#tabbar { position:fixed; bottom:0; left:0; right:0; z-index:40; display:flex;
+  background:#fffdf6f2; backdrop-filter:blur(6px); border-top:1.5px solid var(--ink);
+  padding:6px 6px calc(6px + env(safe-area-inset-bottom)); max-width:100%; }
+#tabbar a { flex:1; text-align:center; text-decoration:none; color:var(--ink2); font-size:11px; padding:3px 0; position:relative; }
+#tabbar a .tb-ico { display:block; font-style:normal; font-size:19px; line-height:1.25; font-family:"KaiTi","楷体",serif; }
+#tabbar a.on { color:var(--red); }
+#tabbar a .dot { position:absolute; top:0; right:18%; width:9px; height:9px; background:var(--red); border-radius:50%; border:1.5px solid #fff; }
+
+/* 结果页 */
+.result { text-align:center; padding:26px 12px 18px; }
+.result .big { font-family:"KaiTi","楷体",serif; font-size:52px; color:var(--red); line-height:1.1; }
+.result .sub { color:var(--ink2); font-size:13.5px; margin-top:4px; }
+.result .msg { font-size:15px; margin:14px auto 4px; max-width:420px; line-height:1.9; }
+.progress-ring { transform:rotate(-90deg); }
+.hr-dash { border:none; border-top:1px dashed var(--line); margin:16px 0; }
+.mut { color:var(--ink2); font-size:12.5px; }
+.foot { text-align:center; color:var(--ink2); font-size:11.5px; padding:26px 0 14px; letter-spacing:1px; }
+.new-badge-toast { position:fixed; z-index:60; left:50%; bottom:88px; transform:translateX(-50%);
+  background:var(--ink); color:var(--paper); border-radius:99px; padding:9px 20px; font-size:13.5px;
+  font-family:"KaiTi","楷体",serif; letter-spacing:1px; box-shadow:0 4px 14px #00000040; animation:toastIn .3s; }
+@keyframes toastIn { from { opacity:0; transform:translate(-50%,14px); } }
+
+</style>
+<style>
+/* 化学方程式渲染 */
+.eqline { padding:7px 12px; margin:9px 0; background:var(--paper2); border-left:3px solid var(--gold);
+  border-radius:0 9px 9px 0; font-size:15.5px; line-height:2; letter-spacing:.3px; }
+.eqline .cond-note { font-size:12px; color:var(--ink2); }
+.rxn { position:relative; display:inline-block; min-width:2.6em; text-align:center; padding:0 2px; }
+.rxn i { position:absolute; left:50%; top:-0.95em; transform:translateX(-50%); font-style:normal;
+  font-size:10.5px; color:var(--ink2); white-space:nowrap; letter-spacing:1px; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="boot-note">正在翻开化学书……</div>
+</div>
+<nav id="tabbar">
+  <a href="#/" data-tab="home"><i class="tb-ico">◎</i><span>首页</span></a>
+  <a href="#/chapters" data-tab="chapters"><i class="tb-ico">☰</i><span>知识点</span></a>
+  <a href="#/exams" data-tab="exams"><i class="tb-ico">▣</i><span>刷卷</span></a>
+  <a href="#/wrong" data-tab="wrong"><i class="tb-ico">✗</i><span>错题本<span id="wrong-dot" class="dot" hidden></span></span></a>
+  <a href="#/badges" data-tab="badges"><i class="tb-ico">✦</i><span>成就</span></a>
+</nav>
+<script>
+/* 化学图解库 · 手绘风 SVG 交互
+   每个图解注册为 DB.diagrams[id] = { title, w, h, build(el) } */
+(function () {
+  var DB = window.DB = window.DB || {};
+  var D = DB.diagrams = {};
+  var INK = '#3a332b';
+
+  function base(el, svg, btns, cap) {
+    var h = '<div class="dgm-wrap">' + svg + '</div>';
+    if (btns && btns.length) {
+      h += '<div class="dgm-btns">' + btns.map(function (b) {
+        return '<button data-act="' + b.act + '"' + (b.on ? ' class="on"' : '') + '>' + b.t + '</button>';
+      }).join('') + '</div>';
+    }
+    h += '<div class="cap">' + cap + '</div>';
+    el.innerHTML = h;
+    el.$ = function (s) { return el.querySelector(s); };
+    el.$ = function (s) { return Array.prototype.slice.call(el.querySelectorAll(s)); };
+  }
+  function setCap(el, t) { var c = el.querySelector('.cap'); if (c) c.innerHTML = t; }
+  function markBtn(el, act) {
+    el.$('.dgm-btns button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-act') === act); });
+  }
+  function box(x, y, w, hgt, txt, fill, fs) {
+    return '<g><rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + hgt + '" rx="9" fill="' + (fill || '#fbf6e8') + '" stroke="' + INK + '" stroke-width="1.6"/>' +
+      '<text x="' + (x + w / 2) + '" y="' + (y + hgt / 2 + 5.5) + '" text-anchor="middle" class="lg" font-size="' + (fs || 15) + '">' + txt + '</text></g>';
+  }
+  function arrow(x1, y1, x2, y2, col, id, label, labDx, labDy) {
+    return '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" stroke="' + col + '" stroke-width="3" marker-end="url(#' + id + ')" class="tap" data-cap="' + (label || '') + '">' +
+      (label ? '' : '') + '</line>';
+  }
+  function defsMk(id, col) {
+    return '<defs><marker id="' + id + '" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="' + (col || INK) + '"/></marker></defs>';
+  }
+
+  /* ========== 1. 物质的量"桥梁" ========== */
+  D['mole-bridge'] = { title: '物质的量 n：连接微观与宏观的桥梁', w: 720, h: 380, build: function (el) {
+    var s = defsMk('mb1') + defsMk('mb1r', '#b5432f');
+    s += '<circle cx="360" cy="190" r="58" fill="#e2a93b" stroke="' + INK + '" stroke-width="2"/>' +
+      '<text x="360" y="182" text-anchor="middle" class="lg" font-size="22" font-weight="700">n</text>' +
+      '<text x="360" y="208" text-anchor="middle" class="lg" font-size="13">物质的量(mol)</text>';
+    var node = function (x, y, t1, t2) {
+      return '<g class="tap" data-cap="' + t1 + '"><rect x="' + (x - 82) + '" y="' + (y - 34) + '" width="164" height="68" rx="11" fill="#fbf6e8" stroke="' + INK + '" stroke-width="1.6"/>' +
+        '<text x="' + x + '" y="' + (y - 6) + '" text-anchor="middle" class="lg" font-size="17">' + t1 + '</text>' +
+        '<text x="' + x + '" y="' + (y + 20) + '" text-anchor="middle" class="lg" font-size="12.5" fill="#6b6154">' + t2 + '</text></g>';
+    };
+    s += node(120, 78, '微粒数 N', '个（分子/原子/离子…）');
+    s += node(600, 78, '质量 m', 'g');
+    s += node(120, 302, '气体体积 V', 'L（标准状况）');
+    s += node(600, 302, '物质的量浓度 c', 'mol/L（溶液）');
+    s += arrow(214, 96, 306, 152, INK, 'mb1', null);
+    s += arrow(506, 96, 414, 152, INK, 'mb1');
+    s += arrow(214, 286, 306, 230, INK, 'mb1');
+    s += arrow(506, 286, 414, 230, INK, 'mb1');
+    s += '<text x="248" y="112" class="lg" font-size="13" fill="#b5432f">×Nₐ(6.02×10²³/mol)</text>';
+    s += '<text x="392" y="112" text-anchor="end" class="lg" font-size="13" fill="#b5432f">÷M(g/mol)</text>';
+    s += '<text x="248" y="270" class="lg" font-size="13" fill="#b5432f">÷Vm(22.4L/mol)</text>';
+    s += '<text x="392" y="270" text-anchor="end" class="lg" font-size="13" fill="#b5432f">×c(mol/L)…见下</text>';
+    var svg = '<svg viewBox="0 0 720 380" xmlns="http://www.w3.org/2000/svg">' + s + '</svg>';
+    base(el, svg, [], 'n 居中当"桥"：<b>n = N/Nₐ = m/M = V/Vm</b>（标况气体）。点四个框看每条路怎么算。注意：c＝n/V 里的 V 是<b>溶液</b>体积，别和气体体积混。');
+    el.$('[data-cap]').forEach(function (nd) { nd.onclick = function () {
+      var k = nd.getAttribute('data-cap');
+      var caps = {
+        '微粒数 N': '<b>微粒数 N</b>：n = N/Nₐ。Nₐ≈6.02×10²³/mol。反过来 N = n·Nₐ。例：1 mol 水含 6.02×10²³ 个水分子、2×6.02×10²³ 个氢原子。',
+        '质量 m': '<b>质量 m</b>：n = m/M。M 数值上等于相对分子/原子质量，单位 g/mol。例：M(H₂O)=18 g/mol，9 g 水就是 0.5 mol。',
+        '气体体积 V': '<b>气体体积 V（标准状况）</b>：n = V/Vm，Vm≈22.4 L/mol。三个前提缺一不可：<b>气体＋标准状况（0℃、101kPa）</b>。水在标况是液体，不能套 22.4！',
+        '物质的量浓度 c': '<b>物质的量浓度 c</b>：c = n/V，V 指<b>溶液</b>的体积（L）。1 mol NaCl 溶成 1 L 溶液，c=1 mol/L。'
+      };
+      setCap(el, caps[k]);
+    }; });
+  } };
+
+  /* ========== 2. 氧化还原总览 ========== */
+  D['redox-map'] = { title: '氧化还原：升失氧、降得还', w: 720, h: 400, build: function (el) {
+    var s = defsMk('rm1', '#b5432f') + defsMk('rm1b', '#41679c');
+    // 上：核心口诀
+    s += '<g class="tap" data-cap="up"><rect x="30" y="30" width="310" height="120" rx="13" fill="#fbeee9" stroke="#c9836f" stroke-width="1.6"/>' +
+      '<text x="185" y="66" text-anchor="middle" class="lg" font-size="17" fill="#b5432f" font-weight="700">化合价升高 · 失电子</text>' +
+      '<text x="185" y="98" text-anchor="middle" class="lg" font-size="16" fill="#b5432f">被氧化 · 作还原剂</text>' +
+      '<text x="185" y="128" text-anchor="middle" class="lg" font-size="13" fill="#6d3a2c">例：Fe → Fe²⁺ + 2e⁻（升）</text></g>';
+    s += '<g class="tap" data-cap="down"><rect x="380" y="30" width="310" height="120" rx="13" fill="#e8eef5" stroke="#7a94b5" stroke-width="1.6"/>' +
+      '<text x="535" y="66" text-anchor="middle" class="lg" font-size="17" fill="#41679c" font-weight="700">化合价降低 · 得电子</text>' +
+      '<text x="535" y="98" text-anchor="middle" class="lg" font-size="16" fill="#41679c">被还原 · 作氧化剂</text>' +
+      '<text x="535" y="128" text-anchor="middle" class="lg" font-size="13" fill="#33505f">例：Cu²⁺ + 2e⁻ → Cu（降）</text></g>';
+    // 中间反应
+    s += '<g class="tap" data-cap="ex"><rect x="150" y="170" width="420" height="56" rx="11" fill="#fdf6e8" stroke="' + INK + '" stroke-width="1.6"/>' +
+      '<text x="360" y="205" text-anchor="middle" class="lg" font-size="16">Fe + CuSO₄ = FeSO₄ + Cu</text></g>';
+    s += '<line x1="230" y1="152" x2="230" y2="168" stroke="#b5432f" stroke-width="3" marker-end="url(#rm1)"/><text x="238" y="166" class="lg" font-size="12" fill="#b5432f">失2e⁻</text>';
+    s += '<line x1="490" y1="152" x2="490" y2="168" stroke="#41679c" stroke-width="3" marker-end="url(#rm1b)"/><text x="498" y="166" class="lg" font-size="12" fill="#41679c">得2e⁻</text>';
+    // 下：四大反应类型关系
+    s += '<g class="tap" data-cap="types"><rect x="30" y="248" width="660" height="130" rx="13" fill="#eef0e2" stroke="#8aa86a" stroke-width="1.6"/>' +
+      '<text x="360" y="278" text-anchor="middle" class="lg" font-size="15" font-weight="700">四大基本反应类型 与 氧化还原的关系</text>' +
+      '<text x="360" y="308" text-anchor="middle" class="lg" font-size="13.5">置换反应——<b>全部</b>是氧化还原反应</text>' +
+      '<text x="360" y="334" text-anchor="middle" class="lg" font-size="13.5">化合、分解反应——<b>部分</b>是（有单质参加/生成的多半是）</text>' +
+      '<text x="360" y="360" text-anchor="middle" class="lg" font-size="13.5">复分解反应——<b>一定不是</b>（没有化合价变化）</text></g>';
+    var svg = '<svg viewBox="0 0 720 400" xmlns="http://www.w3.org/2000/svg">' + s + '</svg>';
+    base(el, svg, [], '氧化还原的本质是<b>电子转移</b>，特征是<b>化合价升降</b>。口诀：「升失氧、降得还，剂性相反」（升、失、被氧化→还原剂）。点三个区域看细节。');
+    var caps = {
+      up: '<b>升、失、氧</b>：化合价升高→失去电子→被氧化→这一物质是<b>还原剂</b>（它把电子给了别人）。活泼金属、C、H₂、CO、KI 等是常见还原剂。',
+      down: '<b>降、得、还</b>：化合价降低→得到电子→被还原→这一物质是<b>氧化剂</b>。O₂、Cl₂、浓硫酸、HNO₃、KMnO₄、Fe³⁺ 等是常见氧化剂。',
+      ex: '看 Fe + CuSO₄：Fe 从 0 升到 +2（失电子，还原剂，被氧化）；Cu²⁺ 从 +2 降到 0（得电子，氧化剂，被还原）。硫酸根"看戏"，化合价没变。',
+      types: '四大反应类型是"按形式"分，氧化还原是"按本质"分，两套分类可以交叉：<b>置换一定属于氧化还原；复分解一定不属于</b>；有单质参加的化合、有单质生成的分解通常是氧化还原。'
+    };
+    el.$('[data-cap]').forEach(function (nd) { nd.onclick = function () { setCap(el, caps[nd.getAttribute('data-cap')]); }; });
+  } };
+
+  /* ========== 3. 物质分类树 ========== */
+  D['class-tree'] = { title: '物质分类树（含电解质分支）', w: 720, h: 420, build: function (el) {
+    var s = defsMk('ct1');
+    function node(x, y, w, txt, cap, fill) {
+      return '<g class="tap" data-cap="' + cap + '"><rect x="' + (x - w / 2) + '" y="' + y + '" width="' + w + '" height="40" rx="9" fill="' + (fill || '#fbf6e8') + '" stroke="' + INK + '" stroke-width="1.5"/>' +
+        '<text x="' + x + '" y="' + (y + 26) + '" text-anchor="middle" class="lg" font-size="14.5">' + txt + '</text></g>';
+    }
+    function line(x1, y1, x2, y2) { return '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" stroke="' + INK + '" stroke-width="1.4" opacity=".6"/>'; }
+    s += node(360, 16, 180, '物质', 'matter', '#e2a93b33');
+    s += line(360, 56, 190, 96) + line(360, 56, 530, 96);
+    s += node(190, 96, 160, '混合物', 'mix'); s += node(530, 96, 160, '纯净物', 'pure');
+    s += line(190, 136, 120, 176) + line(190, 136, 262, 176);
+    s += node(120, 176, 150, '溶液（NaCl水）', 'mix'); s += node(262, 176, 150, '胶体（Fe(OH)₃胶体）', 'colloid');
+    s += line(530, 136, 400, 216) + line(530, 136, 530, 216) + line(530, 136, 645, 216);
+    s += node(400, 216, 130, '单质', 'pure'); s += node(530, 216, 130, '酸/碱/盐', 'elec'); s += node(645, 216, 130, '氧化物', 'oxide');
+    s += line(530, 256, 425, 296) + line(530, 256, 635, 296);
+    s += node(425, 296, 180, '电解质（能导电的化合物）', 'elec'); s += node(645, 296, 150, '非电解质', 'nonelec');
+    s += line(425, 336, 340, 372) + line(425, 336, 510, 372);
+    s += node(340, 372, 210, '强电解质：强酸/强碱/大多数盐', 'elec', '#eef3e4'); s += node(510, 372, 210, '弱电解质：弱酸/弱碱/H₂O', 'elec', '#fdf6e8');
+    s += '<text x="645" y="356" text-anchor="middle" class="lg" font-size="12" fill="#6b6154">CO₂、SO₂、NH₃、</text>';
+    s += '<text x="645" y="374" text-anchor="middle" class="lg" font-size="12" fill="#6b6154">蔗糖、酒精等</text>';
+    s += '<text x="645" y="392" text-anchor="middle" class="lg" font-size="12" fill="#6b6154">（本身不电离）</text>';
+    var svg = '<svg viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg">' + s + '</svg>';
+    base(el, svg, [], '点节点看说明。最大陷阱：<b>CO₂、SO₂、NH₃ 是非电解质</b>——它们的水溶液能导电，是因为生成了 H₂CO₃ 等电解质，不是它们自己电离！');
+    var caps = {
+      matter: '<b>物质</b>：先按"是否一种物质"分成混合物与纯净物。冰水混合物只含 H₂O 一种物质，是<b>纯净物</b>！',
+      mix: '<b>混合物</b>：由两种或以上物质组成。溶液、胶体、浊液是三种分散系。空气、盐酸、合金都是混合物。',
+      pure: '<b>纯净物</b>：一种物质组成。单质（同种元素）与化合物（不同种元素）。同素异形体混合（如 O₂ 和 O₃ 混在一起）是混合物！',
+      colloid: '<b>胶体</b>：分散质粒子直径 1-100nm 的分散系。最稳的鉴别法是<b>丁达尔效应</b>。Fe(OH)₃ 胶体：向沸水滴加饱和 FeCl₃ 溶液，继续加热至红褐色——<b>不能久沸、不搅拌、不写"沉淀"符号</b>。',
+      elec: '<b>电解质</b>：<b>在水溶液里或熔融状态下能导电的化合物</b>。酸、碱、盐、金属氧化物（如 CaO）、H₂O 都是。导电的必须是"化合物自身电离"。',
+      nonelec: '<b>非电解质</b>：在水溶液和熔融状态下都不导电的化合物：CO₂、SO₂、NH₃、蔗糖、酒精。<b>单质（Cu、Cl₂）和混合物（盐酸）既不是电解质也不是非电解质</b>——这是每年必挖的坑。',
+      oxide: '<b>氧化物</b>：两种元素组成、其中一种是氧。酸性氧化物（CO₂、SO₂，多数非金属）、碱性氧化物（Na₂O、CaO，金属）、特殊：Na₂O₂ 是过氧化物，Al₂O₃ 两性（高中拓拓展）。'
+    };
+    el.$('[data-cap]').forEach(function (nd) { nd.onclick = function () { setCap(el, caps[nd.getAttribute('data-cap')]); }; });
+  } };
+
+  /* ========== 4. 钠及其化合物转化 ========== */
+  D['na-family'] = { title: '钠家族转化图', w: 720, h: 380, build: function (el) {
+    var s = defsMk('nf1', '#b5432f') + defsMk('nf1b', '#41679c');
+    s += box(40, 40, 110, 44, 'Na', '#fbeee9', 18);
+    s += box(290, 40, 150, 44, 'Na₂O / Na₂O₂', '#fbf6e8', 15);
+    s += box(540, 40, 130, 44, 'NaOH', '#eef3e4', 18);
+    s += box(290, 170, 150, 44, 'Na₂CO₃', '#fdf6e8', 17);
+    s += box(540, 170, 130, 44, 'NaHCO₃', '#fdf6e8', 16);
+    s += '<line x1="150" y1="62" x2="284" y2="62" stroke="' + INK + '" stroke-width="3" marker-end="url(#nf1b)" class="tap" data-cap="o2"/>' +
+      '<text x="215" y="52" text-anchor="middle" class="lg" font-size="12">O₂（常温→Na₂O 点燃→Na₂O₂）</text>';
+    s += '<line x1="440" y1="62" x2="534" y2="62" stroke="' + INK + '" stroke-width="3" marker-end="url(#nf1b)" class="tap" data-cap="h2o"/>' +
+      '<text x="487" y="52" text-anchor="middle" class="lg" font-size="12">+H₂O（Na₂O₂）</text>';
+    s += '<line x1="150" y1="84" x2="284" y2="184" stroke="#b5432f" stroke-width="3" marker-end="url(#nf1)" class="tap" data-cap="water"/>' +
+      '<text x="180" y="150" class="lg" font-size="12" fill="#b5432f">+H₂O（剧烈）</text>';
+    s += '<line x1="580" y1="84" x2="470" y2="168" stroke="#b5432f" stroke-width="3" marker-end="url(#nf1)" class="tap" data-cap="co2"/>' +
+      '<text x="560" y="140" class="lg" font-size="12" fill="#b5432f">+CO₂+H₂O</text>';
+    s += '<line x1="448" y1="186" x2="534" y2="186" stroke="#41679c" stroke-width="3" marker-end="url(#nf1b)" class="tap" data-cap="hcl"/>' +
+      '<text x="491" y="176" text-anchor="middle" class="lg" font-size="12">+CO₂+H₂O</text>';
+    s += '<line x1="534" y1="206" x2="448" y2="206" stroke="#41679c" stroke-width="3" marker-end="url(#nf1b)" class="tap" data-cap="heat"/>' +
+      '<text x="491" y="224" text-anchor="middle" class="lg" font-size="12">Δ(受热分解)</text>';
+    s += '<line x1="365" y1="214" x2="365" y2="272" stroke="#b5432f" stroke-width="3" marker-end="url(#nf1)" class="tap" data-cap="hclb"/>' +
+      '<text x="378" y="250" class="lg" font-size="12" fill="#b5432f">+HCl</text>';
+    s += box(290, 280, 150, 44, 'CO₂ ↑ + H₂O + NaCl', '#eef0e2', 13);
+    var svg = '<svg viewBox="0 0 720 380" xmlns="http://www.w3.org/2000/svg">' + s + '</svg>';
+    base(el, svg, [], '点箭头看反应和方程式。记住"三角关系"：<b>Na₂CO₃ ⇌ NaHCO₃</b>（加 CO₂+H₂O 向右；加热向左）——膨松剂微项目、鉴别题全考它。');
+    var caps = {
+      o2: '钠在空气中<b>缓慢氧化</b>变暗生成白色 Na₂O；在空气中<b>点燃</b>剧烈燃烧、发出黄色火焰，生成<b>淡黄色 Na₂O₂</b>（过氧化钠，氧为-1价）。',
+      h2o: '过氧化钠与水：<b>2Na₂O₂ + 2H₂O = 4NaOH + O₂↑</b>。供氧剂（潜艇、消防呼吸面具）！与 CO₂：<b>2Na₂O₂ + 2CO₂ = 2Na₂CO₃ + O₂</b>。',
+      water: '钠与水（浮熔游响红）：浮（密度比水小）、熔（熔点低）、游、响、红（滴酚酞变红）。<b>2Na + 2H₂O = 2NaOH + H₂↑</b>。钠着火<b>不能用水扑</b>，用干沙盖！',
+      co2: 'NaOH 吸收 CO₂：2NaOH + CO₂ = Na₂CO₃ + H₂O（NaOH 变质就是这个原理，密封保存）。',
+      hcl: '向饱和碳酸钠溶液中通 CO₂：<b>Na₂CO₃ + CO₂ + H₂O = 2NaHCO₃↓</b>（析出白色晶体——因为碳酸氢钠溶解度更小）。',
+      heat: '<b>2NaHCO₃ =Δ= Na₂CO₃ + H₂O + CO₂↑</b>——碳酸氢钠不稳定，受热易分解。这也是"鉴别两者"的方法（加热有气体的是 NaHCO₃），膨松剂产气原理。',
+      hclb: '与盐酸：碳酸钠<b>逐滴加盐酸</b>先 Na₂CO₃+HCl=NaHCO₃+NaCl、后产生气体；碳酸氢钠一加就冒泡（反应更快）。'
+    };
+    el.$('[data-cap]').forEach(function (nd) { nd.onclick = function () { setCap(el, caps[nd.getAttribute('data-cap')]); }; });
+  } };
+
+  /* ========== 5. 氯家族转化 ========== */
+  D['cl-family'] = { title: '氯家族转化图', w: 720, h: 380, build: function (el) {
+    var s = defsMk('cf1', '#b5432f') + defsMk('cf1b', '#41679c');
+    s += box(40, 40, 110, 44, 'Cl₂', '#e8eef5', 19);
+    s += box(300, 40, 130, 44, 'HCl → 盐酸盐', '#fbf6e8', 14);
+    s += box(550, 40, 130, 44, 'AgCl↓ 白', '#eef0e2', 14);
+    s += box(300, 160, 130, 44, 'HClO', '#fbeee9', 17);
+    s += box(550, 160, 130, 44, '漂白粉 Ca(ClO)₂', '#fbf6e8', 12);
+    s += box(300, 280, 130, 44, 'NaClO（84消毒液）', '#fbf6e8', 11.5);
+    s += '<line x1="150" y1="62" x2="294" y2="62" stroke="' + INK + '" stroke-width="3" marker-end="url(#cf1b)" class="tap" data-cap="h2"/>' +
+      '<text x="222" y="52" text-anchor="middle" class="lg" font-size="12">+H₂ 点燃</text>';
+    s += '<line x1="430" y1="62" x2="544" y2="62" stroke="' + INK + '" stroke-width="3" marker-end="url(#cf1b)" class="tap" data-cap="ag"/>' +
+      '<text x="487" y="52" text-anchor="middle" class="lg" font-size="12">+AgNO₃(稀HNO₃)</text>';
+    s += '<line x1="150" y1="84" x2="294" y2="176" stroke="#b5432f" stroke-width="3" marker-end="url(#cf1)" class="tap" data-cap="water"/>' +
+      '<text x="168" y="146" class="lg" font-size="12" fill="#b5432f">+H₂O（可逆）</text>';
+    s += '<line x1="430" y1="182" x2="544" y2="182" stroke="#b5432f" stroke-width="0" /><line x1="430" y1="182" x2="544" y2="182" stroke="' + INK + '" stroke-width="0"/>' +
+      '<line x1="150" y1="96" x2="544" y2="176" stroke="' + INK + '" stroke-width="3" marker-end="url(#cf1b)" class="tap" data-cap="lime"/>' +
+      '<text x="330" y="120" class="lg" font-size="12">+石灰乳 Ca(OH)₂</text>';
+    s += '<line x1="150" y1="96" x2="294" y2="296" stroke="' + INK + '" stroke-width="3" marker-end="url(#cf1b)" class="tap" data-cap="naoh"/>' +
+      '<text x="176" y="240" class="lg" font-size="12">+2NaOH</text>';
+    s += '<line x1="430" y1="302" x2="544" y2="196" stroke="#41679c" stroke-width="3" marker-end="url(#cf1b)" class="tap" data-cap="bleach"/>' +
+      '<text x="520" y="262" text-anchor="end" class="lg" font-size="12" fill="#41679c">漂白同源</text>';
+    var svg = '<svg viewBox="0 0 720 380" xmlns="http://www.w3.org/2000/svg">' + s + '</svg>';
+    base(el, svg, [], '氯气黄绿色、有毒（闻气体的正确姿势：用手轻扇！）。漂白"一家人"：HClO 是真凶，漂白粉、84 消毒液都靠它起效。点箭头看反应。');
+    var caps = {
+      h2: 'H₂ 在 Cl₂ 中燃烧：安静燃烧、<b>苍白色火焰</b>、瓶口白雾——生成的 HCl 溶于水即盐酸。也说明燃烧不一定需要氧气！',
+      ag: '<b>Cl⁻ 的检验</b>：先加稀硝酸酸化（排除 CO₃²⁻等干扰），再加 AgNO₃ 溶液，产生<b>不溶于稀硝酸的白色沉淀 AgCl</b>。',
+      water: 'Cl₂ + H₂O ⇌ HCl + HClO（可逆）。氯水"三分子四离子"：含 Cl₂、HClO、H₂O 与 H⁺、Cl⁻、ClO⁻、OH⁻。起漂白作用的是 <b>HClO</b>（不是 Cl₂！干燥氯气不漂白）。',
+      lime: '工业制漂白粉：<b>2Cl₂ + 2Ca(OH)₂ = Ca(ClO)₂ + CaCl₂ + 2H₂O</b>。有效成分 Ca(ClO)₂。漂白原理：Ca(ClO)₂ + CO₂ + H₂O = CaCO₃↓ + 2HClO。',
+      naoh: '<b>Cl₂ + 2NaOH = NaCl + NaClO + H₂O</b>——84 消毒液（NaClO）的制法，也是实验室吸收尾气 Cl₂ 的方法。NaOH 过量很关键。',
+      bleach: '漂白类用品失效原因：<b>2HClO =光照= 2HCl + O₂↑</b>——次氯酸见光分解，所以要避光密封保存。'
+    };
+    el.$('[data-cap]').forEach(function (nd) { nd.onclick = function () { setCap(el, caps[nd.getAttribute('data-cap')]); }; });
+  } };
+
+  /* ========== 6. 铁三角 ========== */
+  D['iron-triangle'] = { title: '铁三角：Fe、Fe²⁺、Fe³⁺', w: 720, h: 380, build: function (el) {
+    var s = defsMk('it1', '#b5432f') + defsMk('it1b', '#41679c');
+    s += box(70, 150, 110, 46, 'Fe', '#fbf6e8', 19);
+    s += box(305, 40, 120, 46, 'Fe²⁺（浅绿）', '#eef0e2', 15);
+    s += box(540, 150, 120, 46, 'Fe³⁺（黄）', '#fbeee9', 16);
+    // Fe→Fe²⁺
+    s += '<line x1="120" y1="148" x2="300" y2="70" stroke="#41679c" stroke-width="3" marker-end="url(#it1b)" class="tap" data-cap="weakox"/>' +
+      '<text x="150" y="94" class="lg" font-size="12.5" fill="#41679c">弱氧化剂（H⁺、Cu²⁺、S）</text>';
+    // Fe²⁺→Fe³⁺
+    s += '<line x1="425" y1="60" x2="535" y2="148" stroke="#b5432f" stroke-width="3" marker-end="url(#it1)" class="tap" data-cap="stroox"/>' +
+      '<text x="500" y="86" class="lg" font-size="12.5" fill="#b5432f">强氧化剂（Cl₂、HNO₃、H₂O₂）</text>';
+    // Fe³⁺→Fe²⁺
+    s += '<line x1="535" y1="196" x2="425" y2="82" stroke="#41679c" stroke-width="3" marker-end="url(#it1b)" class="tap" data-cap="redu"/>' +
+      '<text x="600" y="120" class="lg" font-size="12.5" fill="#41679c">还原剂（Fe、Cu、KI）</text>';
+    // Fe²⁺→Fe
+    s += '<line x1="300" y1="92" x2="130" y2="172" stroke="#b5432f" stroke-width="3" marker-end="url(#it1)" class="tap" data-cap="metal"/>' +
+      '<text x="96" y="250" class="lg" font-size="12.5" fill="#b5432f">活泼金属（Zn、Al）置换</text>';
+    // Fe³⁺→Fe（长弧）
+    s += '<path d="M 600 196 Q 620 300 200 300 Q 120 300 100 200" fill="none" stroke="#41679c" stroke-width="3" marker-end="url(#it1b)" class="tap" data-cap="metal2"/>';
+    // 检验标注
+    s += '<text x="360" y="150" text-anchor="middle" class="lg" font-size="12.5" fill="#6b6154">检验：KSCN 变红的是 Fe³⁺</text>';
+    s += '<text x="360" y="330" text-anchor="middle" class="lg" font-size="12.5" fill="#6b6154">Fe³⁺+3SCN⁻→红色；Fe²⁺先加KSCN不变红、再加氯水变红</text>';
+    var svg = '<svg viewBox="0 0 720 380" xmlns="http://www.w3.org/2000/svg">' + s + '</svg>';
+    base(el, svg, [], '铁的核心是"三价态互转"：遇强氧化剂升到 +3，遇弱氧化剂停在 +2；Fe³⁺ 遇还原剂可降回 +2 或到 0。点箭头看反应。');
+    var caps = {
+      weakox: 'Fe + 2HCl = FeCl₂ + H₂↑（铁与非氧化性酸生成<b>亚铁盐</b>）；Fe + Cu²⁺ = Fe²⁺ + Cu（湿法炼铜思想）。',
+      stroox: '铁在 Cl₂ 中燃烧（无论量多少，直接到 +3）：<b>2Fe + 3Cl₂ =点燃= 2FeCl₃</b>，棕褐色烟。',
+      redu: '<b>2FeCl₃ + Fe = 3FeCl₂</b>（加铁屑保 Fe²⁺ 溶液的常用手段）；Cu + 2FeCl₃ = CuCl₂ + 2FeCl₂（FeCl₃ 腐蚀铜箔）。',
+      metal: 'Fe²⁺ 加活泼金属（如 Zn）可置换出铁。',
+      metal2: 'Fe³⁺ 被足量活泼金属直接还原到 Fe 单质（如铝热反应思想、加足量 Zn）。'
+    };
+    el.$('[data-cap]').forEach(function (nd) { nd.onclick = function () { setCap(el, caps[nd.getAttribute('data-cap')]); }; });
+  } };
+
+  /* ========== 7. 硫的价态转化 ========== */
+  D['sulfur-states'] = { title: '硫的价态转化（-2 → 0 → +4 → +6）', w: 720, h: 360, build: function (el) {
+    var s = defsMk('ss1', '#b5432f') + defsMk('ss1b', '#41679c');
+    function state(x, y, title, sub, fill) {
+      return '<g class="tap" data-cap="' + title + '"><circle cx="' + x + '" cy="' + y + '" r="46" fill="' + fill + '" stroke="' + INK + '" stroke-width="1.8"/>' +
+        '<text x="' + x + '" y="' + (y - 4) + '" text-anchor="middle" class="lg" font-size="16" font-weight="700">' + title + '</text>' +
+        '<text x="' + x + '" y="' + (y + 20) + '" text-anchor="middle" class="lg" font-size="12.5">' + sub + '</text></g>';
+    }
+    s += state(120, 120, '-2价', 'H₂S、硫化物', '#eef0e2');
+    s += state(280, 70, '0价', 'S（淡黄固体）', '#fdf6e8');
+    s += state(450, 120, '+4价', 'SO₂、H₂SO₃', '#fbeee9');
+    s += state(620, 70, '+6价', 'H₂SO₄（浓/稀）', '#e8eef5');
+    s += '<line x1="162" y1="96" x2="238" y2="78" stroke="#b5432f" stroke-width="3" marker-end="url(#ss1)" class="tap" data-cap="s0"/><text x="200" y="70" text-anchor="middle" class="lg" font-size="11.5" fill="#b5432f">氧化(升)</text>';
+    s += '<line x1="322" y1="86" x2="408" y2="104" stroke="#b5432f" stroke-width="3" marker-end="url(#ss1)" class="tap" data-cap="s4"/><text x="365" y="78" text-anchor="middle" class="lg" font-size="11.5" fill="#b5432f">氧化(升)</text>';
+    s += '<line x1="492" y1="104" x2="578" y2="86" stroke="#b5432f" stroke-width="3" marker-end="url(#ss1)" class="tap" data-cap="s6"/><text x="535" y="80" text-anchor="middle" class="lg" font-size="11.5" fill="#b5432f">氧化(升)</text>';
+    s += '<line x1="578" y1="116" x2="492" y2="134" stroke="#41679c" stroke-width="3" marker-end="url(#ss1b)" class="tap" data-cap="s6d"/><text x="535" y="152" text-anchor="middle" class="lg" font-size="11.5" fill="#41679c">还原(降)</text>';
+    s += '<line x1="408" y1="136" x2="322" y2="118" stroke="#41679c" stroke-width="3" marker-end="url(#ss1b)" class="tap" data-cap="s4d"/><text x="365" y="146" text-anchor="middle" class="lg" font-size="11.5" fill="#41679c">还原(降)</text>';
+    s += '<text x="360" y="230" text-anchor="middle" class="lg" font-size="13.5">最高价只有氧化性（浓硫酸），最低价只有还原性（H₂S），中间价态兼有（SO₂）</text>';
+    s += '<text x="360" y="262" text-anchor="middle" class="lg" font-size="13.5" fill="#6b6154">S + O₂ =点燃= SO₂（蓝色火焰）　·　SO₂ 漂白品红，加热恢复（可逆、暂时的）</text>';
+    s += '<text x="360" y="294" text-anchor="middle" class="lg" font-size="13.5" fill="#6b6154">SO₂ + H₂O ⇌ H₂SO₃　·　浓硫酸：吸水性、脱水性、强氧化性</text>';
+    s += '<text x="360" y="326" text-anchor="middle" class="lg" font-size="13.5" fill="#6b6154">Cu + 2H₂SO₄(浓) =Δ= CuSO₄ + SO₂↑ + 2H₂O</text>';
+    var svg = '<svg viewBox="0 0 720 360" xmlns="http://www.w3.org/2000/svg">' + s + '</svg>';
+    base(el, svg, [], '价态规律是 sulfur 章的主线：升价被氧化、降价被还原。点圆圈看每种价态的代表物。');
+    var caps = {
+      '-2价': '最低价，<b>只有还原性</b>。H₂S 臭鸡蛋气味；硫化物沉淀多为黑色（如 CuS、PbS）。燃放鞭炮中的硫燃烧其实到 0/+4 价。',
+      '0价': '<b>硫单质</b>：淡黄色固体、质脆。既可被氧化（到 +4）也可被还原（到 -2）——中间价态，"能上能下"。S+O₂=点燃=SO₂（空气中淡蓝色火焰）。',
+      '+4价': '<b>SO₂</b>：有毒、刺激性气味、密度比空气大；<b>酸性氧化物</b>（SO₂+2NaOH=Na₂SO₃+H₂O）；<b>漂白性</b>（与有色物化合，不稳定、加热恢复——与 HClO 漂白机理不同！）；也有还原性（易被 O₂/卤素氧化）。',
+      '+6价': '<b>硫酸</b>：稀硫酸只有酸性（H⁺）；<b>浓硫酸三大特性</b>：吸水性（干燥剂）、脱水性（把 H、O 按 2:1 夺走使纸碳化）、强氧化性（与 Cu、C 反应；常温下使 Fe、Al <b>钝化</b>——可用铁罐运浓硫酸）。',
+      s6d: '浓→稀 或 被还原：Cu + 2H₂SO₄(浓) =Δ= CuSO₄ + SO₂↑ + 2H₂O。',
+      s4d: 'SO₂ + Br₂ + 2H₂O = H₂SO₄ + 2HBr（SO₂ 使溴水褪色，体现还原性）。'
+    };
+    el.$('[data-cap]').forEach(function (nd) { nd.onclick = function () { setCap(el, caps[nd.getAttribute('data-cap')]); }; });
+  } };
+
+  /* ========== 8. 氮循环转化 ========== */
+  D['nitrogen-cycle'] = { title: '氮的循环与转化', w: 720, h: 380, build: function (el) {
+    var s = defsMk('nc1', '#b5432f') + defsMk('nc1b', '#41679c');
+    s += box(40, 150, 110, 46, 'N₂', '#eef0e2', 19);
+    s += box(250, 40, 130, 46, 'NO（无色）', '#fbf6e8', 15);
+    s += box(460, 40, 130, 46, 'NO₂（红棕）', '#fbeee9', 15);
+    s += box(600, 150, 100, 46, 'HNO₃', '#e8eef5', 17);
+    s += box(250, 260, 130, 46, 'NH₃ / 铵盐', '#eef3e4', 15);
+    s += box(460, 260, 130, 46, '硝酸盐（氮肥）', '#eef3e4', 13);
+    s += '<line x1="150" y1="158" x2="244" y2="72" stroke="' + INK + '" stroke-width="3" marker-end="url(#nc1b)" class="tap" data-cap="no"/>' +
+      '<text x="150" y="104" class="lg" font-size="12">放电/O₂</text>';
+    s += '<line x1="380" y1="62" x2="454" y2="62" stroke="#b5432f" stroke-width="3" marker-end="url(#nc1)" class="tap" data-cap="no2"/>' +
+      '<text x="417" y="52" text-anchor="middle" class="lg" font-size="12" fill="#b5432f">+O₂</text>';
+    s += '<line x1="560" y1="86" x2="632" y2="146" stroke="#b5432f" stroke-width="3" marker-end="url(#nc1)" class="tap" data-cap="hno3"/>' +
+      '<text x="640" y="110" class="lg" font-size="12" fill="#b5432f">+H₂O</text>';
+    s += '<line x1="150" y1="188" x2="244" y2="272" stroke="' + INK + '" stroke-width="3" marker-end="url(#nc1b)" class="tap" data-cap="nh3"/>' +
+      '<text x="140" y="250" class="lg" font-size="12">+H₂(合成氨)</text>';
+    s += '<line x1="380" y1="282" x2="454" y2="282" stroke="' + INK + '" stroke-width="3" marker-end="url(#nc1b)" class="tap" data-cap="salt"/>' +
+      '<text x="417" y="272" text-anchor="middle" class="lg" font-size="12">+酸</text>';
+    s += '<line x1="525" y1="256" x2="620" y2="200" stroke="#41679c" stroke-width="3" marker-end="url(#nc1b)" class="tap" data-cap="plant"/>' +
+      '<text x="620" y="240" text-anchor="end" class="lg" font-size="12" fill="#41679c">被植物吸收</text>';
+    var svg = '<svg viewBox="0 0 720 380" xmlns="http://www.w3.org/2000/svg">' + s + '</svg>';
+    base(el, svg, [], '氮气"性格稳定"（N≡N 三键很难断），所以氮的固定（把游离态变成化合态）是大事：自然固氮（放电、豆科植物根瘤菌）与人工合成氨。点箭头看转化。');
+    var caps = {
+      no: '<b>N₂ + O₂ =放电或高温= 2NO</b>（汽车引擎、雷雨中发生）。NO 无色、不溶水、有毒（与血红蛋白结合）；遇 O₂ 立即变红棕：<b>2NO + O₂ = 2NO₂</b>——NO 只能用排水法收集。',
+      no2: 'NO₂ 红棕色、刺激性气味、有毒。<b>3NO₂ + H₂O = 2HNO₃ + NO</b>（工业制硝酸的核心，NO 循环再利用）。与水反应是雷雨发庄稼的第一步。',
+      hno3: '<b>硝酸</b>：强酸性＋强氧化性。浓硝酸与 Cu：<b>Cu + 4HNO₃(浓) = Cu(NO₃)₂ + 2NO₂↑ + 2H₂O</b>；稀硝酸：<b>3Cu + 8HNO₃(稀) = 3Cu(NO₃)₂ + 2NO↑ + 4H₂O</b>。常温下浓硝酸使 Fe、Al <b>钝化</b>；见光分解，保棕色瓶。',
+      nh3: '<b>合成氨</b>：N₂ + 3H₂ ⇌(高温高压、催化剂) 2NH₃（可逆反应！）。NH₃ 极易溶于水（1:700，喷泉实验）、与 HCl 相遇白烟（NH₃ + HCl = NH₄Cl）。',
+      salt: '铵盐受热易分解：<b>NH₄Cl =Δ= NH₃↑ + HCl↑</b>。<b>NH₄⁺ 检验</b>：加 NaOH 溶液加热，湿润的红色石蕊试纸变蓝。铵态氮肥不能与草木灰（碱性）混用！',
+      plant: '硝酸盐被植物根系吸收合成蛋白质——氮循环回到生命。人类活动排放过多 NOx 会造成雾霾与光化学烟雾（微项目：汽车限行的合理性）。'
+    };
+    el.$('[data-cap]').forEach(function (nd) { nd.onclick = function () { setCap(el, caps[nd.getAttribute('data-cap')]); }; });
+  } };
+
+  /* ========== 9. 丁达尔效应 ========== */
+  D['colloid'] = { title: '丁达尔效应：一束光辨胶体', w: 720, h: 320, build: function (el) {
+    var s = defsMk('col1');
+    function beaker(x, y, w, hgt, fill, label, beam, beamCol) {
+      var t = '<g class="tap" data-cap="' + label + '"><path d="M ' + x + ' ' + y + ' L ' + x + ' ' + (y + hgt) + ' Q ' + (x + w / 2) + ' ' + (y + hgt + 14) + ' ' + (x + w) + ' ' + (y + hgt) + ' L ' + (x + w) + ' ' + y + '" fill="' + fill + '" stroke="' + INK + '" stroke-width="1.6"/>';
+      if (beam) t += '<rect x="' + (x - 26) + '" y="' + (y + hgt / 2 - 4) + '" width="' + (w / 2 + 26) + '" height="8" fill="' + beamCol + '" opacity=".65"/>';
+      t += '<text x="' + (x + w / 2) + '" y="' + (y + hgt + 42) + '" text-anchor="middle" class="lg" font-size="14">' + label + '</text></g>';
+      return t;
+    }
+    s += '<rect x="0" y="0" width="720" height="250" fill="#20242c"/>';
+    s += beaker(90, 60, 150, 130, '#f2efe6', 'CuSO₄ 溶液（无光路）', true, '#ffffff22');
+    s += beaker(300, 60, 150, 130, '#d9887a', 'Fe(OH)₃ 胶体（有光路）', true, '#ffffffaa');
+    s += beaker(510, 60, 150, 130, '#c9b98a', '泥水浊液（下沉）', false, '');
+    s += '<text x="165" y="232" text-anchor="middle" class="lg" font-size="12.5" fill="#aab">无通路，光穿过不"留痕"</text>';
+    s += '<text x="375" y="232" text-anchor="middle" class="lg" font-size="12.5" fill="#fff">一条明亮"通路"＝丁达尔效应</text>';
+    s += '<text x="585" y="232" text-anchor="middle" class="lg" font-size="12.5" fill="#aab">静置分层，谈不上分散均匀</text>';
+    s += '<text x="360" y="296" text-anchor="middle" class="lg" font-size="14">制备 Fe(OH)₃ 胶体：向<b>沸水</b>中滴加饱和 FeCl₃ 溶液，继续加热至液体呈<b>红褐色</b>即停（不可久煮搅拌，也不写↓）</text>';
+    var svg = '<svg viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg">' + s + '</svg>';
+    base(el, svg, [], '胶体（1-100nm）介于溶液与浊液之间。点三只烧杯看区别；生活里"晨雾中的车灯光路""放映厅的光柱"都是丁达尔效应。');
+    var caps = {
+      'CuSO₄ 溶液（无光路）': '<b>溶液</b>：分散质＜1nm，能透过滤纸与半透膜，均一稳定——光通过没有可见通路。',
+      'Fe(OH)₃ 胶体（有光路）': '<b>胶体</b>：分散质 1-100nm，能透过滤纸、<b>不能透过半透膜</b>（渗析提纯）。对光有散射→丁达尔效应，是最简便的鉴别方法。注意：胶体不带电、是"胶体粒子"带电！',
+      '泥水浊液（下沉）': '<b>浊液</b>：分散质＞100nm，静置下沉或分层，不稳定，不能透过滤纸。'
+    };
+    el.$('[data-cap]').forEach(function (nd) { nd.onclick = function () { setCap(el, caps[nd.getAttribute('data-cap')]); }; });
+  } };
+})();
+
+</script>
+<script>
+/* 第1章 认识化学科学（鲁科版 必修第一册） */
+(function () {
+  var DB = window.DB = window.DB || {};
+  DB.chapters = DB.chapters || [];
+  DB.questions = DB.questions || [];
+
+  DB.chapters.push({
+    id: 'ch1', no: '第1章', title: '认识化学科学', color: 'var(--ch1)',
+    tagline: '怎么研究物质？怎么"数"物质？',
+    intro: '鲁科版的开局章：先学"研究物质的方法和程序"（用氯气和钠当案例），再学化学最重要的"计数工具"——物质的量。这一章是整本必修一的地基，期中考试的主战场。',
+    sections: [
+      /* ---------- 1.1 走进化学科学 ---------- */
+      {
+        id: 's1-1', no: '第1节', title: '走进化学科学',
+        lead: '化学研究什么？变化和性质怎么分？实验怎么保安全？',
+        points: [
+          {
+            id: 'p1-1-1', title: '化学是什么：变化与性质两对概念', key: true,
+            blocks: [
+              ['p', '化学是在<b>分子、原子层次</b>上研究物质的组成、结构、性质、转化及应用的一门科学。核心特征：<b>在原子、分子水平上认识物质</b>。'],
+              ['kv', [
+                ['物理变化', '<b>没有新物质生成</b>：冰熔化、酒精挥发、灯泡发光、汽油溶解油污'],
+                ['化学变化', '<b>有新物质生成</b>（常伴随发光、放热、变色、生成气体/沉淀，但"有现象"≠化学变化，看本质）：木炭燃烧、铁生锈、食物腐败'],
+                ['物理性质', '不需要化学变化就能表现：颜色、状态、气味、熔沸点、密度、溶解性、硬度'],
+                ['化学性质', '需要化学变化才表现：可燃性、氧化性、还原性、稳定性、酸性、碱性、腐蚀性']
+              ]],
+              ['tip', '高频坑：①"爆炸"不一定是化学变化（气球爆炸是物理变化，火药爆炸是化学变化）；②"电灯发光放热"是物理变化（没有新物质）；③区分"变化"与"性质"：性质是物质<b>固有</b>的能力，题干出现"能、会、易、可以"多半是性质。'],
+              ['ext', '我国化学家的骄傲：侯德榜发明"侯氏制碱法"（联合制碱），打破国外垄断；屠呦呦从青蒿中提取青蒿素获诺贝尔奖。化学不仅是一门学科，更是一门"创造新物质"的中心科学。']
+            ]
+          },
+          {
+            id: 'p1-1-2', title: '实验室安全与规范操作', key: true,
+            blocks: [
+              ['ul', [
+                '<b>三不原则</b>：不能用手直接接触药品、不能把鼻孔凑到容器口闻气味（用手轻轻扇闻）、不能尝任何药品的味道',
+                '<b>药品取用</b>：块状用镊子（一横二放三慢竖）、粉末用药匙（药匙送到试管底）；液体倾倒时瓶塞<b>倒放</b>、标签<b>朝向手心</b>',
+                '<b>酒精灯</b>：禁止向燃着的酒精灯里添加酒精、禁止用燃着的酒精灯引燃另一盏；用<b>灯帽盖灭</b>，不能吹灭',
+                '<b>加热</b>：试管外壁要擦干、液体不超过试管容积的 1/3、管口不对人、先预热后集中加热',
+                '<b>酸碱溅洒</b>：酸溅到皮肤——大量水冲洗再涂 3%～5% 碳酸氢钠溶液；碱溅到——水冲后涂硼酸'
+              ]],
+              ['tip', '危险化学品的"身份证"是<b>安全警示标识</b>：爆炸品、易燃气体、易燃液体、氧化剂、腐蚀品、有毒品……进实验室先认标识。题问"浓硫酸属于哪类"→<b>腐蚀品</b>。'],
+              ['fuding', ['福鼎限定 · 台风后为什么满街是消毒水味', '台风"桑美"重创福鼎后，灾后防疫用了大量含氯消毒剂（84 消毒液、漂白粉）——那股"泳池味"就是次氯酸的味道。但注意：84 消毒液（NaClO）绝不能和洁厕灵（含盐酸）混用，两者相遇会反应生成<b>有毒的氯气</b>：每年都有人因此中毒。学完本章你会明白这背后全是"氧化还原"。']]
+            ]
+          }
+        ],
+        quiz: ['c1s1q1', 'c1s1q2', 'c1s1q3', 'c1s1q4', 'c1s1q5']
+      },
+      /* ---------- 1.2 研究物质性质的方法和程序 ---------- */
+      {
+        id: 's1-2', no: '第2节', title: '研究物质性质的方法和程序',
+        lead: '以氯气和钠为案例，学会"观察—实验—分类—比较"',
+        points: [
+          {
+            id: 'p1-2-1', title: '研究物质性质的方法与基本程序', key: true,
+            blocks: [
+              ['kv', [
+                ['观察', '用感官+仪器考察颜色、状态、气味、溶解性等（闻气体必须扇闻）'],
+                ['实验', '有目的地控制条件、观察现象、记录数据——化学研究的核心手段'],
+                ['分类', '按组成、性质归类（如把 Na₂O₂ 归入氧化物）'],
+                ['比较', '找异同（如比较 Na₂CO₃ 与 NaHCO₃）']
+              ]],
+              ['p', '<b>研究物质性质的基本程序</b>：观察物质的外观性质 → 预测物质的性质（依据类别） → 实验和观察（验证） → 解释并得出结论。这是科学探究的"通用模板"，考试常按这个顺序出实验题。'],
+              ['tip', '答题细节：描述实验现象要说"看到/听到什么"，<b>不能直接说结论</b>。如钠与水反应的现象是"浮、熔、游、响、红"五点，写"生成 NaOH"就是错的——那是结论不是现象。']
+            ]
+          },
+          {
+            id: 'p1-2-2', title: '案例一：氯气（Cl₂）的性质', key: true,
+            blocks: [
+              ['ul', [
+                '<b>物理性质</b>：黄绿色、有刺激性气味的有毒气体，密度比空气大，能溶于水（1 体积水溶约 2 体积 Cl₂）',
+                '<b>与金属</b>：燃烧产生烟（Na 白烟、Cu 棕黄色烟、Fe 棕褐色烟）——氯气氧化性强，把变价金属直接氧化到<b>最高价</b>',
+                '<b>与氢气</b>：点燃后安静燃烧、<b>苍白色火焰</b>、瓶口白雾',
+                '<b>与水</b>：可逆反应，生成盐酸和次氯酸',
+                '<b>与碱</b>：制漂白粉、84 消毒液，也是尾气吸收方法'
+              ]],
+              ['eq', '点燃', '2Na + Cl₂', '2NaCl'],
+              ['eq', '点燃', '2Fe + 3Cl₂', '2FeCl₃'],
+              ['eq', '点燃', 'Cu + Cl₂', 'CuCl₂'],
+              ['eq', '点燃', 'H₂ + Cl₂', '2HCl'],
+              ['eq', '可逆', 'Cl₂ + H₂O', 'HCl + HClO'],
+              ['eq', null, 'Cl₂ + 2NaOH', 'NaCl + NaClO + H₂O'],
+              ['eq', null, '2Cl₂ + 2Ca(OH)₂', 'Ca(ClO)₂ + CaCl₂ + 2H₂O'],
+              ['eq', '光照', '2HClO', '2HCl + O₂↑'],
+              ['tip', '①燃烧不一定需要氧气——H₂ 在 Cl₂ 中燃烧就是例子；②"烟"是固体小颗粒、"雾"是小液滴，别混；③干燥的氯气<b>没有漂白性</b>，起漂白作用的是 HClO；④氯水中起作用的微粒：HClO（漂白/杀菌）、Cl⁻（与 AgNO₃ 反应）、H⁺（酸性）。'],
+              ['dgm', 'cl-family', '图解 · 点箭头看氯家族的转化与方程式'],
+              ['ext', '氯水"三分子四离子"：分子有 Cl₂、H₂O、HClO，离子有 H⁺、Cl⁻、ClO⁻、OH⁻（极少）。所以氯水兼具酸性、漂白性、Cl⁻ 性质——一瓶氯水能出五个考点。']
+            ]
+          },
+          {
+            id: 'p1-2-3', title: '案例二：金属钠（Na）的性质', key: true,
+            blocks: [
+              ['ul', [
+                '<b>物理性质</b>：银白色金属（表面常因氧化而发暗）、质地软（小刀可切）、密度比水小、熔点低（约97.8℃）、导电导热性好',
+                '<b>与氧气</b>：常温下切面迅速变暗（生成白色 Na₂O）；<b>点燃</b>则剧烈燃烧、黄色火焰，生成<b>淡黄色 Na₂O₂</b>',
+                '<b>与水</b>：浮、熔、游、响、红（滴入酚酞变红）五现象',
+                '<b>保存</b>：钠极易与氧气、水反应，保存在<b>煤油</b>中（隔绝空气和水，且密度比煤油大）'
+              ]],
+              ['eq', null, '4Na + O₂', '2Na₂O'],
+              ['eq', '点燃', '2Na + O₂', 'Na₂O₂'],
+              ['eq', null, '2Na + 2H₂O', '2NaOH + H₂↑'],
+              ['eq', null, '2Na + 2HCl', '2NaCl + H₂↑'],
+              ['tip', '高频坑：①钠着火<b>不能用水、泡沫灭火器</b>（钠与水剧烈反应放氢气），用<b>干燥沙土</b>盖灭；②钠与盐酸反应"先酸后水"（先与 H⁺ 反应，实质都是 Na 失电子）；③Na₂O₂ 中氧是 <b>-1 价</b>，与水、CO₂ 反应既是氧化剂又是还原剂（歧化反应）。'],
+              ['dgm', 'na-family', '图解 · 点箭头看钠家族的转化与方程式']
+            ]
+          },
+          {
+            id: 'p1-2-4', title: '钠的重要化合物：从 Na₂O₂ 到"小苏打"', key: true,
+            blocks: [
+              ['ul', [
+                '<b>Na₂O₂（过氧化钠）</b>：淡黄色固体，供氧剂——与水、CO₂ 反应都放出 O₂',
+                '<b>Na₂CO₃（纯碱/苏打）</b>：白色粉末，稳定，水溶液碱性，用途：玻璃、造纸、洗涤',
+                '<b>NaHCO₃（小苏打）</b>：白色细小晶体，<b>受热易分解</b>，溶解度比 Na₂CO₃ 小，用途：发酵粉、治疗胃酸过多'
+              ]],
+              ['eq', null, '2Na₂O₂ + 2H₂O', '4NaOH + O₂↑'],
+              ['eq', null, '2Na₂O₂ + 2CO₂', '2Na₂CO₃ + O₂'],
+              ['eq', null, 'Na₂O + H₂O', '2NaOH'],
+              ['eq', 'Δ', '2NaHCO₃', 'Na₂CO₃ + H₂O + CO₂↑'],
+              ['eq', null, 'Na₂CO₃ + CO₂ + H₂O', '2NaHCO₃'],
+              ['eq', null, 'NaHCO₃ + NaOH', 'Na₂CO₃ + H₂O'],
+              ['kv', [
+                ['鉴别两者①加热', '受热产生使澄清石灰水变浑气体的是 NaHCO₃'],
+                ['鉴别两者②加酸', '同浓度同量时，加稀盐酸<b>剧烈冒泡更快</b>的是 NaHCO₃'],
+                ['鉴别两者③石灰水', 'NaHCO₃ 与少量石灰水也可生成沉淀，需控制条件，考试以①②为主'],
+                ['相互转化', 'Na₂CO₃ + CO₂ + H₂O → 2NaHCO₃；NaHCO₃ →（Δ 或 NaOH）→ Na₂CO₃']
+              ]],
+              ['memo', '口诀：「苏打稳定小苏打，受热分解冒气泡；通入 CO₂ 变苏打，苏打加盐酸更慢。」'],
+              ['fuding', ['福鼎限定 · 早餐铺里的碳酸氢钠', '福鼎人的早餐：馒头、包子、油条……发面用的是酵母＋小苏打（NaHCO₃）。受热分解"2NaHCO₃ → Na₂CO₃ + H₂O + CO₂↑"，正是那些气泡让面团蓬松多孔——教材"微项目：探秘膨松剂"说的就是这件事。下次吃馒头，你咬的就是一嘴化学方程式。']]
+            ]
+          },
+          {
+            id: 'p1-2-5', title: '含氯消毒剂：原理与安全', key: true,
+            blocks: [
+              ['kv', [
+                ['漂白粉', 'Cl₂ 通入石灰乳制得，有效成分 <b>Ca(ClO)₂</b>；漂白原理：Ca(ClO)₂ + CO₂ + H₂O = CaCO₃↓ + 2HClO'],
+                ['84 消毒液', 'Cl₂ 与 NaOH 溶液反应制得，有效成分 <b>NaClO</b>，无色/淡黄色液体，碱性'],
+                ['失效原理', '次氯酸盐 + 酸/CO₂ 生成 HClO，HClO 见光分解：2HClO =光照= 2HCl + O₂↑'],
+                ['杀菌原理', 'HClO 具有强氧化性，能使蛋白质变性——这也是它刺激皮肤的原因']
+              ]],
+              ['eq', null, 'Ca(ClO)₂ + CO₂ + H₂O', 'CaCO₃↓ + 2HClO'],
+              ['eq', null, 'NaClO + 2HCl', 'NaCl + Cl₂↑ + H₂O'],
+              ['tip', '最重要的安全常识（考试+生活双考点）：<b>84 消毒液绝不能与洁厕灵（盐酸）混用</b>——生成有毒氯气；也不能与酒精混用（降低效果/生成有害物）。使用时稀释、戴手套、通风。'],
+              ['ext', '二战时氯气曾被用作化学武器，防毒面具里的活性炭吸附氯气。今天氯气更多用来生产自来水消毒剂、塑料（PVC）、农药——"魔鬼与天使都是它"，关键看人怎么用。']
+            ]
+          }
+        ],
+        quiz: ['c1s2q1', 'c1s2q2', 'c1s2q3', 'c1s2q4', 'c1s2q5', 'c1s2q6', 'c1s2q7', 'c1s2q8', 'c1s2q9', 'c1s2q10']
+      },
+      /* ---------- 1.3 物质的量 ---------- */
+      {
+        id: 's1-3', no: '第3节', title: '化学中的常用物理量——物质的量',
+        lead: '整本化学的"计算地基"，必须一次学扎实',
+        points: [
+          {
+            id: 'p1-3-1', title: '物质的量：数微观世界的"打单位"', key: true,
+            blocks: [
+              ['ul', [
+                '<b>物质的量</b>（符号 n）是七个基本物理量之一，单位是<b>摩尔（mol）</b>——只用于表示<b>微观粒子</b>（分子、原子、离子、电子、质子等），不能用于宏观物质',
+                '基准：0.012 kg ¹²C 所含碳原子数即为 1 mol，约 <b>6.02×10²³</b>（阿伏加德罗常数 Nₐ，单位 mol⁻¹）',
+                '使用要"指明具体粒子"：1 mol H₂O ✓，1 mol 氢 ✗（没说清是氢分子还是氢原子）'
+              ]],
+              ['p', '公式总纲（一座桥）：<b>n = N/Nₐ = m/M = V/Vm（标况气体）</b>；溶液还有 c = n/V。'],
+              ['dgm', 'mole-bridge', '图解 · 物质的量"桥梁图"，点四角看每条公式'],
+              ['tip', '高频坑：①"1 mol 氢"未指明粒子，错；②摩尔是单位，物质的量是物理量，"摩尔数"是不规范说法；③Nₐ 是 6.02×10²³/mol，带单位。']
+            ]
+          },
+          {
+            id: 'p1-3-2', title: '摩尔质量与气体摩尔体积', key: true,
+            blocks: [
+              ['kv', [
+                ['摩尔质量 M', '单位物质的量的物质所具有的质量；数值上等于相对分子/原子质量；单位 g/mol。M(H₂O)=18 g/mol → 18 g 水即 1 mol'],
+                ['气体摩尔体积 Vm', '单位物质的量气体所占体积。<b>标准状况（0℃、101 kPa）下约 22.4 L/mol</b>'],
+                ['适用条件', '22.4 L/mol 必须同时满足：①<b>气体</b>（排除 H₂O、酒精、SO₃ 等）②<b>标准状况</b>（排除常温）③任何气体单体/混合气体均可']
+              ]],
+              ['eq', null, '2H₂ + O₂', '2H₂O'],
+              ['p', '例：标况下 2.24 L H₂ 的物质的量 = 2.24/22.4 = 0.1 mol，质量 = 0.2 g，含 0.2 mol 氢原子。三步走：先 n，再要什么换什么。'],
+              ['tip', '阿伏加德罗常数（Nₐ）题五大陷阱：①状况陷阱——非标况气体或把液体当气体套 22.4；②粒子数陷阱——1 mol H₂O 含 3 mol 原子、1 mol Na₂O₂ 含 2 mol 离子（Na⁺ 和 O₂²⁻）；③可逆反应陷阱——2 mol SO₂ 与 1 mol O₂ 反应不生成 2 mol SO₃；④溶液陷阱——未给体积不能算 c；⑤胶体粒子是集合体。'],
+              ['ext', '为什么用 12 g ¹²C 做基准？碳是固体、易提纯、不吸潮，称量最准。1 mol 乒乓球堆起来能把地球包成"乒乓球壳"——摩尔是给微观世界定制的"大单位"。']
+            ]
+          },
+          {
+            id: 'p1-3-3', title: '物质的量浓度与溶液配制', key: true,
+            blocks: [
+              ['ul', [
+                '<b>物质的量浓度</b>：单位体积溶液中所含溶质 B 的物质的量，c(B) = n(B)/V。<b>V 是溶液的体积（L），不是溶剂的体积！</b>',
+                '常用单位 mol/L。例：58.5 g NaCl（1 mol）配成 500 mL 溶液，c = 1/0.5 = 2 mol/L',
+                '<b>配制步骤（用容量瓶）</b>：计算 → 称量（天平）→ 溶解（烧杯+玻璃棒，冷却）→ 转移（玻璃棒引流）→ 洗涤（洗涤烧杯2~3次，洗涤液一并转入）→ 定容（加水至接近刻度线1~2cm改用胶头滴管）→ 摇匀'
+              ]],
+              ['kv', [
+                ['容量瓶特点', '细颈梨形、带磨口塞、瓶身有刻度线和温度（20℃）、<b>只有一条刻度线</b>；不能溶解、不能加热、不能长期存放溶液'],
+                ['常见规格', '50 mL、100 mL、250 mL、500 mL、1000 mL——配"480 mL 溶液"要选<b>500 mL</b> 容量瓶，按 500 mL 计算溶质量'],
+                ['误差分析口诀', '看"c = n/V"：溶质少了（称量晚/洒了/未洗涤）→ 偏低；溶液体积多了（仰视定容）→ 偏低；体积少了（俯视定容）→ 偏高'],
+                ['仰视俯视', '定容<b>仰视</b>刻度线 → 加水多了 → 浓度<b>偏低</b>；<b>俯视</b> → 偏高']
+              ]],
+              ['tip', '误差分析就抓两条：n 变没变、V 变没变。天平砝码生锈→n 偏大→偏高；砝码缺角→偏低；转移洒液→偏低；定容摇匀后液面低于刻度线再加→偏低（摇匀后液面降是正常的，部分溶液挂在瓶颈）。'],
+              ['fuding', ['福鼎限定 · 从"一大勺盐"到"0.1 mol/L"', '福鼎人腌黄鱼看"经验"，化学实验室讲究"精准"：58.5 g NaCl 正好 1 mol。用容量瓶配 1 L 恰好 1 mol/L 的盐水，工业上按这个浓度配消毒液、渔用饲料添加剂——"差之毫厘"在化学里就是错，这就是为什么配置要用容量瓶而不是"目测一瓶"。']]
+            ]
+          }
+        ],
+        quiz: ['c1s3q1', 'c1s3q2', 'c1s3q3', 'c1s3q4', 'c1s3q5', 'c1s3q6', 'c1s3q7']
+      }
+    ]
+  });
+
+  [
+    { id: 'c1s1q1', sec: 's1-1', stem: '下列变化中，属于化学变化的是',
+      opts: ['冰雪融化', '木材干馏得到木炭', '酒精挥发', '活性炭吸附有色气体'], ans: 1,
+      exp: '干馏是隔绝空气加强热使木材分解出新物质（木炭、木焦油），是化学变化；融化、挥发、吸附都没有新物质生成。', tag: '基础' },
+    { id: 'c1s1q2', sec: 's1-1', stem: '下列性质中，属于化学性质的是',
+      opts: ['浓盐酸的挥发性', '氢气在氯气中能燃烧', '酒精的密度比水小', '碳酸钙难溶于水'], ans: 1,
+      exp: '"能燃烧"需要化学变化才能表现出来，是化学性质；挥发、密度、溶解性都是物理性质。', tag: '基础' },
+    { id: 'c1s1q3', sec: 's1-1', stem: '实验室闻氯气气味的正确方法是',
+      opts: ['凑近深吸一口气', '用手在瓶口轻轻扇动，使少量气体飘入鼻孔', '用鼻子对着瓶口闻', '先尝一小口判断'], ans: 1,
+      exp: '三不原则：不能凑近闻、不能尝。扇闻是标准操作——氯气有毒，直接闻会刺激呼吸道。', tag: '基础' },
+    { id: 'c1s1q4', sec: 's1-1', stem: '使用酒精灯的错误做法是',
+      opts: ['用灯帽盖灭酒精灯', '用嘴吹灭酒精灯', '添加酒精前先熄灭酒精灯', '用火柴点燃酒精灯'], ans: 1,
+      exp: '吹灭可能把火焰压进灯内引燃酒精蒸气，必须用灯帽盖灭（盖两次放走蒸气更规范）。', tag: '基础' },
+    { id: 'c1s1q5', sec: 's1-1', stem: '给试管里的液体加热时，下列做法正确的是',
+      opts: ['试管口对着自己', '液体不超过试管容积的1/3', '试管外壁带水直接加热', '直接集中加热试管底部'], ans: 1,
+      exp: '管口对人会喷溅伤人；外壁带水加热会炸裂；要先来回预热再固定加热。', tag: '基础' },
+    { id: 'c1s2q1', sec: 's1-2', stem: '研究物质性质的基本程序的正确顺序是\n①实验和观察 ②观察物质的外观性质 ③解释并得出结论 ④预测物质的性质',
+      opts: ['②④①③', '②①④③', '④②①③', '②③①④'], ans: 0,
+      exp: '先观察外观→按类别预测性质→实验验证→解释结论。这是鲁科版给出的科学探究模板，实验题答题思路照此展开。', tag: '高频' },
+    { id: 'c1s2q2', sec: 's1-2', stem: '下列关于氯气的描述，错误的是',
+      opts: ['黄绿色、有刺激性气味的有毒气体', '氯气与铁反应生成 FeCl₂', '氯气与水反应生成盐酸和次氯酸', '氯气可以溶于水'], ans: 1,
+      exp: 'Cl₂ 氧化性强，与变价金属反应生成最高价氯化物——与铁生成 <b>FeCl₃</b> 不是 FeCl₂。', tag: '高频' },
+    { id: 'c1s2q3', sec: 's1-2', stem: 'H₂ 在 Cl₂ 中燃烧的现象是',
+      opts: ['剧烈爆炸', '安静燃烧，发出苍白色火焰，瓶口出现白雾', '红色火焰，大量白烟', '蓝色火焰，瓶口白烟'], ans: 1,
+      exp: '苍白色火焰＋白雾（HCl 遇水蒸气成小液滴）。这也证明燃烧不一定需要氧气。区分：烟=固体颗粒，雾=小液滴。', tag: '高频' },
+    { id: 'c1s2q4', sec: 's1-2', stem: '干燥的氯气不能使有色布条褪色，而氯水能使布条褪色，起漂白作用的物质是',
+      opts: ['Cl₂', 'HCl', 'HClO', 'Cl⁻'], ans: 2,
+      exp: 'HClO 具有强氧化性，能使有色物质褪色。氯气本身不漂白——氯水中 Cl₂ 与 H₂O 反应生成 HClO 才起作用。', tag: '核心' },
+    { id: 'c1s2q5', sec: 's1-2', stem: '将钠投入水中，观察到的现象不包括',
+      opts: ['钠浮在水面上，熔成闪亮小球', '发出嘶嘶声，四处游动', '滴入酚酞后溶液变红', '产生大量白烟'], ans: 3,
+      exp: '钠与水的现象是"浮熔游响红"；白烟是固体小颗粒（如钠在氯气中燃烧）。没有白烟现象。', tag: '高频' },
+    { id: 'c1s2q6', sec: 's1-2', stem: '金属钠着火时，正确的灭火方法是',
+      opts: ['用水浇灭', '用泡沫灭火器', '用干燥沙土盖灭', '用湿抹布扑打'], ans: 2,
+      exp: '钠与水剧烈反应放氢气会"越烧越旺"，只能用干燥沙土隔绝空气。这是安全常识+化学原理双考点。', tag: '安全' },
+    { id: 'c1s2q7', sec: 's1-2', stem: '下列关于 Na₂O₂ 的说法正确的是',
+      opts: ['淡黄色固体，可用作潜水艇里的供氧剂', '白色固体，与水反应生成碱', '能与水反应但放出氢气', '是钠在空气中缓慢氧化的产物'], ans: 0,
+      exp: 'Na₂O₂ 淡黄色，与水和 CO₂ 反应都放出 O₂（2Na₂O₂+2CO₂=2Na₂CO₃+O₂），是呼吸面具/潜艇的供氧剂。缓慢氧化产物是白色 Na₂O。', tag: '高频' },
+    { id: 'c1s2q8', sec: 's1-2', stem: '鉴别碳酸钠与碳酸氢钠两种白色固体，最简便的方法是',
+      opts: ['分别加水看是否溶解', '分别滴加酚酞', '分别加热，观察是否产生使澄清石灰水变浑浊的气体', '分别加氢氧化钠溶液'], ans: 2,
+      exp: 'NaHCO₃ 受热分解（2NaHCO₃=Δ=Na₂CO₃+H₂O+CO₂↑），Na₂CO₃ 稳定——加热法最简便可靠。两者都溶于水、都显碱性、都能与 NaOH 反应（Na₂CO₃不反应）。', tag: '高频' },
+    { id: 'c1s2q9', sec: 's1-2', stem: '把 84 消毒液与洁厕灵（含盐酸）混合使用，可能产生的后果是',
+      opts: ['消毒效果增强', '生成有毒的氯气，使人中毒', '生成大量氧气', '没有变化'], ans: 1,
+      exp: 'NaClO + 2HCl = NaCl + Cl₂↑ + H₂O，氯气有毒。所以含氯消毒剂绝不能与酸性清洁剂混用——生活安全题，每年必考。', tag: '安全' },
+    { id: 'c1s2q10', sec: 's1-2', stem: '漂白粉的有效成分及其在空气中失效（变质）的原因是',
+      opts: ['CaCl₂；吸收CO₂', 'Ca(ClO)₂；与CO₂和水反应生成 HClO，HClO 见光分解', 'NaClO；挥发', 'Ca(OH)₂；风化'], ans: 1,
+      exp: '漂白粉＝Ca(ClO)₂＋CaCl₂，有效成分 Ca(ClO)₂。失效：Ca(ClO)₂+CO₂+H₂O=CaCO₃↓+2HClO，2HClO=光照=2HCl+O₂↑——所以要密封避光保存。', tag: '核心' },
+    { id: 'c1s3q1', sec: 's1-3', stem: '下列关于"物质的量"的说法，正确的是',
+      opts: ['物质的量就是物质的质量', '摩尔既可以表示分子也可以表示宏观物体', '物质的量是用来描述含有一定数目微粒的集合体的物理量', '1 mol 氢含有 6.02×10²³ 个氢原子'], ans: 2,
+      exp: '物质的量是物理量，单位摩尔，只用于微观粒子且必须指明具体粒子；"1 mol 氢"未指明是 H₂ 还是 H；宏观物体（1 mol 鸡蛋）无意义。', tag: '核心' },
+    { id: 'c1s3q2', sec: 's1-3', stem: '0.5 mol H₂O 中含有的微粒，正确的是',
+      opts: ['含 0.5 mol 氢原子', '含 1 mol 氧原子', '含 0.5 mol 水分子', '含 1 mol 电子'], ans: 2,
+      exp: '水分子数=0.5 mol（C 对）；每个 H₂O 含 2 个氢原子→氢原子 1 mol（A 错）；氧原子 0.5 mol（B 错）；每个 H₂O 含 10 个电子→电子共 5 mol（D 错）。规律：原子/电子数=分子物质的量×每分子中该微粒个数。', tag: '计算' },
+    { id: 'c1s3q3', sec: 's1-3', stem: '标准状况下，22.4 L CO₂ 的质量约为',
+      opts: ['44 g', '22 g', '11 g', '8.8 g'], ans: 0,
+      exp: 'n = 22.4/22.4 = 1 mol，m = n×M = 1×44 = 44 g。先算 n 再换 m，标况三前提（气体、0℃、101kPa）要满足。', tag: '计算' },
+    { id: 'c1s3q4', sec: 's1-3', stem: '下列情况下，不能用 22.4 L/mol 计算气体体积的是',
+      opts: ['标准状况下 1 mol H₂', '标准状况下 1 mol H₂O', '标准状况下 1 mol O₂', '标准状况下 1 mol CO₂'], ans: 1,
+      exp: '标准状况下 H₂O 是液体（冰水混合物），Vm=22.4 L/mol 只适用于气体——状态陷阱每年必考。', tag: '易错' },
+    { id: 'c1s3q5', sec: 's1-3', stem: '配制 500 mL 0.2 mol/L NaCl 溶液，需要 NaCl 的质量为',
+      opts: ['2.925 g', '5.85 g', '11.7 g', '0.585 g'], ans: 1,
+      exp: 'n = c×V = 0.2×0.5 = 0.1 mol，m = 0.1×58.5 = 5.85 g。天平称到小数点后一位：5.9 g 左右。', tag: '计算' },
+    { id: 'c1s3q6', sec: 's1-3', stem: '配制一定物质的量浓度溶液时，定容时仰视刻度线，所配溶液的浓度将',
+      opts: ['偏高', '偏低', '不变', '无法判断'], ans: 1,
+      exp: '仰视→加水面超过刻度线→V 偏大→c=n/V 偏低。记"仰低俯高"（对浓度而言）。', tag: '易错' },
+    { id: 'c1s3q7', sec: 's1-3', stem: '配制一定物质的量浓度的 NaCl 溶液，称量时所用砝码上沾有少量铁锈，其他操作正常，则所配溶液的浓度将',
+      opts: ['偏高', '偏低', '不变', '无法判断'], ans: 0,
+      exp: '砝码生锈→砝码实际质量大于标称值→称出的 NaCl 实际质量比"读数"更多→实际溶质 n 偏大→c 偏高。同类题总结：砝码缺损、物码放反用了游码→溶质偏少→偏低；砝码生锈→偏高。', tag: '易错' }
+  ].forEach(function (q) { DB.questions.push(q); });
+})();
+
+</script>
+<script>
+/* 第2章 元素与物质世界（鲁科版 必修第一册） */
+(function () {
+  var DB = window.DB = window.DB || {};
+  DB.chapters = DB.chapters || [];
+  DB.questions = DB.questions || [];
+
+  DB.chapters.push({
+    id: 'ch2', no: '第2章', title: '元素与物质世界', color: 'var(--ch2)',
+    tagline: '给百万物质"编目录"，看透反应的本质',
+    intro: '两条主线：①物质怎么分类（溶液/胶体/浊液；电解质/非电解质）；②化学反应的本质是什么（离子反应、氧化还原）。这一章的概念辨析题特别多，"错一个字就错一道题"。',
+    sections: [
+      /* ---------- 2.1 元素与物质分类 ---------- */
+      {
+        id: 's2-1', no: '第1节', title: '元素与物质分类',
+        lead: '一百多种元素如何组成千万种物质？胶体是什么"中间派"？',
+        points: [
+          {
+            id: 'p2-1-1', title: '元素与物质的分类树', key: true,
+            blocks: [
+              ['ul', [
+                '<b>元素</b>：具有相同核电荷数（质子数）的一类原子的总称——决定"种类"的是质子数',
+                '元素在自然界的存在形态：<b>游离态</b>（单质，如 O₂、金）与<b>化合态</b>（化合物，如 NaCl 中的 Na）',
+                '<b>纯净物</b>分单质与化合物；化合物按组成分氧化物、酸、碱、盐',
+                '<b>同素异形体</b>：同种元素组成的不同单质——O₂ 与 O₃、金刚石与石墨与 C₆₀、红磷与白磷；它们性质差异大（物理性质差异明显、化学性质相似）'
+              ]],
+              ['kv', [
+                ['酸性氧化物', '能与碱反应生成盐和水的氧化物（多数非金属）：CO₂、SO₂、SO₃'],
+                ['碱性氧化物', '能与酸反应生成盐和水的氧化物（金属）：Na₂O、CaO、Fe₂O₃'],
+                ['注意', 'Na₂O₂ 是<b>过氧化物</b>（不属于以上两类）；不成盐氧化物：CO、NO']
+              ]],
+              ['dgm', 'class-tree', '图解 · 点节点看物质分类树与电解质分支'],
+              ['tip', '高频坑：①"冰水混合物"是纯净物（只含 H₂O 一种物质）；②由同素异形体混合（O₂+O₃）是<b>混合物</b>；③只含一种元素的物质不一定是纯净物。']
+            ]
+          },
+          {
+            id: 'p2-1-2', title: '一种重要的混合物——胶体', key: true,
+            blocks: [
+              ['kv', [
+                ['三种分散系', '按分散质粒子直径：溶液（＜1 nm）、<b>胶体（1～100 nm）</b>、浊液（＞100 nm）'],
+                ['常见胶体', 'Fe(OH)₃ 胶体、淀粉溶液、蛋白质溶液、豆浆、雾、云、烟、有色玻璃'],
+                ['丁达尔效应', '一束光通过胶体出现<b>明亮光路</b>——最简便的胶体鉴别方法'],
+                ['渗析', '胶体能透过滤纸、<b>不能透过半透膜</b>——用半透膜提纯胶体的方法叫渗析']
+              ]],
+              ['p', '<b>Fe(OH)₃ 胶体的制备</b>：向<b>沸水</b>中滴加几滴饱和 FeCl₃ 溶液，继续加热至液体呈<b>红褐色</b>，停止加热。'],
+              ['eq', null, 'FeCl₃ + 3H₂O', 'Fe(OH)₃(胶体) + 3HCl'],
+              ['tip', '制胶体三不要：①不能用自来水（杂质电解质使胶体聚沉），要用蒸馏水；②<b>不能过度加热/搅拌</b>（破坏胶体）；③化学方程式<b>不写"↓"符号</b>，要标注"(胶体)"。Fe(OH)₃ 胶体本身不带电，是"胶体粒子"吸附离子带电。'],
+              ['fuding', ['福鼎限定 · 晨雾里的"化学考题"', '福鼎沿海多雾：清晨的沙埕港、太姥山间，雾气弥漫时车灯会"拉"出一道光柱——这就是<b>丁达尔效应</b>，因为雾是<b>液溶胶</b>（小水滴分散在空气中，颗粒直径恰好在 1～100 nm 量级附近）。课本插图，你每天上学路上都能看到。']]
+            ]
+          }
+        ],
+        quiz: ['c2s1q1', 'c2s1q2', 'c2s1q3', 'c2s1q4', 'c2s1q5']
+      },
+      /* ---------- 2.2 电解质的电离 离子反应 ---------- */
+      {
+        id: 's2-2', no: '第2节', title: '电解质的电离 离子反应',
+        lead: '什么能导电？反应为什么"一秒完成"？',
+        points: [
+          {
+            id: 'p2-2-1', title: '电解质与非电解质：两个"必须"和一个"坑"', key: true,
+            blocks: [
+              ['kv', [
+                ['电解质', '在水溶液里<b>或</b>熔融状态下能导电的<b>化合物</b>：酸、碱、盐、活泼金属氧化物（CaO、Na₂O）、H₂O'],
+                ['非电解质', '在水溶液和熔融状态下都<b>不</b>导电的化合物：CO₂、SO₂、NH₃、蔗糖、酒精'],
+                ['都不算', '<b>单质（Cu、Cl₂）和混合物（盐酸、NaCl 溶液）既不是电解质也不是非电解质</b>——必须是"化合物"']
+              ]],
+              ['ul', [
+                '<b>强电解质</b>：完全电离——强酸（HCl、H₂SO₄、HNO₃）、强碱（NaOH、KOH、Ca(OH)₂/Ba(OH)₂）、大多数盐',
+                '<b>弱电解质</b>：部分电离——弱酸（CH₃COOH、H₂CO₃）、弱碱（NH₃·H₂O）、H₂O；电离用可逆号 ⇌',
+                '<b>导电能力</b>取决于离子浓度与离子所带电荷，与"强弱电解质"无必然关系（极稀的盐酸导电性可能不如较浓的醋酸溶液）'
+              ]],
+              ['eq', '电离', 'HCl', 'H⁺ + Cl⁻'],
+              ['eq', '电离', 'NaOH', 'Na⁺ + OH⁻'],
+              ['eq', '电离', 'Na₂CO₃', '2Na⁺ + CO₃²⁻'],
+              ['eq', '⇌', 'CH₃COOH', 'CH₃COO⁻ + H⁺'],
+              ['tip', '最大陷阱（每年必考）：<b>CO₂、SO₂、NH₃ 是非电解质</b>！它们的水溶液能导电，是因为与水反应生成了 H₂CO₃、NH₃·H₂O 这些电解质——导电的不是它们自己。同理，Cl₂ 溶于水导电，但 Cl₂ 是单质，谈不上电解质。']
+            ]
+          },
+          {
+            id: 'p2-2-2', title: '离子反应与离子方程式', key: true,
+            blocks: [
+              ['ul', [
+                '<b>离子反应</b>：电解质在溶液中的反应实质上是离子之间的反应（如 NaOH+HCl 实质是 H⁺+OH⁻=H₂O）',
+                '<b>发生条件</b>（生成物方向）：①生成<b>沉淀</b> ②生成<b>弱电解质</b>（水、弱酸、弱碱） ③生成<b>气体</b>——三者有其一即可',
+                '<b>书写四步</b>：写（化学方程式）→ 拆（易溶易电离的拆成离子）→ 删（两边相同的删）→ 查（原子守恒＋电荷守恒）'
+              ]],
+              ['kv', [
+                ['要拆', '强酸、强碱、易溶盐（可溶性强电解质）'],
+                ['不拆', '沉淀（CaCO₃、BaSO₄、AgCl…）、气体、弱电解质（H₂O、弱酸弱碱）、单质、氧化物'],
+                ['微溶物', '如 Ca(OH)₂：澄清（稀）溶液拆，浊液（石灰乳）不拆']
+              ]],
+              ['eq', null, 'CO₃²⁻ + 2H⁺', 'H₂O + CO₂↑'],
+              ['eq', null, 'H⁺ + OH⁻', 'H₂O'],
+              ['eq', null, 'CaCO₃ + 2H⁺', 'Ca²⁺ + H₂O + CO₂↑'],
+              ['eq', null, 'Fe + Cu²⁺', 'Fe²⁺ + Cu'],
+              ['tip', '离子方程式正误判断三板斧：①<b>拆对没有</b>（CaCO₃ 拆成离子=错）；②<b>守恒没有</b>（原子+电荷双守恒）；③<b>事实没有</b>（如"稀硝酸与铁生成 H₂"=错，HNO₃ 是氧化性酸不放氢气）。'],
+              ['ext', '<b>离子共存</b>：能发生反应的离子不能大量共存——生成沉淀（Ag⁺与Cl⁻）、气体（H⁺与CO₃²⁻）、弱电解质（H⁺与OH⁻）都不能共存。外加条件要跟着变：酸性溶液中 OH⁻、CO₃²⁻、HCO₃⁻ 都"出局"；无色溶液中 Cu²⁺（蓝）、Fe³⁺（黄）、Fe²⁺（浅绿）、MnO₄⁻（紫）要排除。']
+            ]
+          }
+        ],
+        quiz: ['c2s2q1', 'c2s2q2', 'c2s2q3', 'c2s2q4', 'c2s2q5', 'c2s2q6', 'c2s2q7']
+      },
+      /* ---------- 2.3 氧化还原反应 ---------- */
+      {
+        id: 's2-3', no: '第3节', title: '氧化还原反应',
+        lead: '从"得氧失氧"到"电子转移"——化学反应的底层逻辑',
+        points: [
+          {
+            id: 'p2-3-1', title: '认识氧化还原：本质与特征', key: true,
+            blocks: [
+              ['ul', [
+                '<b>特征（判断依据）</b>：反应前后有元素<b>化合价升降</b>',
+                '<b>本质</b>：电子转移（得失或偏移）',
+                '<b>升失氧、降得还</b>：化合价升高→失电子→被氧化→作<b>还原剂</b>；化合价降低→得电子→被还原→作<b>氧化剂</b>',
+                '常见化合价规律：单质 0 价；H 一般 +1（NaH 中 -1）；O 一般 -2（H₂O₂、Na₂O₂ 中 -1）；金属通常正价；代数和=0'
+              ]],
+              ['dgm', 'redox-map', '图解 · 升失氧降得还＋四大反应类型关系'],
+              ['tip', '判断口诀：先标化合价，有"升降"就是氧化还原。常见的氧化还原信号：出现单质参加或生成、燃烧、生锈、食物腐败、消毒。'],
+              ['memo', '口诀：「升失氧、降得还；氧化剂，降得还；还原剂，升失氧；剂性相反莫记反。」']
+            ]
+          },
+          {
+            id: 'p2-3-2', title: '氧化剂与还原剂：谁给谁电子？', key: true,
+            blocks: [
+              ['kv', [
+                ['常见氧化剂', 'O₂、Cl₂、浓硫酸、HNO₃、KMnO₄、Fe³⁺（高价态，得电子）'],
+                ['常见还原剂', '活泼金属（Na、Zn、Fe）、C、H₂、CO、KI、Na₂SO₃（低价态，失电子）'],
+                ['中间价态', 'SO₂、H₂O₂、Fe²⁺——既有氧化性又有还原性，"看对手"'],
+                ['强弱的判断', '同一反应中：氧化性 氧化剂＞氧化产物；还原性 还原剂＞还原产物']
+              ]],
+              ['p', '<b>双线桥</b>示例（Fe + CuSO₄ = FeSO₄ + Cu）：从 Fe 画一条线桥到 Fe²⁺，标注"失去 2e⁻，化合价升高，被氧化"；从 Cu²⁺ 画到 Cu，标注"得到 2e⁻，化合价降低，被还原"。注意箭头起止都是<b>同一元素</b>前后变化。'],
+              ['eq', null, 'Fe + CuSO₄', 'FeSO₄ + Cu'],
+              ['eq', '高温', 'Fe₂O₃ + 3CO', '2Fe + 3CO₂'],
+              ['tip', '电子守恒计算是高频题："得电子总数 = 失电子总数"。例如 1 mol Cl₂ 从 0 → -1 得 2 mol 电子；1 mol Na 从 0 → +1 失 1 mol 电子，所以 1 mol Cl₂ 恰好氧化 2 mol Na。']
+            ]
+          },
+          {
+            id: 'p2-3-3', title: '氧化还原的应用：从消毒到冶炼', key: true,
+            blocks: [
+              ['ul', [
+                '<b>杀菌消毒</b>：Cl₂、HClO、KMnO₄ 氧化病菌蛋白质（教材微项目"科学使用含氯消毒剂"）',
+                '<b>金属冶炼</b>：金属由化合态变游离态=被还原——活泼金属用电解（电解熔融 NaCl 制 Na），较不活泼用热还原（CO 还原 Fe₂O₃），不活泼（Au、Ag）天然游离态',
+                '<b>食品防腐</b>：还原铁粉（脱氧剂）、维生素C 抗氧化',
+                '<b>分析物质性质</b>：预测"价态—性质"：最高价只有氧化性、最低价只有还原性、中间价态两性兼备'
+              ]],
+              ['eq', '高温', '2NaCl(熔融)', '2Na + Cl₂↑'],
+              ['fuding', ['福鼎限定 · 沙埕港的渔船为什么"生锈"', '铁生锈是铁、氧气、水共同作用的<b>缓慢氧化</b>（化学腐蚀＋复杂过程）：Fe → Fe₂O₃·xH₂O（红褐色铁锈）。海边高盐高湿环境加速锈蚀，所以沙埕港的渔船要定期"敲锈刷漆"——漆膜隔开氧气和水，就是最朴素的"防氧化"手段。铁的氧化还原，渔民每年都在和它打交道。']]
+            ]
+          }
+        ],
+        quiz: ['c2s3q1', 'c2s3q2', 'c2s3q3', 'c2s3q4', 'c2s3q5', 'c2s3q6', 'c2s3q7']
+      }
+    ]
+  });
+
+  [
+    { id: 'c2s1q1', sec: 's2-1', stem: '下列物质中，属于纯净物的是',
+      opts: ['冰水混合物', 'O₂ 与 O₃ 的混合气体', '洁净的空气', '盐酸'], ans: 0,
+      exp: '冰水混合物只含 H₂O 一种物质（状态不同而已），是纯净物；同素异形体混合物、空气、盐酸（HCl 水溶液）都是混合物。', tag: '易错' },
+    { id: 'c2s1q2', sec: 's2-1', stem: '金刚石、石墨、C₆₀ 都由碳元素组成，它们互称为',
+      opts: ['同位素', '同素异形体', '同分异构体', '同一种物质'], ans: 1,
+      exp: '同种元素组成的不同单质互称同素异形体——物理性质差异大（石墨软、金刚石硬），化学性质相似（都能燃烧生成 CO₂）。', tag: '基础' },
+    { id: 'c2s1q3', sec: 's2-1', stem: '将饱和 FeCl₃ 溶液滴入沸水中制备 Fe(OH)₃ 胶体，下列说法错误的是',
+      opts: ['继续加热至液体呈红褐色即可停止', '不能用玻璃棒搅拌', '化学方程式中 Fe(OH)₃ 后面标注"(胶体)"而不是"↓"', '可以用自来水代替蒸馏水制备'], ans: 3,
+      exp: '自来水含较多电解质杂质，会使胶体聚沉，必须用蒸馏水。其余三项都是制备要点。', tag: '高频' },
+    { id: 'c2s1q4', sec: 's2-1', stem: '鉴别某分散系是胶体还是溶液，最简便的方法是',
+      opts: ['过滤', '观察颜色', '用一束光照射看有无丁达尔效应', '闻气味'], ans: 2,
+      exp: '丁达尔效应是胶体特有的光学性质——出现明亮光路的是胶体。过滤只能分"浊液"与"溶液/胶体"。', tag: '高频' },
+    { id: 'c2s1q5', sec: 's2-1', stem: '下列氧化物中，既不是酸性氧化物也不是碱性氧化物的是',
+      opts: ['CO₂', 'CaO', 'Na₂O₂', 'Fe₂O₃'], ans: 2,
+      exp: 'Na₂O₂ 是过氧化物（O 为 -1 价），不属于酸碱性氧化物分类；CO₂ 酸性、CaO 与 Fe₂O₃ 碱性。另：CO、NO 是不成盐氧化物。', tag: '易错' },
+    { id: 'c2s2q1', sec: 's2-2', stem: '下列物质属于电解质的是',
+      opts: ['铜', '熔融的 NaOH', '蔗糖', 'NaCl 溶液'], ans: 1,
+      exp: '电解质必须是"化合物"：铜是单质、NaCl 溶液是混合物，都谈不上；蔗糖是非电解质；熔融 NaOH 是化合物且能导电——是电解质。', tag: '高频' },
+    { id: 'c2s2q2', sec: 's2-2', stem: '下列物质的水溶液能导电，但属于非电解质的是',
+      opts: ['HCl', 'CO₂', 'NaOH', 'NaCl'], ans: 1,
+      exp: 'CO₂ 溶于水生成 H₂CO₃ 电离导电——导电的不是 CO₂ 本身，所以 CO₂ 是非电解质。HCl、NaOH、NaCl 都是电解质。', tag: '核心' },
+    { id: 'c2s2q3', sec: 's2-2', stem: '下列电离方程式书写正确的是',
+      opts: ['Ba(OH)₂ = Ba²⁺ + (OH)₂⁻', 'Na₂CO₃ = 2Na⁺ + CO₃²⁻', 'CH₃COOH = CH₃COO⁻ + H⁺', 'H₂SO₄ = H₂⁺ + SO₄²⁻'], ans: 1,
+      exp: 'A 电荷不守恒（应为 Ba²⁺ + 2OH⁻）；C 醋酸是弱电解质应用 ⇌；D 氢离子写成"H₂⁺"错误（应为 2H⁺）。', tag: '易错' },
+    { id: 'c2s2q4', sec: 's2-2', stem: '离子反应 CO₃²⁻ + 2H⁺ = H₂O + CO₂↑ 可以表示的反应是',
+      opts: ['大理石与稀盐酸反应', 'Na₂CO₃ 溶液与足量稀盐酸反应', 'Na₂CO₃ 溶液与少量稀盐酸反应', '碳酸钙与醋酸反应'], ans: 1,
+      exp: '该离子方程式要求碳酸根"可溶可拆"（Na₂CO₃ 溶液）且 H⁺ 足量；大理石（CaCO₃ 固体）不拆要保留化学式，醋酸是弱电解质不拆。', tag: '高频' },
+    { id: 'c2s2q5', sec: 's2-2', stem: '下列离子方程式书写正确的是',
+      opts: ['铁与稀硫酸：2Fe + 6H⁺ = 2Fe³⁺ + 3H₂↑', '氢氧化钠与盐酸：H⁺ + OH⁻ = H₂O', '碳酸钙与盐酸：CO₃²⁻ + 2H⁺ = H₂O + CO₂↑', '钠与水：Na + H₂O = Na⁺ + OH⁻ + H₂↑'], ans: 1,
+      exp: 'A 铁与非氧化性稀酸生成 Fe²⁺；C CaCO₃ 是难溶物不能拆；D 未配平且电荷不守恒。B 是强酸强碱中和的通用离子方程式。', tag: '高频' },
+    { id: 'c2s2q6', sec: 's2-2', stem: '在无色透明的酸性溶液中，能大量共存的离子组是',
+      opts: ['Na⁺、Cu²⁺、SO₄²⁻、Cl⁻', 'K⁺、CO₃²⁻、Cl⁻、Na⁺', 'H⁺、Na⁺、SO₄²⁻、NO₃⁻', 'Ag⁺、K⁺、NO₃⁻、Cl⁻'], ans: 2,
+      exp: '酸性溶液中 CO₃²⁻ 不能共存（生成气体）；Ag⁺ 与 Cl⁻ 生成 AgCl 沉淀；Cu²⁺ 蓝色不符合"无色"。', tag: '高频' },
+    { id: 'c2s2q7', sec: 's2-2', stem: '下列反应中，属于离子反应且能用 H⁺ + OH⁻ = H₂O 表示的是',
+      opts: ['醋酸与氢氧化钠溶液', '稀盐酸与澄清石灰水', '稀硫酸与氢氧化钡溶液', '盐酸与氨水'], ans: 1,
+      exp: '该式要求强酸+强碱、生成可溶盐和水。醋酸（弱酸）、氨水（弱碱）不拆；Ba(OH)₂+H₂SO₄ 还有 BaSO₄ 沉淀，不能只用这一个式子。', tag: '易错' },
+    { id: 'c2s3q1', sec: 's2-3', stem: '氧化还原反应的本质是',
+      opts: ['有氧气参加', '化合价升降', '电子的得失或偏移', '有单质生成'], ans: 2,
+      exp: '本质=电子转移；化合价升降是"特征/判断依据"。有单质参加或生成的反应不一定是氧化还原（如同素异形体转化）。', tag: '核心' },
+    { id: 'c2s3q2', sec: 's2-3', stem: '在反应 MnO₂ + 4HCl(浓) =Δ= MnCl₂ + Cl₂↑ + 2H₂O 中，被氧化的元素是',
+      opts: ['Mn', 'Cl（盐酸中）', 'H', 'O'], ans: 1,
+      exp: '盐酸中的 Cl 从 -1 升到 0（生成 Cl₂），失电子被氧化；Mn 从 +4 降到 +2，被还原，MnO₂ 是氧化剂。', tag: '高频' },
+    { id: 'c2s3q3', sec: 's2-3', stem: '下列反应中，H₂O 只作氧化剂的是',
+      opts: ['钠与水反应', '水通电分解', '氯气溶于水', '水蒸气与红热木炭反应'], ans: 3,
+      exp: 'C + H₂O(高温) → CO + H₂：水中 H 从 +1 降到 0，得电子，H₂O 作氧化剂。钠与水、电解水中 H 降 O 升，水既作氧化剂又作还原剂；氯水中 H 不变价。', tag: '拓展' },
+    { id: 'c2s3q4', sec: 's2-3', stem: '已知反应 Fe + CuSO₄ = FeSO₄ + Cu，下列说法正确的是',
+      opts: ['Fe 是氧化剂', 'Cu²⁺ 被氧化', 'Fe 的还原性比 Cu 强', '该反应属于复分解反应'], ans: 2,
+      exp: '同一反应中还原剂的还原性＞还原产物的还原性，即 Fe＞Cu（A 反了，Fe 失电子是还原剂；B Cu²⁺ 得电子被还原；D 有单质参加且有化合价变化，是置换反应=氧化还原）。', tag: '核心' },
+    { id: 'c2s3q5', sec: 's2-3', stem: '下列关于化合价的叙述，正确的是',
+      opts: ['单质中元素的化合价一定为 0', 'NaH 中氢为 +1 价', 'H₂O₂ 中氧为 -2 价', 'Na₂O₂ 中氧为 -2 价'], ans: 0,
+      exp: '单质化合价为 0 是铁律；特殊价态：金属氢化物 NaH 中 H 为 -1；过氧化物（H₂O₂、Na₂O₂）中 O 为 -1。', tag: '易错' },
+    { id: 'c2s3q6', sec: 's2-3', stem: '冶炼金属钠，工业上采用的方法是',
+      opts: ['热还原法（用CO还原）', '电解熔融氯化钠', '加热分解氧化钠', '天然游离态直接开采'], ans: 1,
+      exp: '钠很活泼，不能用一般还原剂还原，需电解熔融 NaCl（2NaCl=电解=2Na+Cl₂↑）。较不活泼金属（Fe）用热还原；极不活泼（Au）可天然存在。', tag: '高频' },
+    { id: 'c2s3q7', sec: 's2-3', stem: '下列物质的固化或应用中，利用了氧化还原原理的是',
+      opts: ['用干冰进行人工降雨', '用还原铁粉作食品脱氧剂', '用活性炭吸附冰箱异味', '用蒸馏法淡化海水'], ans: 1,
+      exp: '还原铁粉吸收氧气和水被氧化，利用氧化还原原理；干冰降雨是物理变化；活性炭吸附是物理过程；蒸馏是物理分离。', tag: '基础' }
+  ].forEach(function (q) { DB.questions.push(q); });
+})();
+
+</script>
+<script>
+/* 第3章 物质的性质与转化（鲁科版 必修第一册） */
+(function () {
+  var DB = window.DB = window.DB || {};
+  DB.chapters = DB.chapters || [];
+  DB.questions = DB.questions || [];
+
+  DB.chapters.push({
+    id: 'ch3', no: '第3章', title: '物质的性质与转化', color: 'var(--ch3)',
+    tagline: '铁、硫、氮——用"价态"串起元素化学',
+    intro: '三种核心元素各有一条"价态转化线"：铁（0/+2/+3）、硫（-2/0/+4/+6）、氮（-3/0/+2/+4/+5）。学法就一句话：标价态→看升降→推性质。期末考试的大题基本都从这一章出。',
+    sections: [
+      /* ---------- 3.1 铁的多样性 ---------- */
+      {
+        id: 's3-1', no: '第1节', title: '铁的多样性',
+        lead: '铁的三副面孔：0、+2、+3 价',
+        points: [
+          {
+            id: 'p3-1-1', title: '铁单质与铁的氧化物', key: true,
+            blocks: [
+              ['kv', [
+                ['铁单质', '银白色金属（粉末黑色）、可被磁铁吸引；较活泼，+2、+3 是常见价态'],
+                ['FeO', '黑色粉末，铁为 +2 价，不稳定'],
+                ['Fe₂O₃', '<b>红棕色</b>粉末（铁红），铁为 +3 价——铁锈主要成分、常用颜料'],
+                ['Fe₃O₄', '黑色晶体（磁铁矿），可写成 FeO·Fe₂O₃，铁为 +2、+3 混合价态']
+              ]],
+              ['eq', '点燃', '3Fe + 2O₂', 'Fe₃O₄'],
+              ['eq', '高温', '3Fe + 4H₂O(g)', 'Fe₃O₄ + 4H₂'],
+              ['eq', null, 'Fe + 2HCl', 'FeCl₂ + H₂↑'],
+              ['eq', null, 'Fe₂O₃ + 6HCl', '2FeCl₃ + 3H₂O'],
+              ['tip', '①铁与氧气点燃生成 Fe₃O₄（不是 Fe₂O₃！）；②铁与水蒸气在高温下反应（不是液态水），产生气体可点燃；③铁与稀盐酸/稀硫酸生成<b>亚铁盐</b>（+2），并放出氢气——注意不是 Fe³⁺。'],
+              ['ext', '铁与 Cl₂ 反应无论氯气多少都生成 FeCl₃（+3），因为氯气氧化性太强；而与稀酸这类弱氧化剂只能到 +2——"氧化剂强弱决定产物价态"，这是元素化学的核心逻辑。']
+            ]
+          },
+          {
+            id: 'p3-1-2', title: '铁的氢氧化物：颜色与转化', key: true,
+            blocks: [
+              ['kv', [
+                ['Fe(OH)₂', '<b>白色</b>沉淀，极易被氧化'],
+                ['Fe(OH)₃', '<b>红褐色</b>沉淀，受热分解为 Fe₂O₃ 和水'],
+                ['转化', '4Fe(OH)₂ + O₂ + 2H₂O = 4Fe(OH)₃：白色→灰绿色→红褐色（经典现象）']
+              ]],
+              ['eq', null, 'FeSO₄ + 2NaOH', 'Fe(OH)₂↓ + Na₂SO₄'],
+              ['eq', null, 'FeCl₃ + 3NaOH', 'Fe(OH)₃↓ + 3NaCl'],
+              ['eq', null, '4Fe(OH)₂ + O₂ + 2H₂O', '4Fe(OH)₃'],
+              ['eq', 'Δ', '2Fe(OH)₃', 'Fe₂O₃ + 3H₂O'],
+              ['tip', '制取"能看到白色"的 Fe(OH)₂ 的要点：<b>煮沸赶走溶解氧</b>＋胶头滴管<b>插入液面以下</b>挤出 NaOH＋液面封油——考试常问"为什么要把滴管插入液面下"（防止带进氧气使沉淀立即被氧化）。']
+            ]
+          },
+          {
+            id: 'p3-1-3', title: 'Fe²⁺ 与 Fe³⁺：转化与检验', key: true,
+            blocks: [
+              ['dgm', 'iron-triangle', '图解 · 铁三角：点箭头看每条转化线'],
+              ['eq', null, '2FeCl₂ + Cl₂', '2FeCl₃'],
+              ['eq', null, '2FeCl₃ + Fe', '3FeCl₂'],
+              ['eq', null, 'Fe³⁺ + 3SCN⁻', 'Fe(SCN)₃'],
+              ['kv', [
+                ['Fe³⁺ 检验', '滴加 KSCN 溶液→<b>变红</b>（生成红色 Fe(SCN)₃）；或加 NaOH→红褐色沉淀'],
+                ['Fe²⁺ 检验', '先加 KSCN <b>不变红</b>，再加氯水（或 H₂O₂）<b>变红</b>→证明有 Fe²⁺'],
+                ['Fe²⁺ 保存', '加少量铁屑（防止被氧化为 Fe³⁺）＋加少量对应酸（防水解）'],
+                ['Fe³⁺ 用途', 'FeCl₃ 净水（形成胶体吸附悬浮物）、腐蚀铜电路板']
+              ]],
+              ['fuding', ['福鼎限定 · 补铁口服液为什么要配橙汁', '补铁剂的有效成分是 <b>Fe²⁺</b>（如硫酸亚铁）——它易被氧化成 Fe³⁺ 而难吸收。说明书让"配维生素C（橙汁）同服"：维C 是还原剂，保护 Fe²⁺ 不被氧化，还能促进吸收。你看，"铁三角"的知识在药店说明书上就写着。']]
+            ]
+          }
+        ],
+        quiz: ['c3s1q1', 'c3s1q2', 'c3s1q3', 'c3s1q4', 'c3s1q5', 'c3s1q6', 'c3s1q7']
+      },
+      /* ---------- 3.2 硫的转化 ---------- */
+      {
+        id: 's3-2', no: '第2节', title: '硫的转化',
+        lead: '-2 → 0 → +4 → +6：一条价态线讲透硫',
+        points: [
+          {
+            id: 'p3-2-1', title: '硫单质与"价态决定性质"', key: true,
+            blocks: [
+              ['ul', [
+                '<b>硫单质</b>：淡黄色固体、质脆、不溶于水；火山口、硫磺温泉附近常见',
+                '<b>S + O₂ =点燃= SO₂</b>：空气中淡蓝色火焰，纯氧中明亮蓝紫色火焰，生成刺激性气味气体',
+                '<b>价态规律</b>：最高价（+6）只有<b>氧化性</b>；最低价（-2）只有<b>还原性</b>；中间价态（0、+4）<b>兼有</b>氧化性与还原性'
+              ]],
+              ['dgm', 'sulfur-states', '图解 · 硫的价态转化图，点圆圈看代表物'],
+              ['tip', '"价态规律"是元素化学的总钥匙，遇到陌生化合物也适用：例如 HCl 中 Cl 为最低价 -1 → 只有还原性；HNO₃ 中 N 为最高价 +5 → 只有氧化性。']
+            ]
+          },
+          {
+            id: 'p3-2-2', title: 'SO₂：有毒的"多面手"', key: true,
+            blocks: [
+              ['ul', [
+                '<b>物理性质</b>：无色、刺激性气味、有毒、密度比空气大、易溶于水——收集用<b>向上排空气法</b>',
+                '<b>酸性氧化物</b>：SO₂ + H₂O ⇌ H₂SO₃（亚硫酸，中强酸）；SO₂ + 2NaOH = Na₂SO₃ + H₂O',
+                '<b>漂白性</b>：与有色物质<b>化合</b>生成不稳定无色物——加热恢复红色（与 HClO 漂白机理不同、不可逆）；可漂白纸浆、毛丝、品红',
+                '<b>还原性</b>：易被 O₂、Cl₂、溴水、KMnO₄ 等氧化（使溴水褪色体现还原性）'
+              ]],
+              ['eq', '可逆', 'SO₂ + H₂O', 'H₂SO₃'],
+              ['eq', null, 'SO₂ + 2NaOH', 'Na₂SO₃ + H₂O'],
+              ['eq', '催化剂', '2SO₂ + O₂', '2SO₃'],
+              ['eq', null, 'SO₂ + Cl₂ + 2H₂O', 'H₂SO₄ + 2HCl'],
+              ['tip', '高频对比：<b>SO₂ 漂白（化合、可逆、加热恢复）vs HClO 漂白（氧化、不可逆）vs 活性炭漂白（吸附、物理）</b>。SO₂ 使溴水、酸性 KMnO₄ 褪色是"还原性"不是漂白性——看清被褪色的对象。']
+            ]
+          },
+          {
+            id: 'p3-2-3', title: '浓硫酸三特性与酸雨防治', key: true,
+            blocks: [
+              ['kv', [
+                ['吸水性', '吸收现成的水——作干燥剂（不能干燥 NH₃ 等碱性气体）'],
+                ['脱水性', '把有机物中的 H、O 按 2:1 夺走——纸张、蔗糖"碳化"'],
+                ['强氧化性', '浓硫酸中 +6 价 S 得电子；<b>常温下使 Fe、Al 钝化</b>（致密氧化膜），故可用铁罐运输'],
+                ['SO₄²⁻ 检验', '先加稀盐酸酸化（排除 CO₃²⁻、SO₃²⁻、Ag⁺ 干扰）无沉淀，再加 BaCl₂ 溶液→<b>白色沉淀</b>']
+              ]],
+              ['eq', 'Δ', 'Cu + 2H₂SO₄(浓)', 'CuSO₄ + SO₂↑ + 2H₂O'],
+              ['eq', 'Δ', 'C + 2H₂SO₄(浓)', 'CO₂↑ + 2SO₂↑ + 2H₂O'],
+              ['eq', null, 'Ba²⁺ + SO₄²⁻', 'BaSO₄↓'],
+              ['p', '<b>酸雨</b>：pH 小于 <b>5.6</b> 的降水。硫酸型酸雨两条路线：①SO₂ + H₂O → H₂SO₃，再被 O₂ 氧化为 H₂SO₄；②SO₂ 被 O₂/尘埃催化氧化为 SO₃，SO₃ + H₂O = H₂SO₄。危害：酸化水体土壤、毁坏森林建筑。防治：<b>燃煤脱硫</b>（钙基固硫）、尾气吸收、开发清洁能源。'],
+              ['fuding', ['福鼎限定 · 酸雨离福鼎有多远', '我国酸雨主要分布在南方（硫酸型），福建属于酸雨控制区——多雨的气候会把空气里的 SO₂、NOx "洗"到地面。福鼎的茶园、森林、太姥山的岩石都在跟酸雨"打交道"：茶叶喜酸怕"过酸"，土壤一旦被酸化加剧，铝离子活化反而毒害茶根。燃煤脱硫、少开一天车，都是在保护白茶山。']]
+            ]
+          }
+        ],
+        quiz: ['c3s2q1', 'c3s2q2', 'c3s2q3', 'c3s2q4', 'c3s2q5', 'c3s2q6', 'c3s2q7']
+      },
+      /* ---------- 3.3 氮的循环 ---------- */
+      {
+        id: 's3-3', no: '第3节', title: '氮的循环',
+        lead: '最"淡定"的 N₂ 与最热闹的一族化合物',
+        points: [
+          {
+            id: 'p3-3-1', title: 'N₂ 与氮的固定', key: true,
+            blocks: [
+              ['ul', [
+                '<b>N₂</b>：无色无味气体，难溶于水。化学性质<b>稳定</b>——N≡N 三键键能大，很难断开（所以可用作保护气、充食品包装）',
+                '<b>氮的固定</b>：把游离态氮（N₂）变成化合态氮——自然固氮（雷雨放电、豆科植物根瘤菌）与<b>人工固氮（合成氨工业）</b>',
+                '一定条件下氮气也能反应：与 O₂（放电/高温）、与 H₂（合成氨）'
+              ]],
+              ['eq', '放电', 'N₂ + O₂', '2NO'],
+              ['eq', '可逆', 'N₂ + 3H₂', '2NH₃'],
+              ['ext', '合成氨（哈伯法）被誉为"从空气中制造面包"——化肥让全球粮食产量翻倍，NH₃ 中的 N 来自空气。但"可逆反应"限制了转化率：同一个条件下正逆反应同时进行，反应物不可能 100% 转化——这是可逆反应概念的由来。']
+            ]
+          },
+          {
+            id: 'p3-3-2', title: 'NO、NO₂ 与硝酸', key: true,
+            blocks: [
+              ['kv', [
+                ['NO', '<b>无色</b>、不溶于水、有毒（与血红蛋白结合）——只能用<b>排水法</b>收集（遇 O₂ 就变红棕）'],
+                ['NO₂', '<b>红棕色</b>、刺激性气味、有毒——只能用<b>向上排空气法</b>收集'],
+                ['HNO₃', '强酸＋强氧化性；见光易分解→保存于<b>棕色瓶</b>、阴凉处']
+              ]],
+              ['eq', null, '2NO + O₂', '2NO₂'],
+              ['eq', null, '3NO₂ + H₂O', '2HNO₃ + NO'],
+              ['eq', null, 'Cu + 4HNO₃(浓)', 'Cu(NO₃)₂ + 2NO₂↑ + 2H₂O'],
+              ['eq', null, '3Cu + 8HNO₃(稀)', '3Cu(NO₃)₂ + 2NO↑ + 4H₂O'],
+              ['tip', '①"雷雨发庄稼"：放电 N₂→NO→NO₂→HNO₃→硝酸盐落回土壤（天然固氮）；②硝酸与 Cu 反应<b>不产生 H₂</b>（硝酸是氧化性酸，还原产物是 NO₂/NO）——与稀盐酸对比记忆；③浓硝酸使 Fe、Al <b>钝化</b>（常温），与浓硫酸一致。'],
+              ['dgm', 'nitrogen-cycle', '图解 · 氮循环转化图，点箭头看方程式']
+            ]
+          },
+          {
+            id: 'p3-3-3', title: '氨与铵盐：氮肥的主角', key: true,
+            blocks: [
+              ['ul', [
+                '<b>NH₃</b>：无色、刺激性气味、<b>极易溶于水（1:700，喷泉实验）</b>、密度比空气小——只能用<b>向下排空气法</b>收集',
+                '氨水显弱碱性：NH₃ + H₂O ⇌ NH₃·H₂O ⇌ NH₄⁺ + OH⁻',
+                '<b>与酸反应生成铵盐</b>：NH₃ + HCl = NH₄Cl（两根玻璃棒分别蘸浓氨水、浓盐酸靠近——<b>白烟</b>）',
+                '<b>NH₄⁺ 检验</b>：加 NaOH 溶液并加热，产生使<b>湿润红色石蕊试纸变蓝</b>的气体'
+              ]],
+              ['eq', null, 'NH₃ + HCl', 'NH₄Cl'],
+              ['eq', 'Δ', 'NH₄Cl', 'NH₃↑ + HCl↑'],
+              ['eq', 'Δ', 'NH₄⁺ + OH⁻', 'NH₃↑ + H₂O'],
+              ['kv', [
+                ['铵盐性质', '都易溶于水；受热易分解；与碱反应放出氨气'],
+                ['氮肥使用', '铵态氮肥（NH₄HCO₃、(NH₄)₂SO₄ 等）<b>不能与碱性物质（草木灰、熟石灰）混合施用</b>——会放出 NH₃ 肥效流失'],
+                ['氮氧化物危害', 'NOx 是雾霾、光化学烟雾、酸雨（硝酸型）的元凶之一——微项目"论证汽车限行的合理性"']
+              ]],
+              ['fuding', ['福鼎限定 · 白茶园的"施肥单"', '茶农开春给茶山施追肥，铵态氮肥（碳酸氢铵、硫酸铵）用得最多——但不能挨着草木灰（K₂CO₃，碱性）撒：NH₄⁺ 遇碱放氨气，肥效直接"飞了"。另外福鼎春雨多，化肥要雨前深施覆土。一袋氮肥背后是"氮的循环"整节课。']]
+            ]
+          }
+        ],
+        quiz: ['c3s3q1', 'c3s3q2', 'c3s3q3', 'c3s3q4', 'c3s3q5', 'c3s3q6', 'c3s3q7']
+      }
+    ]
+  });
+
+  [
+    { id: 'c3s1q1', sec: 's3-1', stem: '铁与水蒸气在高温下反应的产物是',
+      opts: ['FeO 和 H₂', 'Fe₂O₃ 和 H₂', 'Fe₃O₄ 和 H₂', 'Fe(OH)₃ 和 H₂'], ans: 2,
+      exp: '3Fe + 4H₂O(g) =高温= Fe₃O₄ + 4H₂。注意是"水蒸气"不是液态水，产物是 Fe₃O₄ 而不是 Fe₂O₃。', tag: '高频' },
+    { id: 'c3s1q2', sec: 's3-1', stem: '铁与稀盐酸反应生成的盐是',
+      opts: ['FeCl₃', 'FeCl₂', 'Fe(OH)₂', 'Fe₂(SO₄)₃'], ans: 1,
+      exp: '铁与非氧化性稀酸（稀盐酸、稀硫酸）反应只生成 +2 价亚铁盐并放出氢气——弱氧化剂把铁氧化到 +2。', tag: '高频' },
+    { id: 'c3s1q3', sec: 's3-1', stem: '向 FeCl₂ 溶液中滴加 NaOH 溶液，观察到的现象是',
+      opts: ['立即生成红褐色沉淀', '生成白色沉淀，迅速变灰绿色，最后变红褐色', '生成蓝色沉淀', '无明显现象'], ans: 1,
+      exp: '白色 Fe(OH)₂ 被 O₂ 氧化为红褐色 Fe(OH)₃：4Fe(OH)₂+O₂+2H₂O=4Fe(OH)₃——"白→灰绿→红褐"是必修一招牌现象。', tag: '核心' },
+    { id: 'c3s1q4', sec: 's3-1', stem: '检验溶液中是否含有 Fe³⁺，最灵敏的试剂是',
+      opts: ['NaOH 溶液', 'KSCN 溶液', '稀盐酸', '酚酞'], ans: 1,
+      exp: 'KSCN 与 Fe³⁺ 生成红色 Fe(SCN)₃，其他离子基本不干扰——最灵敏。检验 Fe²⁺ 则"先 KSCN 不变红、再加氯水变红"。', tag: '核心' },
+    { id: 'c3s1q5', sec: 's3-1', stem: '配制 FeSO₄ 溶液时，为了防止变质，通常还要加入',
+      opts: ['少量稀盐酸和铁屑', '少量氯水', '少量 NaOH', '少量 KSCN'], ans: 0,
+      exp: '加铁屑防止 Fe²⁺ 被氧化成 Fe³⁺（2FeCl₃+Fe=3FeCl₂），加对应酸（稀硫酸/稀盐酸）抑制水解。加氯水反而把 Fe²⁺ 氧化。', tag: '高频' },
+    { id: 'c3s1q6', sec: 's3-1', stem: '除去 FeCl₃ 溶液中混有的少量 FeCl₂，最合适的试剂是',
+      opts: ['通入足量 Cl₂', '加入足量 Fe 屑', '通入 O₂ 加热', '加入 H₂O₂ 溶液（适量）'], ans: 0,
+      exp: '要氧化 Fe²⁺ 且不引入新杂质——Cl₂ 最合适（生成的也是 FeCl₃；H₂O₂ 虽也可但中学标准答案取 Cl₂；加 Fe 屑方向反了，会把 Fe³⁺ 变 Fe²⁺）。', tag: '易错' },
+    { id: 'c3s1q7', sec: 's3-1', stem: '用赤铁矿（Fe₂O₃）炼铁的化学方程式中，CO 的作用是',
+      opts: ['氧化剂', '还原剂', '催化剂', '助燃剂'], ans: 1,
+      exp: 'Fe₂O₃ + 3CO =高温= 2Fe + 3CO₂：CO 得到氧被氧化，作还原剂；Fe₂O₃ 被还原，作氧化剂——热还原法炼铁。', tag: '基础' },
+    { id: 'c3s2q1', sec: 's3-2', stem: '硫在纯氧中燃烧的现象是',
+      opts: ['明亮蓝紫色火焰，生成刺激性气味气体', '淡蓝色火焰', '黄色火焰大量白烟', '苍白色火焰'], ans: 0,
+      exp: 'S+O₂=点燃=SO₂：空气中淡蓝色火焰、纯氧中蓝紫色火焰（气体燃烧焰色的"浓度效应"）。白烟/苍白色火焰分别是钠/氢气在氯气中。', tag: '基础' },
+    { id: 'c3s2q2', sec: 's3-2', stem: '能使品红溶液褪色、加热后又恢复红色的气体是',
+      opts: ['Cl₂', 'SO₂', 'CO₂', 'NO₂'], ans: 1,
+      exp: 'SO₂ 的漂白是与有色物质化合、不稳定、加热恢复（品红实验是它的"身份证"）。Cl₂/HClO 漂白不可逆；NO₂ 本身红棕色。', tag: '核心' },
+    { id: 'c3s2q3', sec: 's3-2', stem: 'SO₂ 使溴水褪色，体现的性质是',
+      opts: ['漂白性', '氧化性', '还原性', '酸性'], ans: 2,
+      exp: 'SO₂ + Br₂ + 2H₂O = H₂SO₄ + 2HBr：SO₂ 中 +4 价 S 被氧化到 +6——还原性。判断"褪色原因"要看被褪的是什么、S 的价态去向。', tag: '易错' },
+    { id: 'c3s2q4', sec: 's3-2', stem: '常温下，能用铁（或铝）制容器盛放的是',
+      opts: ['稀硫酸', '浓硫酸', '稀盐酸', '硫酸铜溶液'], ans: 1,
+      exp: '常温下浓硫酸、浓硝酸使 Fe、Al 表面生成致密氧化膜而<b>钝化</b>，可以安全盛放；稀酸会持续反应，不能盛放。', tag: '高频' },
+    { id: 'c3s2q5', sec: 's3-2', stem: '检验某溶液中是否含有 SO₄²⁻，正确的操作是',
+      opts: ['直接滴加 BaCl₂ 溶液看是否产生白色沉淀', '先加稀盐酸酸化无沉淀，再加 BaCl₂ 溶液观察是否产生白色沉淀', '先加 Ba(NO₃)₂ 再加稀硝酸', '滴加酚酞看是否变色'], ans: 1,
+      exp: '先酸化排除 CO₃²⁻、SO₃²⁻、Ag⁺ 等干扰（加稀盐酸已产生沉淀则排除），再确认 SO₄²⁻。直接加 BaCl₂ 会"误报"。', tag: '高频' },
+    { id: 'c3s2q6', sec: 's3-2', stem: '关于酸雨，下列说法错误的是',
+      opts: ['pH 小于 5.6 的降水称为酸雨', '硫酸型酸雨的形成与 SO₂ 有关', '酸雨会使土壤酸化、毁坏森林和建筑', '酸雨就是酸性很强的液体，pH 可以为负数'], ans: 3,
+      exp: '酸雨的定义就是 pH<5.6（正常雨水溶 CO₂ pH≈5.6）；D 的表述荒谬。硫酸型路线：SO₂ →H₂SO₃ →H₂SO₄ 或 SO₂→SO₃→H₂SO₄。', tag: '基础' },
+    { id: 'c3s2q7', sec: 's3-2', stem: 'Cu 与浓硫酸反应的还原产物是',
+      opts: ['SO₂', 'H₂', 'CuSO₄', 'O₂'], ans: 0,
+      exp: 'Cu + 2H₂SO₄(浓) =Δ= CuSO₄ + SO₂↑ + 2H₂O：S 从 +6 降到 +4，还原产物是 SO₂；浓硫酸作氧化剂（部分），还表现酸性（生成 CuSO₄）。', tag: '高频' },
+    { id: 'c3s3q1', sec: 's3-3', stem: '氮气化学性质稳定，主要原因是',
+      opts: ['氮原子半径小', 'N₂ 分子中 N≡N 三键键能大，不易断裂', '氮的非金属性弱', '氮气密度小'], ans: 1,
+      exp: '三键键能很大，断键需要很高能量——所以 N₂ 常作保护气、充食品包装。稳定性由"分子结构"决定，不是"非金属性弱"。', tag: '核心' },
+    { id: 'c3s3q2', sec: 's3-3', stem: '把游离态的氮（N₂）转变为化合态氮（含氮化合物）的过程叫氮的固定。下列属于氮的固定的是',
+      opts: ['豆科植物根瘤菌固氮', '工业合成氨', '闪电时 N₂ 与 O₂ 化合', '以上都是'], ans: 3,
+      exp: '自然固氮（根瘤菌生物固氮、雷电放电）与人工固氮（合成氨）都属于氮的固定。', tag: '基础' },
+    { id: 'c3s3q3', sec: 's3-3', stem: 'NO 与 NO₂ 的性质，下列说法正确的是',
+      opts: ['NO 是红棕色气体，NO₂ 无色', 'NO₂ 易与水反应，NO 不溶于水', 'NO₂ 只能用排水法收集', '两者都无毒'], ans: 1,
+      exp: 'NO 无色不溶于水（排水法收集）；NO₂ 红棕色、与水反应 3NO₂+H₂O=2HNO₃+NO（向上排空气法收集）。两者都有毒。', tag: '高频' },
+    { id: 'c3s3q4', sec: 's3-3', stem: '铜与稀硝酸反应产生的气体是',
+      opts: ['NO₂（红棕色）', 'NO（无色）', 'H₂', 'NH₃'], ans: 1,
+      exp: '3Cu+8HNO₃(稀)=3Cu(NO₃)₂+2NO↑+4H₂O；浓硝酸则生成 NO₂。硝酸是氧化性酸，与金属反应不放氢气。', tag: '核心' },
+    { id: 'c3s3q5', sec: 's3-3', stem: '检验某溶液中的 NH₄⁺，需要的试剂与试纸是',
+      opts: ['BaCl₂ 溶液', 'NaOH 溶液并加热、湿润的红色石蕊试纸', '紫色石蕊试液直接检验', '酚酞直接检验'], ans: 1,
+      exp: 'NH₄⁺ + OH⁻ =Δ= NH₃↑ + H₂O，氨气使湿润红色石蕊试纸变蓝——"加碱加热＋红试纸变蓝"是标准操作。', tag: '高频' },
+    { id: 'c3s3q6', sec: 's3-3', stem: '铵态氮肥不能与草木灰（呈碱性）混合施用，原因是',
+      opts: ['会降低土壤肥力', '反应放出 NH₃，使氮元素流失，肥效降低', '生成难溶物作物无法吸收', '会引起土壤板结'], ans: 1,
+      exp: 'NH₄⁺ + OH⁻ = NH₃↑ + H₂O——氨气逸出，氮跑了。这是"铵盐与碱反应"最贴近生活的应用。', tag: '基础' },
+    { id: 'c3s3q7', sec: 's3-3', stem: '浓硝酸需保存在棕色试剂瓶中并置于阴凉处，原因是',
+      opts: ['硝酸易挥发', '硝酸见光易分解', '硝酸易吸水', '硝酸易燃烧'], ans: 1,
+      exp: '4HNO₃ =光照/Δ= 4NO₂↑ + O₂↑ + 2H₂O——见光分解，所以棕色瓶避光保存（分解产生的 NO₂ 溶于硝酸使其显黄色）。', tag: '高频' }
+  ].forEach(function (q) { DB.questions.push(q); });
+})();
+
+</script>
+<script>
+/* 试卷库：2 套宁德市期末质检（福建学考）体例·福鼎本地化模拟卷 */
+(function () {
+  var DB = window.DB = window.DB || {};
+  DB.exams = DB.exams || [];
+
+  DB.exams.push({
+    id: 'xmock1', kind: '模拟卷', color: 'var(--ch1)',
+    title: '宁德市期末质检体例 · 化学模拟卷（一）',
+    meta: '满分100分 · 70分钟 · 选择题25×2分 + 综合题50分 · 侧重第1、2章',
+    note: '本卷按宁德市质检卷（福建学考）体例编写，结合福鼎生活情境，题目为本站原创。卷中化学方程式与知识点卡一致，全部经过自动配平校验。',
+    mcq: [
+      { note: '化学与生活紧密相关。据此完成1~3题。', qs: [
+        { stem: '下列变化中，属于化学变化的是', opts: ['白茶炒制时水分蒸发', '铁锅长出红褐色锈斑', '海水晒盐析出晶体', '从液态空气中分离出氮气'], ans: 1, exp: '生锈生成新物质 Fe₂O₃·xH₂O，是化学变化；蒸发、结晶、分离都是物理变化。', tag: '基础' },
+        { stem: '下列与含氯消毒剂有关的说法，正确的是', opts: ['84消毒液可与洁厕灵混合使用，效果更好', '84消毒液的有效成分是 NaClO', '漂白粉的有效成分是 CaCl₂', '氯气有毒不能用于自来水消毒'], ans: 1, exp: '84 消毒液有效成分 NaClO；漂白粉有效成分是 Ca(ClO)₂；84 与洁厕灵混用产生有毒 Cl₂；自来水微量氯消毒是安全的。', tag: '福鼎' },
+        { stem: '钠着火时正确的处理方式是', opts: ['用水扑灭', '用泡沫灭火器', '用干沙覆盖', '用湿布盖住'], ans: 2, exp: '钠与水剧烈反应并放出可燃性氢气，只能用干燥沙土隔绝空气。', tag: '安全' }
+      ]},
+      { note: '完成4~6题。', qs: [
+        { stem: '下列物质中，属于电解质的是', opts: ['石墨', '熔融氯化钠', '蔗糖', '食盐水'], ans: 1, exp: '电解质须是化合物：石墨是单质、食盐水是混合物、蔗糖是非电解质；熔融 NaOH/NaCl 类化合物能导电，是电解质。', tag: '高频' },
+        { stem: 'CO₂ 的水溶液能导电，但 CO₂ 是非电解质，原因是', opts: ['CO₂ 本身难电离，其水溶液导电是生成的 H₂CO₃ 电离所致', 'CO₂ 是单质', 'CO₂ 不溶于水', 'CO₂ 沸点低'], ans: 0, exp: '电解质判定看"化合物自身电离"：CO₂+H₂O=H₂CO₃，电离的是碳酸。CO₂、SO₂、NH₃ 同类陷阱。', tag: '核心' },
+        { stem: '下列电离方程式正确的是', opts: ['H₂SO₄ = H₂⁺ + SO₄²⁻', 'Na₂CO₃ = 2Na⁺ + CO₃²⁻', 'Ba(OH)₂ = Ba²⁺ + (OH)₂⁻', 'CH₃COOH = CH₃COO⁻ + H⁺'], ans: 1, exp: 'A 氢离子应写 2H⁺；C 电荷不守恒应为 Ba²⁺+2OH⁻；D 醋酸是弱电解质用 ⇌。', tag: '易错' }
+      ]},
+      { note: '氯气及其化合物是本章重点。完成7~10题。', qs: [
+        { stem: 'H₂ 在 Cl₂ 中燃烧的现象是', opts: ['剧烈爆炸', '苍白色火焰，瓶口白雾', '大量白烟', '蓝紫色火焰'], ans: 1, exp: '苍白色火焰＋白雾（HCl 小液滴）。烟=固体颗粒，雾=小液滴。', tag: '高频' },
+        { stem: '干燥的氯气不能漂白有色布条，而湿润的氯气可以，起漂白作用的是', opts: ['Cl₂', 'HClO', 'HCl', 'Cl⁻'], ans: 1, exp: 'Cl₂+H₂O⇌HCl+HClO，HClO 强氧化性使有色物褪色——干燥氯气没有 HClO 所以不漂白。', tag: '核心' },
+        { stem: '工业制漂白粉的化学方程式中，氧化剂与还原剂的物质的量之比为', opts: ['1:1', '2:1', '1:2', '1:4'], ans: 0, exp: '2Cl₂+2Ca(OH)₂=Ca(ClO)₂+CaCl₂+2H₂O：Cl₂ 的化合价既升（→NaClO/Ca(ClO)₂ 中 +1）又降（→Cl⁻ 中 -1），Cl₂ 既是氧化剂又是还原剂，1:1（歧化反应）。', tag: '拓展' },
+        { stem: '向饱和 NaCl 溶液中先通入足量 NH₃，再通入足量 CO₂，析出的晶体主要是', opts: ['NaHCO₃', 'Na₂CO₃', 'NH₄Cl', 'NaCl'], ans: 0, exp: '这就是"侯氏制碱法"思想：NaCl+NH₃+CO₂+H₂O=NaHCO₃↓+NH₄Cl——NaHCO₃ 溶解度最小先析出。', tag: '拓展' }
+      ]},
+      { note: '钠及其化合物。完成11~13题。', qs: [
+        { stem: '钠长期暴露在空气中，最终可能转变为', opts: ['Na₂O₂', 'NaOH', 'Na₂CO₃', 'NaHCO₃'], ans: 2, exp: '变质链条：Na→(O₂)Na₂O→(水)NaOH→(吸收CO₂)Na₂CO₃→风化。最终稳定产物是 Na₂CO₃。', tag: '高频' },
+        { stem: '2Na₂O₂ + 2CO₂ = 2Na₂CO₃ + O₂ 反应中，Na₂O₂ 的作用是', opts: ['只作氧化剂', '只作还原剂', '既是氧化剂又是还原剂', '催化剂'], ans: 2, exp: 'Na₂O₂ 中 O 为 -1 价，反应后一部分升到 0（O₂）、一部分降到 -2（Na₂CO₃）——歧化反应，Na₂O₂ 既是氧化剂又是还原剂。', tag: '高频' },
+        { stem: '鉴别 Na₂CO₃ 和 NaHCO₃ 两种溶液，最好选用的试剂是', opts: ['澄清石灰水', '酚酞试液', 'CaCl₂ 溶液', '稀盐酸'], ans: 2, exp: 'CaCl₂ 只与 Na₂CO₃ 生成白色沉淀（Na₂CO₃+CaCl₂=CaCO₃↓+2NaCl），NaHCO₃ 不反应（不生成沉淀）——现象区分明确。石灰水两者都浑，酚酞都红，盐酸都冒泡。', tag: '易错' }
+      ]},
+      { note: '物质的量是化学计算的地基。完成14~17题。', qs: [
+        { stem: '下列关于物质的量的叙述，正确的是', opts: ['摩尔是七个基本物理量之一', '1 mol 氧含有 6.02×10²³ 个氧原子', '物质的量是连接宏观质量与微观粒子数的桥梁', '1 mol 大米约含 6.02×10²³ 粒'], ans: 2, exp: '摩尔是"单位"不是物理量；1 mol 氧未指明粒子；摩尔只用于微观粒子。', tag: '核心' },
+        { stem: '标准状况下，33.6 L NH₃ 的物质的量为', opts: ['1 mol', '1.5 mol', '2 mol', '2.5 mol'], ans: 1, exp: 'n=33.6/22.4=1.5 mol。NH₃ 在标况是气体，可套用 22.4 L/mol。', tag: '计算' },
+        { stem: '与 4.4 g CO₂（M=44 g/mol）所含分子数相同的水的质量是', opts: ['1.8 g', '3.6 g', '7.2 g', '18 g'], ans: 1, exp: 'n(CO₂)=0.1 mol → 水也 0.1 mol → m=0.1×18=1.8 g。思路：分子数相同即 n 相同。', tag: '计算' },
+        { stem: '标准状况下，若 V L H₂ 含有 n 个氢分子，则阿伏加德罗常数可表示为', opts: ['22.4n/V', 'n/22.4', 'Vn/22.4', '22.4V/n'], ans: 0, exp: 'n(物质的量)=V/22.4 mol，而 Nₐ=n(个数)/n(物质的量)=n÷(V/22.4)=22.4n/V。字母运算题。', tag: '计算' }
+      ]},
+      { note: '氧化还原反应贯穿始终。完成18~22题。', qs: [
+        { stem: '下列反应中一定属于氧化还原反应的是', opts: ['化合反应', '分解反应', '置换反应', '复分解反应'], ans: 2, exp: '置换反应必有单质参加和生成，一定有化合价变化；复分解一定不是；化合、分解部分是。', tag: '核心' },
+        { stem: '在反应 2Na + 2H₂O = 2NaOH + H₂↑ 中，水', opts: ['只作氧化剂', '只作还原剂', '既作氧化剂又作还原剂', '不作氧化剂或还原剂'], ans: 0, exp: '水中 H 从 +1 降到 0（H₂），得电子被还原——水作氧化剂；O 没变价。', tag: '高频' },
+        { stem: '下列关于氧化剂、还原剂的说法，正确的是', opts: ['氧化剂发生氧化反应', '还原剂化合价降低', '氧化剂得电子，化合价降低', '失电子的反应是还原反应'], ans: 2, exp: '氧化剂得电子、化合价降低、被还原、发生还原反应——口诀"升失氧、降得还"。', tag: '核心' },
+        { stem: '已知反应 X + Y = Z + W 中，X 的化合价升高，则下列说法正确的是', opts: ['X 是氧化剂', 'X 被还原', 'Y 是氧化剂', 'Z 的化合价一定升高'], ans: 2, exp: 'X 升价失电子→X 是还原剂、被氧化；对应的 Y 得电子化合价降低→Y 是氧化剂。Z 是 X 的氧化产物（价态比 X 高）。', tag: '易错' },
+        { stem: '电子守恒：用足量 Cl₂ 氧化 0.2 mol FeCl₂ 溶液，需要 Cl₂ 的物质的量为', opts: ['0.1 mol', '0.2 mol', '0.4 mol', '0.6 mol'], ans: 0, exp: '2Fe²⁺ + Cl₂ = 2Fe³⁺ + 2Cl⁻：每 1 mol Cl₂ 得 2 mol 电子，氧化 1 mol Fe²⁺ 失 1 mol 电子 → 0.2 mol Fe²⁺ 需 0.1 mol Cl₂。', tag: '计算' }
+      ]},
+      { note: '离子反应与实验。完成23~25题。', qs: [
+        { stem: '下列离子方程式书写正确的是', opts: ['盐酸与碳酸钙：CO₃²⁻+2H⁺=H₂O+CO₂↑', '铁与稀硫酸：Fe+2H⁺=Fe²⁺+H₂↑', '铜与稀盐酸：Cu+2H⁺=Cu²⁺+H₂↑', '钠与水：Na+H₂O=Na⁺+OH⁻+H₂↑'], ans: 1, exp: 'A CaCO₃ 难溶不拆；C 铜不与非氧化性酸反应；D 未配平且电荷不守恒。', tag: '高频' },
+        { stem: '在无色酸性溶液中能大量共存的离子组是', opts: ['Na⁺、K⁺、CO₃²⁻、Cl⁻', 'Cu²⁺、SO₄²⁻、Na⁺、Cl⁻', 'K⁺、NH₄⁺、SO₄²⁻、NO₃⁻', 'Fe³⁺、Cl⁻、K⁺、OH⁻'], ans: 2, exp: 'A 酸性中 CO₃²⁻ 不共存；B Cu²⁺ 蓝色；D OH⁻ 与酸、Fe³⁺ 都反应。', tag: '高频' },
+        { stem: '配制 250 mL 0.4 mol/L NaCl 溶液，下列操作正确的是', opts: ['用天平称取 NaCl 固体 5.85 g', '直接在容量瓶中溶解 NaCl', '定容时俯视刻度线', '洗涤烧杯的洗涤液弃去'], ans: 0, exp: 'n=0.4×0.25=0.1 mol，m=0.1×58.5=5.85 g（A 对）；容量瓶不能溶解（B 错）；俯视定容→浓度偏高（C 错）；洗涤液必须并入容量瓶，否则溶质损失浓度偏低（D 错）。', tag: '计算' }
+      ]}
+    ],
+    essay: [
+      { no: 26, score: 10, stem: '化学概念在逻辑上存在从属关系，如"纯净物与混合物"是并列关系。用"＞""＝""＜"或文字回答下列问题。', qs: [
+        '（1）从"电解质"角度看：盐酸、NaCl 固体、Cu、NaOH 溶液四种物质中，属于电解质的是＿＿＿＿。',
+        '（2）写出 Na₂CO₃ 在水中的电离方程式：＿＿＿＿。',
+        '（3）写出 NaOH 溶液与稀盐酸反应的离子方程式：＿＿＿＿。',
+        '（4）向 NaHCO₃ 溶液中滴加澄清石灰水，写出离子方程式（石灰水足量）：＿＿＿＿。',
+        '（5）判断下列离子方程式正误并说明理由：CO₃²⁻ + H⁺ = HCO₃⁻（表示向 Na₂CO₃ 溶液中滴加少量稀盐酸）＿＿＿＿。'
+      ], ans: [
+        '（1）只有 NaCl 固体。盐酸是混合物、Cu 是单质，都不是电解质；NaOH 溶液也是混合物——是 NaOH（溶质）这个化合物才是电解质， （电解质的判定对象必须是化合物本身）',
+        '（2）Na₂CO₃ = 2Na⁺ + CO₃²⁻',
+        '（3）H⁺ + OH⁻ = H₂O',
+        '（4）2HCO₃⁻ + Ca²⁺ + 2OH⁻ = CaCO₃↓ + CO₃²⁻ + 2H₂O（石灰水足量，按 Ca(OH)₂ 比例电离出 Ca²⁺ 与 2OH⁻）',
+        '（5）正确。向 Na₂CO₃ 溶液中滴加少量盐酸，先生成 HCO₃⁻（可溶可拆的 Na₂CO₃ 拆成离子，产物 HCO₃⁻ 保留化学式），原子与电荷均守恒。'
+      ]},
+      { no: 27, score: 10, stem: '漂白粉是常用的消毒剂。回答下列问题。', qs: [
+        '（1）工业上用氯气与石灰乳制漂白粉，写出化学方程式：＿＿＿＿。',
+        '（2）漂白粉的有效成分是＿＿＿＿；其漂白（消毒）原理用离子方程式表示为：＿＿＿＿（与空气中 CO₂ 和水反应）。',
+        '（3）保存漂白粉应注意＿＿＿＿（写两点）。',
+        '（4）"桑美"台风后福鼎开展防疫消杀，工人误将含氯消毒液与洁厕灵混合，产生黄绿色有毒气体，该气体是＿＿＿＿，反应的离子方程式为：＿＿＿＿。'
+      ], ans: [
+        '（1）2Cl₂ + 2Ca(OH)₂ = Ca(ClO)₂ + CaCl₂ + 2H₂O',
+        '（2）Ca(ClO)₂；Ca²⁺ + 2ClO⁻ + CO₂ + H₂O = CaCO₃↓ + 2HClO（写化学方程式 Ca(ClO)₂+CO₂+H₂O=CaCO₃↓+2HClO 亦可）',
+        '（3）密封保存、避光（防潮防 CO₂）',
+        '（4）Cl₂（氯气）；ClO⁻ + Cl⁻ + 2H⁺ = Cl₂↑ + H₂O'
+      ]},
+      { no: 28, score: 10, stem: '某同学配制 480 mL 1.0 mol/L 的 NaCl 溶液并做相关计算。', qs: [
+        '（1）应选用容量瓶的规格是＿＿＿＿ mL，需称取 NaCl 固体＿＿＿＿ g（M(NaCl)=58.5 g/mol）。',
+        '（2）配制步骤：计算→称量→溶解→冷却→转移→洗涤→＿＿＿＿→摇匀。定容时仰视刻度线，所配溶液浓度＿＿＿＿（填"偏高""偏低"或"无影响"）。',
+        '（3）取该溶液 50 mL，其中 NaCl 的物质的量为＿＿＿＿ mol。',
+        '（4）标准状况下，与 50 mL 该溶液中 Cl⁻ 数目相同的 H₂ 的体积为＿＿＿＿ L。'
+      ], ans: [
+        '（1）500；58.5（按 500 mL 计算：0.5 mol×58.5）',
+        '（2）定容；偏低',
+        '（3）0.05 mol（c×V=1.0×0.05）',
+        '（4）1.12 L（0.05 mol H₂ 在标况 V=0.05×22.4=1.12 L）'
+      ]}
+    ]
+  });
+
+  DB.exams.push({
+    id: 'xmock2', kind: '模拟卷', color: 'var(--ch3)',
+    title: '宁德市期末质检体例 · 化学模拟卷（二）',
+    meta: '满分100分 · 70分钟 · 选择题25×2分 + 综合题50分 · 侧重第2、3章',
+    note: '本卷按宁德市质检卷（福建学考）体例编写，侧重氧化还原与铁、硫、氮元素化学，结合福鼎生活情境，题目为本站原创。',
+    mcq: [
+      { note: '氧化还原反应是本章的理论核心。完成1~4题。', qs: [
+        { stem: '氧化还原反应的特征是', opts: ['有电子转移', '有氧参与', '化合价升降', '放出热量'], ans: 2, exp: '特征（判断依据）是化合价升降；本质是电子转移。注意"特征"与"本质"两个表述对应。', tag: '核心' },
+        { stem: '在反应 3Cu + 8HNO₃(稀) = 3Cu(NO₃)₂ + 2NO↑ + 4H₂O 中，被还原的氮原子与参加反应的硝酸分子个数比为', opts: ['1:4', '1:2', '3:8', '2:8'], ans: 0, exp: '8 个 HNO₃ 中只有 2 个 N 从 +5 降到 +2（生成 NO）被还原，其余 6 个表现酸性生成 NO₃⁻——被还原:参加=2:8=1:4。', tag: '高频' },
+        { stem: '下列粒子中，既有氧化性又有还原性的是', opts: ['Na⁺', 'Fe²⁺', 'Cl⁻', 'Cu²⁺'], ans: 1, exp: '中间价态（Fe²⁺）兼有氧化性与还原性；Na⁺、Cu²⁺ 是最高价只有氧化性；Cl⁻ 是最低价只有还原性。', tag: '高频' },
+        { stem: '发射卫星的火箭常用 N₂H₄（肼）作燃料，反应 N₂H₄ + O₂ → N₂ + 2H₂O 中，被氧化的元素是', opts: ['N', 'H', 'O', 'N 和 H'], ans: 0, exp: 'N₂H₄ 中 N 为 -2 价，反应后升到 0 价（N₂）——N 被氧化，N₂H₄ 作还原剂（氧从 0 降到 -2，O₂ 作氧化剂）。', tag: '拓展' }
+      ]},
+      { note: '离子反应正误与共存。完成5~8题。', qs: [
+        { stem: '下列离子方程式正确的是', opts: ['碳酸氢钠与足量盐酸：HCO₃⁻ + H⁺ = H₂O + CO₂↑', '铁与氯化铁溶液：Fe + Fe³⁺ = 2Fe²⁺', '氯气与水：Cl₂ + H₂O = 2H⁺ + Cl⁻ + ClO⁻', '大理石与醋酸：CaCO₃ + 2H⁺ = Ca²⁺ + H₂O + CO₂↑'], ans: 0, exp: 'B 电荷不守恒应为 Fe+2Fe³⁺=3Fe²⁺；C 生成的 HClO 是弱电解质不能拆；D 醋酸是弱酸不能拆。', tag: '高频' },
+        { stem: '能证明"同温同压下，气体分子间距离相同"的事实是', opts: ['同温同压下，1 mol 任何气体的体积基本相同', '气体的质量相同', '气体的密度相同', '气体的颜色相同'], ans: 0, exp: '阿伏加德罗定律：同温同压下相同物质的量（分子数）的气体体积相同——Vm 只与温度压强有关，与气体种类无关。', tag: '计算' },
+        { stem: '下列各组离子在给定条件下能大量共存的是', opts: ['酸性溶液：Na⁺、K⁺、HCO₃⁻、Cl⁻', '无色溶液：K⁺、MnO₄⁻、SO₄²⁻、H⁺', '碱性溶液：Na⁺、K⁺、CO₃²⁻、NO₃⁻', '含大量 Fe³⁺ 的溶液：I⁻、K⁺、Cl⁻、SO₄²⁻'], ans: 2, exp: 'A 酸性中 HCO₃⁻ 反应；B MnO₄⁻ 紫色（无色排除）；D Fe³⁺ 氧化 I⁻ 不能共存。', tag: '高频' },
+        { stem: '下列操作或现象与离子的性质对应错误的是', opts: ['Fe³⁺——KSCN 溶液变红', 'NH₄⁺——与碱共热产生使红色石蕊试纸变蓝的气体', 'SO₄²⁻——先盐酸酸化再加 BaCl₂ 生成白色沉淀', 'Cl⁻——滴加 AgNO₃ 产生白色沉淀即可确认'], ans: 3, exp: '确认 Cl⁻ 需先用稀硝酸酸化排除 CO₃²⁻ 等干扰；其他三项对应正确。', tag: '易错' }
+      ]},
+      { note: '铁的化合物性质丰富。完成9~13题。', qs: [
+        { stem: '下列关于铁及其化合物的颜色，错误的是', opts: ['FeO——黑色', 'Fe₂O₃——红棕色', 'Fe₃O₄——黑色', 'Fe(OH)₃——白色'], ans: 3, exp: 'Fe(OH)₃ 是红褐色；白色是 Fe(OH)₂（且迅速变灰绿最后红褐）。', tag: '基础' },
+        { stem: '检验某溶液中同时含有 Fe²⁺ 和 Fe³⁺，最合理的操作顺序是', opts: ['先加 KSCN 看变红，再通氯气看更深红', '先通氯气再加 KSCN', '只加 NaOH 看沉淀颜色变化', '先滴 KSCN 不变红，再加氯水变红（证明有 Fe²⁺）；另取样直接加 KSCN 变红（证明有 Fe³⁺）'], ans: 3, exp: 'Fe³⁺ 直接 KSCN 检出；Fe²⁺ 需"先 KSCN 无色→再氧化变红"。混合液要用两份样品分别检验，避免相互干扰。', tag: '核心' },
+        { stem: '将过量铁粉加入稀硝酸中，充分反应后溶液中大量存在的金属阳离子是', opts: ['Fe³⁺', 'Fe²⁺', 'Fe³⁺ 和 Fe²⁺', 'Cu²⁺'], ans: 1, exp: '稀硝酸先氧化铁生成 Fe³⁺，但铁过量会把 Fe³⁺ 全部还原为 Fe²⁺（Fe+2Fe³⁺=3Fe²⁺）。"过量"二字决定产物。', tag: '易错' },
+        { stem: ' FeCl₃ 净水的原理是', opts: ['FeCl₃ 有毒能杀菌', 'Fe³⁺ 水解生成 Fe(OH)₃ 胶体吸附悬浮物沉降', 'FeCl₃ 与水反应生成沉淀把杂质包住', 'FeCl₃ 漂白杂质'], ans: 1, exp: 'Fe³⁺ 水解生成 Fe(OH)₃ 胶体，胶体表面积大、吸附悬浮杂质沉降——净水不是杀菌也不是漂白。', tag: '高频' },
+        { stem: '下列反应的离子方程式中，能用 Fe³⁺ + 3SCN⁻ = Fe(SCN)₃ 表示的是', opts: ['FeCl₃ 溶液与 KSCN 溶液混合', 'FeCl₃ 溶液与铁粉反应', 'FeCl₃ 与 NaOH 溶液反应', 'FeCl₂ 与氯水反应'], ans: 0, exp: '该式表示 Fe³⁺ 与 SCN⁻ 生成红色配合物——是检验 Fe³⁺ 的反应，不是化合价变化（非氧化还原）。', tag: '基础' }
+      ]},
+      { note: '硫的转化围绕价态展开。完成14~18题。', qs: [
+        { stem: '下列关于 SO₂ 的说法，正确的是', opts: ['SO₂ 有漂白性，能使石蕊试液褪色', 'SO₂ 使酸性 KMnO₄ 溶液褪色体现其氧化性', 'SO₂ 是形成硫酸型酸雨的主要原因', 'SO₂ 无毒可以大量吸入'], ans: 2, exp: 'SO₂ 漂白有色有机物但不能漂白石蕊（只变红不褪色）；使 KMnO₄ 褪色体现还原性；SO₂ 有毒有刺激性气味。', tag: '易错' },
+        { stem: '区别 SO₂ 和 CO₂ 两瓶无色气体，可选用的试剂是', opts: ['澄清石灰水', '品红溶液', '紫色石蕊试液', '酚酞试液'], ans: 1, exp: '两者都使石灰水变浑、都使石蕊变红、都不使酚酞变色；只有 SO₂ 使品红褪色——品红是"身份证"。', tag: '高频' },
+        { stem: '关于浓硫酸的性质，下列说法正确的是', opts: ['浓硫酸干燥氨气', '浓硫酸使蔗糖碳化体现吸水性', '常温下浓硫酸使铁钝化，可用铁罐储运', '稀硫酸与铜加热能反应'], ans: 2, exp: '氨气是碱性气体不能被浓硫酸干燥（A）；碳化是脱水性（B）；稀硫酸不与铜反应（D）。', tag: '高频' },
+        { stem: '检验某无色溶液中含有 SO₄²⁻，方案最严密的是', opts: ['加 BaCl₂ 溶液→白色沉淀', '加稀盐酸→无沉淀，再加 BaCl₂ 溶液→白色沉淀', '加 Ba(NO₃)₂ 溶液→白色沉淀', '加硝酸→无现象，再加 BaCl₂'], ans: 1, exp: '先用盐酸排除 CO₃²⁻、SO₃²⁻、Ag⁺ 干扰且无沉淀，再加 BaCl₂ 出白色沉淀才可确认 SO₄²⁻。', tag: '高频' },
+        { stem: '煤燃烧排放的 SO₂ 是酸雨的元凶。下列措施不能减少 SO₂ 排放的是', opts: ['燃煤中加入石灰石（钙基固硫）', '烟气通过碱液吸收后排放', '多烧散煤少用电', '开发太阳能、风能'], ans: 2, exp: '散煤燃烧效率低、无脱硫处理，SO₂ 排放更多；其余都是有效减排措施。', tag: '福鼎' }
+      ]},
+      { note: '氮的循环联系生产与环保。完成19~25题。', qs: [
+        { stem: '氮气能作保护气，是因为', opts: ['氮气无毒', 'N₂ 化学性质稳定（N≡N 键能大）', '氮气密度小', '氮气难液化'], ans: 1, exp: '三键键能大→常温难发生反应→保护气、防腐充填。', tag: '核心' },
+        { stem: '雷雨时闪电可将 N₂ 转化为 NO，该过程属于', opts: ['氮的固定', '氮的还原', '人工固氮', '铵盐分解'], ans: 0, exp: '游离态→化合态=氮的固定；这是自然固氮（高能固氮），人工固氮主要指合成氨。', tag: '基础' },
+        { stem: ' NO₂ 与水反应 3NO₂ + H₂O = 2HNO₃ + NO 中，氧化剂与还原剂的物质的量之比是', opts: ['2:1', '1:2', '3:1', '1:1'], ans: 1, exp: '3 个 NO₂ 中 2 个 N 升价（+4→+5）被氧化作还原剂，1 个 N 降价（+4→+2）被还原作氧化剂——氧化剂:还原剂=1:2（歧化反应）。', tag: '高频' },
+        { stem: '下列关于氨的性质与应用，错误的是', opts: ['NH₃ 极易溶于水，可做喷泉实验', '浓氨水与浓盐酸靠近产生白烟', 'NH₃ 可用湿润的红色石蕊试纸检验', 'NH₃ 可用向上排空气法收集'], ans: 3, exp: 'NH₃ 密度比空气小，用向下排空气法收集。', tag: '基础' },
+        { stem: '铵盐共同的性质是', opts: ['都难溶于水', '受热都易分解', '都易与酸反应', '都易与金属反应'], ans: 1, exp: '铵盐三大性质：易溶于水、受热易分解、与碱反应放出氨气。', tag: '基础' },
+        { stem: '下列有关硝酸的叙述，正确的是', opts: ['稀硝酸与铜反应生成 NO₂', '常温下硝酸可用铁罐长期储存', '硝酸见光分解，应保存在棕色瓶中', '硝酸是弱酸'], ans: 2, exp: '稀硝酸与铜生成 NO（浓硝酸生成 NO₂）；常温浓硝酸使铁铝钝化但稀硝酸不行（"硝酸"需注明浓才可钝化）；硝酸是强酸。', tag: '高频' },
+        { stem: '福鼎茶农施用铵态氮肥后，为提高肥效应采取的措施是', opts: ['立即浇大量水让肥流走', '与草木灰混合撒施', '施肥后覆土，避免与碱性物质混用', '在烈日下敞开存放'], ans: 2, exp: 'NH₄⁺ 遇碱放 NH₃ 流失；覆土可减少挥发与流失——铵盐"易溶于水、受热分解、遇碱放氨"三性质决定施用方法。', tag: '福鼎' }
+      ]}
+    ],
+    essay: [
+      { no: 26, score: 8, stem: '研究铁及其化合物的转化。回答下列问题。', qs: [
+        '（1）写出铁与水蒸气在高温下反应的化学方程式：＿＿＿＿。',
+        '（2）向 FeCl₂ 溶液中滴加 NaOH 溶液，现象是＿＿＿＿（写颜色变化），相关反应的化学方程式为＿＿＿＿。',
+        '（3）检验某溶液中含有 Fe³⁺，所用试剂是＿＿＿＿，现象是＿＿＿＿。',
+        '（4）用化学方程式表示"用 FeCl₃ 溶液腐蚀铜箔制作电路板"的原理：＿＿＿＿。'
+      ], ans: [
+        '（1）3Fe + 4H₂O(g) =高温= Fe₃O₄ + 4H₂',
+        '（2）先生成白色沉淀，迅速变灰绿色，最终变红褐色；FeSO₄ + 2NaOH = Fe(OH)₂↓ + Na₂SO₄（写 FeCl₂ 版亦可）；4Fe(OH)₂ + O₂ + 2H₂O = 4Fe(OH)₃',
+        '（3）KSCN 溶液；溶液变红（生成红色 Fe(SCN)₃）',
+        '（4）Cu + 2FeCl₃ = CuCl₂ + 2FeCl₂'
+      ]},
+      { no: 27, score: 8, stem: '硫及其化合物与环保。回答下列问题。', qs: [
+        '（1）S 在纯氧中燃烧的化学方程式：＿＿＿＿，现象：＿＿＿＿。',
+        '（2）SO₂ 使溴水褪色的化学方程式：＿＿＿＿，该反应体现 SO₂ 的＿＿＿＿性。',
+        '（3）Cu 与浓硫酸反应的化学方程式：＿＿＿＿，该反应中浓硫酸表现出的性质有＿＿＿＿。',
+        '（4）写出一条减少酸雨排放的建议：＿＿＿＿。'
+      ], ans: [
+        '（1）S + O₂ =点燃= SO₂；明亮蓝紫色火焰，生成刺激性气味气体',
+        '（2）SO₂ + Br₂ + 2H₂O = H₂SO₄ + 2HBr；还原',
+        '（3）Cu + 2H₂SO₄(浓) =Δ= CuSO₄ + SO₂↑ + 2H₂O；强氧化性（部分硫酸被还原）与酸性（生成硫酸盐）',
+        '（4）燃煤脱硫（钙基固硫）、尾气碱液吸收、开发清洁能源等（合理即可）'
+      ]},
+      { no: 28, score: 12, stem: '氮的循环与人类活动。阅读材料回答问题。\n材料一：雷雨天，空气中的 N₂ 和 O₂ 在放电条件下化合，随雨水降落成为土壤中的氮肥（"雷雨发庄稼"）。\n材料二：汽车尾气中含有 NOx，是形成光化学烟雾和雾霾的重要前体物，宁德市对高排放车辆实施限行政策（对应教材微项目"论证重污染天气汽车限行的合理性"）。', qs: [
+        '（1）写出放电条件下 N₂ 与 O₂ 反应的化学方程式：＿＿＿＿。',
+        '（2）NO 转化为 NO₂ 的化学方程式：＿＿＿＿；NO₂ 与水反应的化学方程式：＿＿＿＿。',
+        '（3）"雷雨发庄稼"体现的氮的固定属于＿＿＿＿固氮（填"自然"或"人工"）。',
+        '（4）从"氮的循环"角度，说明汽车限行（减少 NOx 排放）的合理性：＿＿＿＿（至少答两点）。',
+        '（5）工业合成氨的化学方程式：＿＿＿＿，该反应属于可逆反应，其含义是＿＿＿＿。'
+      ], ans: [
+        '（1）N₂ + O₂ =放电= 2NO',
+        '（2）2NO + O₂ = 2NO₂；3NO₂ + H₂O = 2HNO₃ + NO',
+        '（3）自然',
+        '（4）减少 NOx 排放→减轻雾霾与光化学烟雾→减少硝酸型酸雨→降低氮氧化物对呼吸系统的危害；同时缓解氮循环超负荷带来的水体富营养化等（答出两点合理即可）',
+        '（5）N₂ + 3H₂ ⇌(高温高压、催化剂) 2NH₃；同一条件下，正反应与逆反应同时进行，反应物不能完全转化为生成物'
+      ]}
+    ]
+  });
+})();
+
+</script>
+<script>
+/* 福鼎少年学化学 · 应用逻辑 */
+(function () {
+  var DB = window.DB;
+  var $app = document.getElementById('app');
+  var LS = 'geo1v1';
+  var P = { done: {}, q: {}, days: {}, fuding: {}, exam: {}, wrongCleared: 0, seen: 0 };
+  try { var raw = localStorage.getItem(LS); if (raw) { var o = JSON.parse(raw); for (var k in P) if (o[k] !== undefined) P[k] = o[k]; } } catch (e) { }
+
+  function save() { try { localStorage.setItem(LS, JSON.stringify(P)); } catch (e) { } }
+  function today() { var d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
+  P.days[today()] = 1;
+
+  /* ---------- 索引 ---------- */
+  var SEC = {}, CH = {};
+  DB.chapters.forEach(function (c) {
+    CH[c.id] = c;
+    c.sections.forEach(function (s) { SEC[s.id] = s; s.ch = c.id; });
+  });
+  var Q = {};
+  DB.questions.forEach(function (q) { Q[q.id] = q; });
+  /* 试卷题索引（错题本用）：ex_<卷id>_<题号> → 题目 */
+  var EXQ = {};
+  DB.exams.forEach(function (ex) {
+    var no = 0;
+    ex.mcq.forEach(function (g) { g.qs.forEach(function (q) { no++; q._from = ex.title; EXQ['ex_' + ex.id + '_' + no] = q; }); });
+  });
+  var allSections = [];
+  DB.chapters.forEach(function (c) { c.sections.forEach(function (s) { allSections.push(s.id); }); });
+
+  /* ---------- 成就 ---------- */
+  var BADGES = [
+    { id: 'b1', ic: '启', t: '启程', d: '学完第一个知识点', chk: function () { return Object.keys(P.done).length >= 1; } },
+    { id: 'b2', ic: '科', t: '走进化学科学', d: '第一章全部学完', chk: function () { return chDone('ch1'); } },
+    { id: 'b3', ic: '素', t: '元素与物质世界', d: '第二章全部学完', chk: function () { return chDone('ch2'); } },
+    { id: 'b4', ic: '转', t: '性质与转化', d: '第三章全部学完', chk: function () { return chDone('ch3'); } },
+    { id: 'b5', ic: '十', t: '初试锋芒', d: '随堂练累计答对10题', chk: function () { return totalRight() >= 10; } },
+    { id: 'b6', ic: '百', t: '百炼成钢', d: '随堂练累计答对50题', chk: function () { return totalRight() >= 50; } },
+    { id: 'b7', ic: '卷', t: '卷面首胜', d: '完成一整套试卷', chk: function () { return Object.keys(P.exam).length >= 1; } },
+    { id: 'b8', ic: '猎', t: '错题猎人', d: '把错题本清空一次', chk: function () { return !!P.wrongCleared; } },
+    { id: 'b9', ic: '鼎', t: '福鼎化学通', d: '点开全部福鼎限定卡', chk: function () { return fudingTotal() > 0 && Object.keys(P.fuding).length >= fudingTotal(); } },
+    { id: 'b10', ic: '七', t: '七日之约', d: '累计学习7天', chk: function () { return Object.keys(P.days).length >= 7; } }
+  ];
+  function chDone(cid) { var c = CH[cid]; return c && c.sections.every(function (s) { return P.done[s.id]; }); }
+  function totalRight() { var n = 0; for (var k in P.q) n += P.q[k].r || 0; return n; }
+  function fudingTotal() {
+    var n = 0;
+    DB.chapters.forEach(function (c) { c.sections.forEach(function (s) { s.points.forEach(function (p) { p.blocks.forEach(function (b) { if (b[0] === 'fuding') n++; }); }); }); });
+    return n;
+  }
+  function wrongIds() { var r = []; for (var k in P.q) if (P.q[k].last === 'w') r.push(k); return r; }
+  function checkBadges() {
+    var got = [];
+    BADGES.forEach(function (b) { if (!P['bg_' + b.id] && b.chk()) { P['bg_' + b.id] = 1; got.push(b); } });
+    save();
+    got.forEach(function (b, i) { setTimeout(function () { toast('🎉 获得成就「' + b.t + '」'); }, i * 500); });
+  }
+  function toast(msg) {
+    var t = document.createElement('div'); t.className = 'new-badge-toast'; t.textContent = msg;
+    document.body.appendChild(t); setTimeout(function () { t.remove(); }, 2600);
+  }
+
+  /* ---------- 工具 ---------- */
+  function h(html) { $app.innerHTML = html; window.scrollTo(0, 0); syncTab(); }
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function topbar(title, sub, back) {
+    return '<div class="topbar">' + (back ? '<a class="back" href="' + back + '">‹</a>' : '') +
+      '<div class="seal kai">化</div><h1 class="kai">' + title + '<small>' + (sub || '') + '</small></h1></div>';
+  }
+  function syncTab() {
+    var cur = location.hash || '#/';
+    var qi = cur.indexOf('?'); if (qi >= 0) cur = cur.slice(0, qi);
+    var seg = (cur.replace(/^#\/?/, '').split('/')[0] || 'home');
+    var map = { home: '#/', chapters: '#/chapters', ch: '#/chapters', sec: '#/chapters', exams: '#/exams', exam: '#/exams', wrong: '#/wrong', badges: '#/badges' };
+    var href = map[seg] || '#/';
+    document.querySelectorAll('#tabbar a').forEach(function (a) {
+      a.classList.toggle('on', a.getAttribute('href') === href);
+    });
+    var w = wrongIds().length;
+    var dot = document.getElementById('wrong-dot'); if (dot) dot.hidden = w === 0;
+  }
+  window.addEventListener('hashchange', route);
+
+  /* ---------- 首页 ---------- */
+  function ring(pct, col) {
+    var r = 30, c = 2 * Math.PI * r;
+    return '<svg class="progress-ring" width="76" height="76" viewBox="0 0 76 76">' +
+      '<circle cx="38" cy="38" r="' + r + '" fill="none" stroke="#e6dcc4" stroke-width="9"/>' +
+      '<circle cx="38" cy="38" r="' + r + '" fill="none" stroke="' + col + '" stroke-width="9" stroke-linecap="round" stroke-dasharray="' + (c * pct / 100).toFixed(1) + ' ' + c.toFixed(1) + '"/>' +
+      '<text x="38" y="43" text-anchor="middle" font-size="16" font-weight="700" fill="#322c26" transform="rotate(90 38 38)">' + pct + '%</text></svg>';
+  }
+  function vHome() {
+    var learned = allSections.filter(function (s) { return P.done[s]; }).length;
+    var pct = Math.round(learned / allSections.length * 100);
+    var att = 0, right = 0; for (var k in P.q) { att += P.q[k].n; right += P.q[k].r; }
+    var acc = att ? Math.round(right / att * 100) : null;
+    var w = wrongIds().length;
+    var next = allSections.filter(function (s) { return !P.done[s]; })[0];
+    var nextSec = SEC[next];
+    var nextCh = nextSec ? CH[nextSec.ch] : null;
+    var html = topbar('福鼎少年学化学', '鲁科版 高中化学 必修第一册 · 三章考点全掌握');
+    html += '<div class="hero"><div class="h-row"><div class="ring">' + ring(pct, 'var(--red)') + '</div><div style="flex:1;min-width:0">' +
+      '<h2>学习进度</h2><p class="sub">已学 ' + learned + ' / ' + allSections.length + ' 节 · 随堂练答对 ' + right + ' 题</p>' +
+      '<div class="stats"><span class="st">正确率 <b>' + (acc === null ? '—' : acc + '%') + '</b></span>' +
+      '<span class="st">错题 <b>' + w + '</b></span><span class="st">成就 <b>' + Object.keys(P).filter(function (k) { return k.indexOf('bg_') === 0; }).length + '/' + BADGES.length + '</b></span></div>' +
+      (nextSec ? '<div class="tip">下一节：<b>' + nextCh.no + ' ' + nextSec.title + '</b>　<a href="#/sec/' + nextSec.id + '" style="color:var(--red)">去学 →</a></div>' : '<div class="tip">六章全部学完，了不起！去刷卷巩固吧。</div>') +
+      '</div></div></div>';
+    html += '<div class="quick">' +
+      '<a href="' + (nextSec ? '#/sec/' + nextSec.id : '#/chapters') + '"><i>读</i><b>继续学习</b></a>' +
+      '<a href="#/exams"><i>卷</i><b>刷卷</b></a>' +
+      '<a href="#/wrong"><i>错</i><b>错题本</b></a>' +
+      '<a href="#/badges"><i>奖</i><b>成就</b></a></div>';
+    html += '<div class="sec-title">三章知识点 <small>点章进入</small></div><div class="ch-grid">';
+    DB.chapters.forEach(function (c) {
+      var d = c.sections.filter(function (s) { return P.done[s.id]; }).length;
+      var p = Math.round(d / c.sections.length * 100);
+      html += '<a class="chcard" href="#/ch/' + c.id + '"><div class="no" style="background:' + c.color + '"><b>' + c.no.replace('第', '').replace('章', '') + '</b><span>章</span></div>' +
+        '<div class="info"><h3>' + c.title + '</h3><p>' + c.tagline + '</p>' +
+        '<div class="bar"><i style="width:' + p + '%;background:' + c.color + '"></i></div><div class="pct">' + p + '%</div></div></a>';
+    });
+    html += '</div>';
+    html += '<div class="foot">为福鼎的化学少年而作 · 学好化学，守护生活</div>';
+    h(html);
+  }
+
+  /* ---------- 章列表 / 章页 ---------- */
+  function vChapters() {
+    var html = topbar('知识点', '六章 · ' + allSections.length + '节', '#/');
+    DB.chapters.forEach(function (c) {
+      html += '<div class="sec-title" style="color:' + c.color + '">' + c.no + ' ' + c.title + '</div>';
+      c.sections.forEach(function (s) {
+        var qn = s.quiz.length, qr = 0;
+        s.quiz.forEach(function (qid) { if (P.q[qid] && P.q[qid].last === 'r') qr++; });
+        html += '<a class="sec-item" href="#/sec/' + s.id + '" style="text-decoration:none">' +
+          '<div class="idx" style="background:' + c.color + '">' + s.no.replace('第一节', '一').replace('第二节', '二').replace('第三节', '三').replace('第四节', '四') + '</div>' +
+          '<div class="bd"><h3>' + s.title + '</h3><div class="lead">' + s.lead + '</div>' +
+          '<div class="meta"><span>' + s.points.length + '个知识点</span><span>练习 ' + s.quiz.length + '题</span>' +
+          (P.done[s.id] ? '<b class="ok">✓ 已学</b>' : '') + (qn && qr === qn ? '<b class="ok">✓ 练习全对</b>' : '') + '</div></div></a>';
+      });
+    });
+    html += '<div class="foot">跟着教材走，一章别落下</div>';
+    h(html);
+  }
+  function vChapter(cid) {
+    var c = CH[cid]; if (!c) return vHome();
+    var html = topbar(c.no + ' · ' + c.title, c.tagline, '#/chapters');
+    html += '<div class="ch-head"><span class="tag">' + c.no + '</span><h2 class="kai">' + c.title + '</h2><p>' + c.intro + '</p></div>';
+    c.sections.forEach(function (s) {
+      html += '<a class="sec-item" href="#/sec/' + s.id + '" style="text-decoration:none">' +
+        '<div class="idx" style="background:' + c.color + '">' + s.no.replace('第一节', '一').replace('第二节', '二').replace('第三节', '三').replace('第四节', '四') + '</div>' +
+        '<div class="bd"><h3>' + s.title + '</h3><div class="lead">' + s.lead + '</div>' +
+        '<div class="meta"><span>' + s.points.length + '个知识点</span><span>' + s.quiz.length + '道随堂练</span>' + (P.done[s.id] ? '<b class="ok">✓ 已学</b>' : '') + '</div></div></a>';
+    });
+    html += '<div class="foot">' + c.tagline + '</div>';
+    h(html);
+  }
+
+  /* ---------- 节页（知识点卡） ---------- */
+  function renderBlocks(p, el) {
+    var html = '';
+    p.blocks.forEach(function (b) {
+      var t = b[0];
+      if (t === 'p') html += '<p>' + b[1] + '</p>';
+      else if (t === 'ul') html += '<ul>' + b[1].map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>';
+      else if (t === 'kv') html += '<table class="kv">' + b[1].map(function (r) { return '<tr><th>' + r[0] + '</th><td>' + r[1] + '</td></tr>'; }).join('') + '</table>';
+      else if (t === 'table') html += '<table class="kv"><tr>' + b[1].head.map(function (x) { return '<th>' + x + '</th>'; }).join('') + '</tr>' +
+        b[1].rows.map(function (r) { return '<tr>' + r.map(function (x) { return '<td>' + x + '</td>'; }).join('') + '</tr>'; }).join('') + '</table>';
+      else if (t === 'tip') html += '<div class="box tip"><span class="bt">老班长敲黑板 · 易错</span>' + b[1] + '</div>';
+      else if (t === 'memo') html += '<div class="box memo"><span class="bt">记忆口诀</span>' + b[1] + '</div>';
+      else if (t === 'ext') html += '<div class="box ext"><span class="bt">拓展视野 · 加分项</span>' + b[1] + '</div>';
+      else if (t === 'note') html += '<div class="box" style="background:var(--paper2)">' + b[1] + '</div>';
+      else if (t === 'eq') html += '<div class="eqline">' + b[2] + ' ' + (b[1] === '=' ? ' = ' : (b[1] === '⇌' ? ' ⇌ ' : '<span class="rxn">' + (b[1] && b[1] !== '可逆' ? '<i>' + b[1] + '</i>' : '') + (b[1] === '可逆' ? '⇌' : '→') + '</span>')) + ' ' + b[3] + '</div>';
+      else if (t === 'fuding') {
+        var key = p.id + '#' + b[1][0];
+        var open = !!P.fuding[key];
+        html += '<div class="box fuding" data-fuding="' + esc(key) + '" style="cursor:pointer">' +
+          '<span class="bt">福鼎限定 · ' + b[1][0] + (open ? '' : '（点开看看）') + '</span>' +
+          '<div class="fd-bd" style="' + (open ? '' : 'display:none') + '">' + b[1][1] + '</div></div>';
+      }
+      else if (t === 'dgm') html += '<div class="dgm" id="dgm-' + b[1] + '"></div><div style="font-size:12.5px;color:var(--ink2);text-align:center;margin:-4px 0 10px">' + (b[2] || '') + '</div>';
+    });
+    el.innerHTML = html;
+    Array.prototype.slice.call(el.querySelectorAll('[data-fuding]')).forEach(function (n) {
+      n.onclick = function () {
+        var bd = n.querySelector('.fd-bd');
+        var opening = bd.style.display === 'none';
+        bd.style.display = opening ? '' : 'none';
+        var key = n.getAttribute('data-fuding');
+        if (opening) { P.fuding[key] = 1; save(); checkBadges(); }
+      };
+    });
+    Array.prototype.slice.call(el.querySelectorAll('.dgm')).forEach(function (d) {
+      var id = d.id.replace('dgm-', '');
+      var dg = DB.diagrams[id];
+      if (dg) d.appendChild(buildDgm(id));
+    });
+  }
+  function buildDgm(id) {
+    var dg = DB.diagrams[id];
+    var box = document.createElement('div');
+    box.innerHTML = '<div style="padding:8px 8px 0;text-align:center;font-family:KaiTi,楷体,serif;font-size:13.5px;color:var(--ink2)">▸ ' + dg.title + '</div>';
+    var inner = document.createElement('div');
+    box.appendChild(inner);
+    try { dg.build(inner); } catch (e) { inner.innerHTML = '<div class="cap">图解加载失败：' + esc(e.message) + '</div>'; }
+    return box;
+  }
+  function vSection(sid) {
+    var s = SEC[sid]; if (!s) return vHome();
+    var c = CH[s.ch];
+    var html = topbar(s.no + ' · ' + s.title, c.no + ' · ' + c.title, '#/ch/' + c.id);
+    html += '<div class="ch-head"><span class="tag" style="background:' + c.color + '">' + c.no + ' · ' + s.no + '</span><h2 class="kai">' + s.title + '</h2><p>' + s.lead + '</p></div>';
+    s.points.forEach(function (p) {
+      html += '<div class="pcard">' + (p.key ? '<span class="key-star">高频考点</span>' : '') + '<h3>' + p.title + '</h3><div class="pb"></div></div>';
+    });
+    html += '<div class="center" style="margin:18px 0 8px">' +
+      '<button class="btn red" id="markdone" style="' + (P.done[s.id] ? 'display:none' : '') + '">这节我学完了 ✓</button>' +
+      (P.done[s.id] ? '<div class="mut">✓ 已标记学完</div>' : '') + '</div>';
+    html += '<div id="quiz-area"></div><div class="foot">' + c.title + ' · ' + s.title + '</div>';
+    h(html);
+    var cards = $app.querySelectorAll('.pcard');
+    s.points.forEach(function (p, i) {
+      var pb = cards[i].querySelector('.pb');
+      renderBlocks(p, pb);
+    });
+    var md = document.getElementById('markdone');
+    if (md) md.onclick = function () { P.done[s.id] = 1; save(); checkBadges(); vSection(sid); };
+    mountQuiz(s);
+  }
+
+  /* ---------- 随堂练 ---------- */
+  function mountQuiz(s) {
+    var area = document.getElementById('quiz-area');
+    var allRight = s.quiz.every(function (q) { return P.q[q] && P.q[q].last === 'r'; });
+    var html = '<div class="sec-title">随堂练 <small>' + s.quiz.length + '题 · 答完自动记入错题本</small></div>' +
+      '<div class="quizcard center" style="padding:22px 16px">' +
+      '<div class="kai" style="font-size:19px;margin-bottom:6px">' + s.title + ' · 小测验</div>' +
+      '<p class="mut">' + (allRight ? '✓ 你已全部答对，可以再刷一遍巩固。' : '每题答完立即看解析，答错的自动进错题本。') + '</p>' +
+      '<button class="btn red" id="qstart">开始练习</button></div>';
+    area.innerHTML = html;
+    document.getElementById('qstart').onclick = function () { runQuiz(s); };
+  }
+  function runQuiz(s) {
+    var area = document.getElementById('quiz-area');
+    var ids = s.quiz.slice(), i = 0, firstRight = 0;
+    function record(qid, ok) {
+      var r = P.q[qid] = P.q[qid] || { n: 0, r: 0, last: null };
+      r.n++; if (ok) { r.r++; r.last = 'r'; } else { r.last = 'w'; }
+      save();
+    }
+    function draw() {
+      if (i >= ids.length) {
+        var rate = Math.round(firstRight / ids.length * 100);
+        var msg = rate === 100 ? '全对！这节稳了。' : rate >= 80 ? '不错！错的那几题去错题本里再过一遍。' : rate >= 60 ? '有基础，把解析读一遍再回来重做。' : '别灰心，回到上面的知识点卡里再读一遍，马上再来。';
+        area.innerHTML = '<div class="quizcard result">' +
+          '<div class="big">' + firstRight + '<span style="font-size:22px">/' + ids.length + '</span></div>' +
+          '<div class="sub">正确率 ' + rate + '%</div><div class="msg">' + msg + '</div>' +
+          '<div style="display:flex;gap:10px;justify-content:center;margin-top:14px;flex-wrap:wrap">' +
+          '<button class="btn ghost" id="qretry">再练一遍</button><a class="btn" href="#/ch/' + s.ch + '">返回章节</a></div></div>';
+        document.getElementById('qretry').onclick = function () { runQuiz(s); };
+        checkBadges(); syncTab();
+        return;
+      }
+      var q = Q[ids[i]];
+      var html = '<div class="quizcard"><div class="qno">随堂练 · 第 <b>' + (i + 1) + '</b> / ' + ids.length + ' 题' +
+        (q.tag ? '　<span class="note-tag">' + q.tag + '</span>' : '') + '</div>' +
+        '<div class="qstem">' + q.stem + '</div><div class="opts">';
+      q.opts.forEach(function (o, j) {
+        html += '<div class="opt" data-j="' + j + '"><span class="abc">' + 'ABCD'[j] + '</span><span>' + o + '</span></div>';
+      });
+      html += '</div><div id="qexp"></div><div class="qnav">' +
+        '<button class="btn" id="qnext" disabled>下一题 →</button></div></div>';
+      area.innerHTML = html;
+      var answered = false;
+      area.querySelectorAll('.opt').forEach(function (n) {
+        n.onclick = function () {
+          if (answered) return; answered = true;
+          var j = +n.getAttribute('data-j'), ok = j === q.ans;
+          if (ok) firstRight++;
+          record(q.id, ok);
+          area.querySelectorAll('.opt').forEach(function (m) {
+            var mj = +m.getAttribute('data-j');
+            if (mj === q.ans) m.classList.add('right');
+            else if (mj === j) m.classList.add('wrong');
+            else m.classList.add('dim');
+          });
+          document.getElementById('qexp').innerHTML = '<div class="exp"><b>' + (ok ? '答对了！' : '答错了。') + '</b>' + q.exp + '</div>';
+          var nb = document.getElementById('qnext'); nb.disabled = false;
+          if (i === ids.length - 1) nb.textContent = '看成绩 →';
+          nb.onclick = function () { i++; draw(); };
+          checkBadges(); syncTab();
+        };
+      });
+    }
+    draw();
+  }
+
+  /* ---------- 试卷 ---------- */
+  function vExams() {
+    var html = topbar('刷卷', '真题 + 宁德质检体例模拟卷', '#/');
+    html += '<div class="ch-head"><span class="tag">考试中心</span><h2 class="kai">两套卷子</h2><p>按宁德市期末质检（福建学考）体例编写、结合福鼎生活情境的化学模拟卷。选择题自动批改并计入错题本，综合题（含化学方程式书写）对照参考答案自评。学考真题可向老师要当年卷，用本站章节知识点对照复习。</p></div>';
+    DB.exams.forEach(function (ex) {
+      var total = 0; ex.mcq.forEach(function (g) { total += g.qs.length; });
+      var rec = P.exam[ex.id];
+      html += '<div class="examcard"><span class="kind" style="background:' + ex.color + '">' + ex.kind + '</span>' +
+        '<h3>' + ex.title + '</h3><div class="meta">' + ex.meta + '</div>' +
+        (rec ? '<div class="best">上次成绩：选择题 ' + rec.best + ' / ' + total + ' 题（' + Math.round(rec.best / total * 100) + '分制参考：' + rec.best * 2 + '分）</div>' : '') +
+        '<a class="btn red" href="#/exam/' + ex.id + '">开始作答</a></div>';
+    });
+    html += '<div class="foot">做卷子贵在"错题搞懂"，不在数量</div>';
+    h(html);
+  }
+  function vExam(eid) {
+    var ex = DB.exams.filter(function (x) { return x.id === eid; })[0]; if (!ex) return vExams();
+    var flat = [];
+    ex.mcq.forEach(function (g, gi) { g.qs.forEach(function (q, qi) { flat.push({ g: g, q: q, no: flat.length + 1, gStart: qi === 0 }); }); });
+    var st = { i: 0, answers: {} };
+    var total = flat.length;
+    function draw() {
+      var it = flat[st.i];
+      var html = topbar(ex.kind + ' · 作答中', ex.title.replace(/·.*/, ''), '#/exams');
+      html += '<div class="qno" style="margin:4px 2px 8px">选择题 第 <b>' + (st.i + 1) + '</b> / ' + total + ' 题</div>';
+      if (it.gStart && it.g.note) html += '<div class="qnote">' + it.g.note + (it.g.badge ? '　<span class="note-tag">' + it.g.badge + '</span>' : '') + '</div>';
+      html += '<div class="quizcard"><div class="qno"><b>' + it.no + '.</b></div><div class="qstem">' + it.q.stem + '</div><div class="opts">';
+      it.q.opts.forEach(function (o, j) {
+        html += '<div class="opt' + (st.answers[it.no] === j ? ' sel' : '') + '" data-j="' + j + '"><span class="abc">' + 'ABCD'[j] + '</span><span>' + o + '</span></div>';
+      });
+      html += '</div></div><div class="qnav">' +
+        '<button class="btn ghost" id="eprev"' + (st.i === 0 ? ' disabled' : '') + '>← 上一题</button>' +
+        '<button class="btn" id="enext">' + (st.i === total - 1 ? '交卷看成绩' : '下一题 →') + '</button></div>';
+      html += '<div class="foot">已答 ' + Object.keys(st.answers).length + ' / ' + total + ' 题（可先跳过，最后再回来改）</div>';
+      h(html);
+      $app.querySelectorAll('.opt').forEach(function (n) {
+        n.onclick = function () { st.answers[it.no] = +n.getAttribute('data-j'); draw(); };
+      });
+      document.getElementById('eprev').onclick = function () { if (st.i > 0) { st.i--; draw(); } };
+      document.getElementById('enext').onclick = function () {
+        if (st.i < total - 1) { st.i++; draw(); } else { finish(); }
+      };
+    }
+    function finish() {
+      var correct = 0, wrongList = [];
+      flat.forEach(function (it) {
+        var a = st.answers[it.no];
+        if (a === it.q.ans) correct++;
+        else { wrongList.push(it); if (a !== undefined) { var r = P.q['ex_' + ex.id + '_' + it.no] = P.q['ex_' + ex.id + '_' + it.no] || { n: 0, r: 0, last: null }; r.n++; r.last = 'w'; } }
+      });
+      save();
+      P.exam[ex.id] = P.exam[ex.id] || { best: 0 };
+      if (correct > P.exam[ex.id].best) P.exam[ex.id].best = correct;
+      save();
+      var html = topbar('成绩单', ex.title, '#/exams');
+      html += '<div class="quizcard result"><div class="big">' + correct + '<span style="font-size:22px">/' + total + '</span></div>' +
+        '<div class="sub">选择题正确率 ' + Math.round(correct / total * 100) + '%（满分卷面换算：' + correct * 2 + ' / ' + total * 2 + ' 分）</div>' +
+        '<div class="msg">' + (correct / total >= 0.9 ? '这份卷子拿下了，期末就这个状态！' : correct / total >= 0.75 ? '稳中有升，错题看解析后重做一遍。' : correct / total >= 0.6 ? '及格线上，把错题对应的知识点回炉一遍再战。' : '别慌，先把对应章节的知识点卡过一遍，再来刷。') + '</div>' +
+        '<div style="margin-top:12px"><a class="btn" href="#/wrong">错题都收进错题本了 →</a></div></div>';
+      if (wrongList.length) {
+        html += '<div class="sec-title">本次错题 <small>' + wrongList.length + '题 · 点开看解析</small></div>';
+        wrongList.forEach(function (it) {
+          html += '<div class="examcard"><h3>' + it.no + '. ' + it.q.stem.replace(/\n/g, '<br>') + '</h3>' +
+            '<div class="meta">你的答案：' + (st.answers[it.no] !== undefined ? 'ABCD'[st.answers[it.no]] : '未作答') + ' · 正确答案：<b style="color:var(--red)">' + 'ABCD'[it.q.ans] + '</b></div>' +
+            '<div class="exp">' + it.q.exp + '</div></div>';
+        });
+      }
+      html += '<div class="sec-title">非选择题（综合题）<small>先自己写，再对照参考答案自评</small></div>';
+      ex.essay.forEach(function (es) {
+        html += '<div class="essay' + (P['es_' + ex.id + '_' + es.no] ? ' marked' : '') + '" id="essay-' + es.no + '">' +
+          '<span class="en kai">' + es.no + '.（' + es.score + '分）</span>' +
+          (es.badge ? ' <span class="note-tag">' + es.badge + '</span>' : '') +
+          (es.dgm ? '<div class="dgm" id="dgm-' + es.dgm + '"></div>' : '') +
+          '<div class="estem">' + es.stem + '</div>' +
+          '<div class="eqs">' + es.qs.map(function (x) { return esc(x); }).join('<br>') + '</div>' +
+          '<button class="btn ghost" style="margin-top:10px" data-ans="' + es.no + '">看参考答案</button>' +
+          '<div class="ans"><b>参考答案（' + es.score + '分）</b><ol>' + es.ans.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ol></div>' +
+          '<div class="selfmark"><button class="btn" data-mk="1">✓ 基本掌握</button><button class="btn ghost" data-mk="0">✗ 还不会</button></div></div>';
+      });
+      html += '<div class="center" style="margin:16px 0"><a class="btn red" href="#/exams">返回卷子列表</a></div>';
+      h(html);
+      // 图解（真题重绘图）
+      ex.essay.forEach(function (es) {
+        if (es.dgm) {
+          var d = document.getElementById('dgm-' + es.dgm);
+          if (d) d.appendChild(buildDgm(es.dgm));
+        }
+      });
+      $app.querySelectorAll('[data-ans]').forEach(function (b) {
+        b.onclick = function () {
+          var n = b.closest('.essay');
+          n.querySelector('.ans').style.display = 'block'; b.style.display = 'none';
+        };
+      });
+      $app.querySelectorAll('[data-mk]').forEach(function (b) {
+        b.onclick = function () {
+          var n = b.closest('.essay');
+          n.classList.add('marked');
+          P['es_' + ex.id + '_' + n.id.replace('essay-', '')] = b.getAttribute('data-mk') === '1';
+          save();
+          toast(b.getAttribute('data-mk') === '1' ? '记下了：这题掌握 ✓' : '已加入"还不会"，建议过两天再看一遍');
+        };
+      });
+      checkBadges(); syncTab();
+    }
+    draw();
+  }
+
+  /* ---------- 错题本 ---------- */
+  function vWrong() {
+    var ids = wrongIds();
+    var html = topbar('错题本', '答对重做即可移出', '#/');
+    if (!ids.length) {
+      html += '<div class="empty"><i>空</i>错题本是空的——<br>要么你很稳，要么你还没开始练。<br><a class="btn red" style="margin-top:14px" href="#/chapters">去做题</a></div>';
+      h(html); return;
+    }
+    html += '<div class="ch-head"><span class="tag" style="background:var(--red)">错题</span><h2 class="kai">' + ids.length + ' 道题等你收拾</h2><p>点开题目重做，答对即自动移出错题本。</p></div>';
+    ids.forEach(function (qid, idx) {
+      var q = Q[qid] || EXQ[qid]; if (!q) return;
+      var from = q._from || (SEC[q.sec] ? SEC[q.sec].title : '');
+      var optsHtml = q.opts.map(function (o, j) { return '<div class="opt" data-j="' + j + '" data-q="' + esc(qid) + '"><span class="abc">' + 'ABCD'[j] + '</span><span>' + o + '</span></div>'; }).join('');
+      html += '<div class="examcard" id="wq-' + idx + '"><h3 style="font-size:15.5px">' + esc(q.stem) + '</h3>' +
+        '<div class="meta">来自：' + from + (q.tag ? ' · ' + q.tag : '') + '</div>' +
+        '<div style="display:none" class="wq-body">' + optsHtml + '<div class="wq-exp"></div></div>' +
+        '<button class="btn ghost" style="margin-top:10px" data-open="' + idx + '">重做此题</button></div>';
+    });
+    html += '<div class="center" style="margin:14px 0"><button class="btn ghost" id="wclear">清空错题本</button></div>';
+    h(html);
+    $app.querySelectorAll('[data-open]').forEach(function (b) {
+      b.onclick = function () {
+        var card = document.getElementById('wq-' + b.getAttribute('data-open'));
+        var body = card.querySelector('.wq-body'); body.style.display = ''; b.style.display = 'none';
+        var qid = card.querySelector('.opt').getAttribute('data-q');
+        var q = Q[qid] || EXQ[qid];
+        card.querySelectorAll('.opt').forEach(function (n) {
+          n.onclick = function () {
+            var j = +n.getAttribute('data-j'), ok = j === q.ans;
+            card.querySelectorAll('.opt').forEach(function (m) {
+              var mj = +m.getAttribute('data-j');
+              if (mj === q.ans) m.classList.add('right'); else if (mj === j) m.classList.add('wrong'); else m.classList.add('dim');
+            });
+            card.querySelector('.wq-exp').innerHTML = '<div class="exp"><b>' + (ok ? '答对了，移出错题本 ✓' : '还是错了。') + '</b>' + q.exp + '</div>';
+            if (ok) {
+              P.q[qid].last = 'r'; save(); syncTab();
+              setTimeout(function () { vWrong(); }, 900);
+            }
+          };
+        });
+      };
+    });
+    document.getElementById('wclear').onclick = function () {
+      if (!confirm('确定清空错题本吗？（建议先把题都重做一遍）')) return;
+      ids.forEach(function (qid) { if (P.q[qid]) P.q[qid].last = 'r'; });
+      P.wrongCleared = 1; save(); checkBadges(); vWrong();
+    };
+  }
+
+  /* ---------- 成就 ---------- */
+  function vBadges() {
+    var html = topbar('成就', '学习路上捡的"勋章"', '#/');
+    html += '<div class="ch-head"><span class="tag" style="background:var(--gold)">成就</span><h2 class="kai">成就墙</h2><p>学完章节、答题、清错题、点开福鼎限定卡……都会解锁成就。</p></div><div class="badge-grid">';
+    BADGES.forEach(function (b) {
+      var got = !!P['bg_' + b.id];
+      html += '<div class="badge' + (got ? ' got' : '') + '"><div class="ic">' + b.ic + '</div><h4>' + b.t + '</h4><p>' + b.d + '</p></div>';
+    });
+    html += '</div><div class="foot">攒成就，攒的是真本事</div>';
+    h(html);
+  }
+
+  /* ---------- 路由 ---------- */
+  function route() {
+    var hash = location.hash || '#/';
+    var qIdx = hash.indexOf('?');
+    if (qIdx >= 0) hash = hash.slice(0, qIdx); // 兼容带查询参数的地址
+    var parts = hash.replace(/^#\//, '').split('/');
+    checkBadges();
+    if (parts[0] === '' || parts[0] === undefined) return vHome();
+    if (parts[0] === 'chapters') return vChapters();
+    if (parts[0] === 'ch' && parts[1]) return vChapter(parts[1]);
+    if (parts[0] === 'sec' && parts[1]) return vSection(parts[1]);
+    if (parts[0] === 'exams') return vExams();
+    if (parts[0] === 'exam' && parts[1]) return vExam(parts[1]);
+    if (parts[0] === 'wrong') return vWrong();
+    if (parts[0] === 'badges') return vBadges();
+    vHome();
+  }
+  save();
+  route();
+})();
+
+</script>
+</body>
+</html>

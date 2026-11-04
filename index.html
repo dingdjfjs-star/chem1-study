@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f5efe2">
+<title>福鼎少年学化学 · 鲁科版必修第一册</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+/* 化学方程式渲染 */
+.eqline { padding:7px 12px; margin:9px 0; background:var(--paper2); border-left:3px solid var(--gold);
+  border-radius:0 9px 9px 0; font-size:15.5px; line-height:2; letter-spacing:.3px; }
+.eqline .cond-note { font-size:12px; color:var(--ink2); }
+.rxn { position:relative; display:inline-block; min-width:2.6em; text-align:center; padding:0 2px; }
+.rxn i { position:absolute; left:50%; top:-0.95em; transform:translateX(-50%); font-style:normal;
+  font-size:10.5px; color:var(--ink2); white-space:nowrap; letter-spacing:1px; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="boot-note">正在翻开化学书……</div>
+</div>
+<nav id="tabbar">
+  <a href="#/" data-tab="home"><i class="tb-ico">◎</i><span>首页</span></a>
+  <a href="#/chapters" data-tab="chapters"><i class="tb-ico">☰</i><span>知识点</span></a>
+  <a href="#/exams" data-tab="exams"><i class="tb-ico">▣</i><span>刷卷</span></a>
+  <a href="#/wrong" data-tab="wrong"><i class="tb-ico">✗</i><span>错题本<span id="wrong-dot" class="dot" hidden></span></span></a>
+  <a href="#/badges" data-tab="badges"><i class="tb-ico">✦</i><span>成就</span></a>
+</nav>
+<script src="js/diagrams.js"></script>
+<script src="js/data-ch1.js"></script>
+<script src="js/data-ch2.js"></script>
+<script src="js/data-ch3.js"></script>
+<script src="js/data-exams.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
