@@ -97,7 +97,7 @@
     var next = allSections.filter(function (s) { return !P.done[s]; })[0];
     var nextSec = SEC[next];
     var nextCh = nextSec ? CH[nextSec.ch] : null;
-    var html = topbar('福鼎少年学化学', '鲁科版 高中化学 必修第一册 · 三章考点全掌握');
+    var html = topbar('福鼎少年学化学', '鲁科版 高中化学 必修一二 · 上学期考点＋下学期预习');
     html += '<div class="hero"><div class="h-row"><div class="ring">' + ring(pct, 'var(--red)') + '</div><div style="flex:1;min-width:0">' +
       '<h2>学习进度</h2><p class="sub">已学 ' + learned + ' / ' + allSections.length + ' 节 · 随堂练答对 ' + right + ' 题</p>' +
       '<div class="stats"><span class="st">正确率 <b>' + (acc === null ? '—' : acc + '%') + '</b></span>' +
@@ -109,12 +109,12 @@
       '<a href="#/exams"><i>卷</i><b>刷卷</b></a>' +
       '<a href="#/wrong"><i>错</i><b>错题本</b></a>' +
       '<a href="#/badges"><i>奖</i><b>成就</b></a></div>';
-    html += '<div class="sec-title">三章知识点 <small>点章进入</small></div><div class="ch-grid">';
+    html += '<div class="sec-title">六章知识点 <small>第4~6章＝必修第二册·下学期预习</small></div><div class="ch-grid">';
     DB.chapters.forEach(function (c) {
       var d = c.sections.filter(function (s) { return P.done[s.id]; }).length;
       var p = Math.round(d / c.sections.length * 100);
       html += '<a class="chcard" href="#/ch/' + c.id + '"><div class="no" style="background:' + c.color + '"><b>' + c.no.replace('第', '').replace('章', '') + '</b><span>章</span></div>' +
-        '<div class="info"><h3>' + c.title + '</h3><p>' + c.tagline + '</p>' +
+        '<div class="info"><h3>' + (c.phase === '二' ? '<span class="note-tag">下学期预习</span> ' : '') + c.title + '</h3><p>' + c.tagline + '</p>' +
         '<div class="bar"><i style="width:' + p + '%;background:' + c.color + '"></i></div><div class="pct">' + p + '%</div></div></a>';
     });
     html += '</div>';
@@ -126,7 +126,7 @@
   function vChapters() {
     var html = topbar('知识点', '六章 · ' + allSections.length + '节', '#/');
     DB.chapters.forEach(function (c) {
-      html += '<div class="sec-title" style="color:' + c.color + '">' + c.no + ' ' + c.title + '</div>';
+      html += '<div class="sec-title" style="color:' + c.color + '">' + c.no + ' ' + c.title + (c.phase === '二' ? '（下学期预习）' : '') + '</div>';
       c.sections.forEach(function (s) {
         var qn = s.quiz.length, qr = 0;
         s.quiz.forEach(function (qid) { if (P.q[qid] && P.q[qid].last === 'r') qr++; });

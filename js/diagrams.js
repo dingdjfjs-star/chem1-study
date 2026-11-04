@@ -135,7 +135,7 @@
       colloid: '<b>胶体</b>：分散质粒子直径 1-100nm 的分散系。最稳的鉴别法是<b>丁达尔效应</b>。Fe(OH)₃ 胶体：向沸水滴加饱和 FeCl₃ 溶液，继续加热至红褐色——<b>不能久沸、不搅拌、不写"沉淀"符号</b>。',
       elec: '<b>电解质</b>：<b>在水溶液里或熔融状态下能导电的化合物</b>。酸、碱、盐、金属氧化物（如 CaO）、H₂O 都是。导电的必须是"化合物自身电离"。',
       nonelec: '<b>非电解质</b>：在水溶液和熔融状态下都不导电的化合物：CO₂、SO₂、NH₃、蔗糖、酒精。<b>单质（Cu、Cl₂）和混合物（盐酸）既不是电解质也不是非电解质</b>——这是每年必挖的坑。',
-      oxide: '<b>氧化物</b>：两种元素组成、其中一种是氧。酸性氧化物（CO₂、SO₂，多数非金属）、碱性氧化物（Na₂O、CaO，金属）、特殊：Na₂O₂ 是过氧化物，Al₂O₃ 两性（高中拓拓展）。'
+      oxide: '<b>氧化物</b>：两种元素组成、其中一种是氧。酸性氧化物（CO₂、SO₂，多数非金属）、碱性氧化物（Na₂O、CaO，金属）、特殊：Na₂O₂ 是过氧化物，Al₂O₃ 两性（高中拓展）。'
     };
     el.$$('[data-cap]').forEach(function (nd) { nd.onclick = function () { setCap(el, caps[nd.getAttribute('data-cap')]); }; });
   } };
@@ -340,5 +340,77 @@
       '泥水浊液（下沉）': '<b>浊液</b>：分散质＞100nm，静置下沉或分层，不稳定，不能透过滤纸。'
     };
     el.$$('[data-cap]').forEach(function (nd) { nd.onclick = function () { setCap(el, caps[nd.getAttribute('data-cap')]); }; });
+  } };
+
+  /* ========== 10. 前 20 号元素速览 ========== */
+  D['periodic-mini'] = { title: '前 20 号元素速览', w: 720, h: 400, build: function (el) {
+    var s = '<text x="24" y="34" class="lg" font-size="14">点一格看原子的小档案（核电荷数＝质子数＝原子序数）</text>';
+    var els = [
+      { z: 1, sym: 'H', name: '氢', outer: 1, kind: '非金属', col: 1, row: 1 },
+      { z: 2, sym: 'He', name: '氦', outer: 2, kind: '稀有气体', col: 8, row: 1 },
+      { z: 3, sym: 'Li', name: '锂', outer: 1, kind: '金属', col: 1, row: 2 },
+      { z: 4, sym: 'Be', name: '铍', outer: 2, kind: '金属', col: 2, row: 2 },
+      { z: 5, sym: 'B', name: '硼', outer: 3, kind: '非金属', col: 3, row: 2 },
+      { z: 6, sym: 'C', name: '碳', outer: 4, kind: '非金属', col: 4, row: 2 },
+      { z: 7, sym: 'N', name: '氮', outer: 5, kind: '非金属', col: 5, row: 2 },
+      { z: 8, sym: 'O', name: '氧', outer: 6, kind: '非金属', col: 6, row: 2 },
+      { z: 9, sym: 'F', name: '氟', outer: 7, kind: '非金属', col: 7, row: 2 },
+      { z: 10, sym: 'Ne', name: '氖', outer: 8, kind: '稀有气体', col: 8, row: 2 },
+      { z: 11, sym: 'Na', name: '钠', outer: 1, kind: '金属', col: 1, row: 3 },
+      { z: 12, sym: 'Mg', name: '镁', outer: 2, kind: '金属', col: 2, row: 3 },
+      { z: 13, sym: 'Al', name: '铝', outer: 3, kind: '金属', col: 3, row: 3 },
+      { z: 14, sym: 'Si', name: '硅', outer: 4, kind: '非金属', col: 4, row: 3 },
+      { z: 15, sym: 'P', name: '磷', outer: 5, kind: '非金属', col: 5, row: 3 },
+      { z: 16, sym: 'S', name: '硫', outer: 6, kind: '非金属', col: 6, row: 3 },
+      { z: 17, sym: 'Cl', name: '氯', outer: 7, kind: '非金属', col: 7, row: 3 },
+      { z: 18, sym: 'Ar', name: '氩', outer: 8, kind: '稀有气体', col: 8, row: 3 },
+      { z: 19, sym: 'K', name: '钾', outer: 1, kind: '金属', col: 1, row: 4 },
+      { z: 20, sym: 'Ca', name: '钙', outer: 2, kind: '金属', col: 2, row: 4 }
+    ];
+    var fillByKind = { '金属': '#fbeee9', '非金属': '#e8eef5', '稀有气体': '#eef3e4' };
+    els.forEach(function (e2) {
+      var x = 26 + (e2.col - 1) * 84, y = 54 + (e2.row - 1) * 86;
+      s += '<g class="tap" data-cap="' + e2.sym + '"><rect x="' + x + '" y="' + y + '" width="76" height="76" rx="10" fill="' + fillByKind[e2.kind] + '" stroke="' + INK + '" stroke-width="1.6"/>' +
+        '<text x="' + (x + 8) + '" y="' + (y + 20) + '" class="lg" font-size="12" fill="#6b6154">' + e2.z + '</text>' +
+        '<text x="' + (x + 38) + '" y="' + (y + 44) + '" text-anchor="middle" class="lg" font-size="21" font-weight="700">' + e2.sym + '</text>' +
+        '<text x="' + (x + 38) + '" y="' + (y + 66) + '" text-anchor="middle" class="lg" font-size="12">' + e2.name + ' · ' + e2.outer + '</text></g>';
+    });
+    s += '<text x="26" y="394" class="lg" font-size="13" fill="#6b6154">色块：粉=金属　蓝=非金属　绿=稀有气体　· 格内数字=最外层电子数</text>';
+    var svg = '<svg viewBox="0 0 720 400" xmlns="http://www.w3.org/2000/svg">' + s + '</svg>';
+    base(el, svg, [], '前 20 号元素是必修阶段的主角。规律预告（本章后面细讲）：同一行从左到右金属性减弱、非金属性增强；同一列化学性质相似（最外层电子数相同）。');
+    var caps = {};
+    els.forEach(function (e2) {
+      caps[e2.sym] = '<b>' + e2.name + '（' + e2.sym + '）</b>：核电荷数（质子数）' + e2.z + '，最外层 ' + e2.outer + ' 个电子，' + e2.kind +
+        (e2.kind === '金属' ? '。最外层电子少（≤3），容易<b>失去</b>电子——作还原剂' : e2.kind === '稀有气体' ? '。最外层已满（He 为 2、其余为 8），结构稳定，一般不反应' : e2.outer >= 4 && e2.outer <= 6 ? '。容易<b>共用</b>电子对形成共价键' : '。最外层电子多（≥7），容易<b>得到</b>电子——作氧化剂');
+    });
+    el.$$('[data-cap]').forEach(function (n) { n.onclick = function () { setCap(el, caps[n.getAttribute('data-cap')]); }; });
+  } };
+
+  /* ========== 11. 化学键与电子式 ========== */
+  D['bond-types'] = { title: '化学键与电子式', w: 720, h: 400, build: function (el) {
+    var s = '<rect x="20" y="30" width="330" height="180" rx="13" fill="#fbeee9" stroke="#c9836f" stroke-width="1.6" class="tap" data-cap="ionic"/>' +
+      '<text x="185" y="60" text-anchor="middle" class="lg" font-size="16" font-weight="700" fill="#b5432f">离子键（阴、阳离子间）</text>' +
+      '<text x="185" y="100" text-anchor="middle" class="lg" font-size="16">Na × + ·Cl: → Na⁺[ :Cl: ]⁻</text>' +
+      '<text x="185" y="132" text-anchor="middle" class="lg" font-size="13.5" fill="#6d3a2c">活泼金属 + 活泼非金属（NaCl、CaO、NaOH）</text>' +
+      '<text x="185" y="160" text-anchor="middle" class="lg" font-size="13.5" fill="#6d3a2c">阴、阳离子间的静电作用</text>' +
+      '<text x="185" y="190" text-anchor="middle" class="lg" font-size="12.5" fill="#6d3a2c">电子式：阳离子写符号，阴离子加 [ ] 和电荷</text>' +
+      '<rect x="370" y="30" width="330" height="180" rx="13" fill="#e8eef5" stroke="#7a94b5" stroke-width="1.6" class="tap" data-cap="covalent"/>' +
+      '<text x="535" y="60" text-anchor="middle" class="lg" font-size="16" font-weight="700" fill="#41679c">共价键（共用电子对）</text>' +
+      '<text x="535" y="100" text-anchor="middle" class="lg" font-size="16">H × + ·Cl: → H ×Cl:</text>' +
+      '<text x="535" y="132" text-anchor="middle" class="lg" font-size="13.5" fill="#33505f">非金属原子之间（HCl、H₂O、CO₂、N₂）</text>' +
+      '<text x="535" y="160" text-anchor="middle" class="lg" font-size="13.5" fill="#33505f">N₂ 三对共用：:N⋮⋮N:　CO₂：:O::C::O:</text>' +
+      '<text x="535" y="190" text-anchor="middle" class="lg" font-size="12.5" fill="#33505f">共价化合物的电子式不加 [ ] 和电荷</text>';
+    s += '<text x="360" y="244" text-anchor="middle" class="lg" font-size="15" font-weight="700">离子化合物 vs 共价化合物（按"含什么键"分）</text>';
+    s += '<text x="360" y="276" text-anchor="middle" class="lg" font-size="13.5">含离子键＝离子化合物：活泼金属的盐/氧化物/碱、<b>铵盐（NH₄Cl 也是离子化合物！）</b></text>';
+    s += '<text x="360" y="304" text-anchor="middle" class="lg" font-size="13.5">只含共价键＝共价化合物：HCl、H₂O、CO₂、酒精等多数有机物</text>';
+    s += '<text x="360" y="332" text-anchor="middle" class="lg" font-size="13.5" fill="#b5432f">易错：全由非金属组成也可能是离子化合物（铵盐）；含金属离子的化合物里也可能有共价键（NaOH 中 O—H）</text>';
+    s += '<text x="360" y="366" text-anchor="middle" class="lg" font-size="13" fill="#6b6154">化合物类型由"化学键"决定，与"是否含金属元素"不能画等号</text>';
+    var svg = '<svg viewBox="0 0 720 400" xmlns="http://www.w3.org/2000/svg">' + s + '</svg>';
+    base(el, svg, [], '化学键分两大类：离子键（得失电子成离子）与共价键（共用电子对）。点两块色板看电子式写法与易错点。');
+    var caps = {
+      ionic: '<b>离子键</b>：阴、阳离子间的静电作用。形成于活泼金属（ⅠA、ⅡA）与活泼非金属之间。电子式写法：阳离子只写符号（Na⁺、Mg²⁺），阴离子加方括号与电荷（[ :Cl: ]⁻、[ :O:H ]⁻）。',
+      covalent: '<b>共价键</b>：原子间共用电子对。非金属原子之间。电子式不加括号不加电荷；注意 N₂（三对共用）、CO₂（两对双键）的写法。'
+    };
+    el.$$('[data-cap]').forEach(function (n) { n.onclick = function () { setCap(el, caps[n.getAttribute('data-cap')]); }; });
   } };
 })();

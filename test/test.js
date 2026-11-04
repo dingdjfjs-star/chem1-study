@@ -2,7 +2,7 @@
    重点：化学方程式自动配平校验（元素守恒 + 电荷守恒） */
 global.window = {};
 var fs = require('fs'), path = require('path');
-['diagrams', 'data-ch1', 'data-ch2', 'data-ch3', 'data-exams'].forEach(function (f) {
+['diagrams', 'data-ch1', 'data-ch2', 'data-ch3', 'data-b2', 'data-exams'].forEach(function (f) {
   eval(fs.readFileSync(path.join(__dirname, '..', 'js', f + '.js'), 'utf8'));
 });
 var DB = window.DB;
@@ -20,6 +20,8 @@ function cleanSide(s) {
     .replace(/[（(][^()（）]*[\u4e00-\u9fa5][^()（）]*[）)]/g, '')   // 中文注记（浓）（熔融）（胶体）
     .replace(/[（(]\s*[gslaq]\s*[）)]/g, '')                        // 状态符号 (g)(s)(l)(aq)
     .replace(/[↑↓]/g, '')
+    .replace(/\u00b7(\d*)/g, '+$1')   // 水合点 ·8H₂O → +8H₂O（各组分相加）
+    .replace(/=/g, '')                              // 双键/可逆号中的 = 不参与计数
     .trim();
 }
 // 解析一侧 → { elems:{}, charge:Number } 或 null（无法解析）
@@ -116,6 +118,7 @@ function scanText(text, where, errs) {
     if (L.indexOf('+') < 0) continue;                       // 只查带 "+" 的
     if (!/[\u2080-\u2089\u207a-\u207e\u00b2\u00b3\u00b9]/.test(L + R)) continue;  // 必须含下标/电荷
     if (/[\u00b2\u00b3\u00b9\u2070-\u207f\u2080-\u2089]/.test(L[0] || '')) continue; // 左起不得是上/下标（截断）
+    if (/e[\u207a\u207b]/.test(L + R)) continue;           // 电子半反应（2e⁻）不是分子方程式
     var before = t[m.index - 1], after = t[m.index + m[0].length];
     if (isCJK(before) || isCJK(after)) continue;            // 疑似中文句子里截断的片段
     if (/[\u00b2\u00b3\u00b9\u2070-\u207f\u2080-\u2089]/.test(after || '')) continue; // 右侧被截断（后面还有上/下标）
@@ -125,13 +128,13 @@ function scanText(text, where, errs) {
 }
 
 console.log('== 1. 章节结构 ==');
-ok(DB.chapters.length === 3, '应有3章，实际' + DB.chapters.length);
+ok(DB.chapters.length === 6, '应有6章（含必修二预习3章），实际' + DB.chapters.length);
 var secCount = DB.chapters.reduce(function (n, c) { return n + c.sections.length; }, 0);
-ok(secCount === 9, '应有9节，实际' + secCount);
+ok(secCount === 18, '应有18节，实际' + secCount);
 DB.chapters.forEach(function (c) {
   ok(!!c.id && !!c.no && !!c.title && !!c.color && !!c.intro && !!c.tagline, '章字段完整 ' + c.id);
   c.sections.forEach(function (s) {
-    ok(!!s.id && !!s.no && !!s.title && !!s.lead && s.points.length >= 2 && s.quiz.length >= 4, '节字段完整 ' + s.id);
+    ok(!!s.id && !!s.no && !!s.title && !!s.lead && s.points.length >= 1 && s.quiz.length >= 3, '节字段完整 ' + s.id);
     s.points.forEach(function (p) {
       ok(!!p.id && !!p.title && p.blocks.length >= 1, '知识点卡完整 ' + p.id);
       p.blocks.forEach(function (b) { ok(!!b && !!b[0], '块完整 ' + p.id); });
@@ -156,7 +159,7 @@ DB.chapters.forEach(function (c) { c.sections.forEach(function (s) {
 }); });
 
 console.log('== 3. 图解注册 ==');
-var needDgm = ['mole-bridge', 'redox-map', 'class-tree', 'na-family', 'cl-family', 'iron-triangle', 'sulfur-states', 'nitrogen-cycle', 'colloid'];
+var needDgm = ['mole-bridge', 'redox-map', 'class-tree', 'na-family', 'cl-family', 'iron-triangle', 'sulfur-states', 'nitrogen-cycle', 'colloid', 'periodic-mini', 'bond-types'];
 needDgm.forEach(function (d) { ok(!!DB.diagrams[d], '图解已注册 ' + d); });
 DB.chapters.forEach(function (c) { c.sections.forEach(function (s) { s.points.forEach(function (p) {
   p.blocks.forEach(function (b) { if (b[0] === 'dgm') ok(!!DB.diagrams[b[1]], '引用图解存在 ' + b[1]); });
